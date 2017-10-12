@@ -90,15 +90,23 @@
 
 
 
-<meta name="description" content="光阴给我们经验,读书给我们知识.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ShiJian">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="概述UICollectionView是iOS开发中最常用的UI控件之一，我们可以使用它来管理一组有序的不同尺寸的视图，并以可定制的布局来展示它们。UICollectionView支持动画，当视图被插入，删除或重新排序时，就会触发动画，动画是支持自定义的。为了更好的使用UICollectionView，我们有必要对其进行深入了解。 基础UICollectionView是由多个对象协作实现的Colle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UICollectionView探究">
+<meta property="og:url" content="http://yoursite.com/2016/06/05/UICollectionView探究/index.html">
 <meta property="og:site_name" content="ShiJian">
-<meta property="og:description" content="光阴给我们经验,读书给我们知识.">
+<meta property="og:description" content="概述UICollectionView是iOS开发中最常用的UI控件之一，我们可以使用它来管理一组有序的不同尺寸的视图，并以可定制的布局来展示它们。UICollectionView支持动画，当视图被插入，删除或重新排序时，就会触发动画，动画是支持自定义的。为了更好的使用UICollectionView，我们有必要对其进行深入了解。 基础UICollectionView是由多个对象协作实现的Colle">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/Art/cv_objects_2x.png">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/Art/cv_layout_basics_2x.png">
+<meta property="og:image" content="http://oaz007vqv.bkt.clouddn.com/cell_selection_semantics_2x.png?imageView/2/w/600">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/Art/flow_horiz_layout_uneven_2x.png">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/Art/flow_section_insets_2x.png">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/Art/cv_layout_process_2x.png">
+<meta property="og:updated_time" content="2017-10-12T15:03:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ShiJian">
-<meta name="twitter:description" content="光阴给我们经验,读书给我们知识.">
+<meta name="twitter:title" content="UICollectionView探究">
+<meta name="twitter:description" content="概述UICollectionView是iOS开发中最常用的UI控件之一，我们可以使用它来管理一组有序的不同尺寸的视图，并以可定制的布局来展示它们。UICollectionView支持动画，当视图被插入，删除或重新排序时，就会触发动画，动画是支持自定义的。为了更好的使用UICollectionView，我们有必要对其进行深入了解。 基础UICollectionView是由多个对象协作实现的Colle">
+<meta name="twitter:image" content="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/Art/cv_objects_2x.png">
 
 
 
@@ -126,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/06/05/UICollectionView探究/"/>
 
 
 
 
 
-  <title>ShiJian</title>
+  <title>UICollectionView探究 | ShiJian</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -158,9 +166,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -237,9 +243,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -265,9 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/06/05/UICollectionView探究/" itemprop="url">UICollectionView探究</a></h1>
+          <h1 class="post-title" itemprop="name headline">UICollectionView探究</h1>
         
 
         <div class="post-meta">
@@ -325,9 +329,7 @@
       
 
       
-        
-          
-            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><a href="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/CollectionViewBasics/CollectionViewBasics.html#//apple_ref/doc/uid/TP40012334-CH2-SW7" target="_blank" rel="external">UICollectionView</a>是iOS开发中最常用的UI控件之一，我们可以使用它来管理一组有序的不同尺寸的视图，并以可定制的布局来展示它们。UICollectionView支持动画，当视图被插入，删除或重新排序时，就会触发动画，动画是支持自定义的。为了更好的使用UICollectionView，我们有必要对其进行深入了解。</p>
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><a href="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/CollectionViewBasics/CollectionViewBasics.html#//apple_ref/doc/uid/TP40012334-CH2-SW7" target="_blank" rel="external">UICollectionView</a>是iOS开发中最常用的UI控件之一，我们可以使用它来管理一组有序的不同尺寸的视图，并以可定制的布局来展示它们。UICollectionView支持动画，当视图被插入，删除或重新排序时，就会触发动画，动画是支持自定义的。为了更好的使用UICollectionView，我们有必要对其进行深入了解。</p>
 <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="UICollectionView是由多个对象协作实现的"><a href="#UICollectionView是由多个对象协作实现的" class="headerlink" title="UICollectionView是由多个对象协作实现的"></a>UICollectionView是由多个对象协作实现的</h3><p>Collection View将视图要展现的数据以及数据的排列与视图的布局方式分开来管理。视图的数据内容有我们自行管理，而视图的布局呈现则由许多不同的对象来管理。下表列出了UIKit中的集合视图类，并根据它们在集合视图中的作用进行了划分。</p>
 <table>
 <thead>
@@ -483,20 +485,27 @@
 <p>在三种方法中，需要返回已计算好的对应视图的布局属性信息，返回属性时，不应更改布局属性。如果布局中不包含任何补充视图和装饰视图，则不需要覆写后两种方法。</p>
 <h4 id="自定义cell的插入，删除，移动和刷新动画"><a href="#自定义cell的插入，删除，移动和刷新动画" class="headerlink" title="自定义cell的插入，删除，移动和刷新动画"></a>自定义cell的插入，删除，移动和刷新动画</h4><p>插入，移动和删除单元格可能会导致其他单元格和视图的布局发生变化</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
@@ -504,21 +513,22 @@
       
 
       
-
+        
       
 
       
+
       
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -526,6 +536,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -545,8 +566,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -610,6 +640,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础"><span class="nav-number">2.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UICollectionView是由多个对象协作实现的"><span class="nav-number">2.1.</span> <span class="nav-text">UICollectionView是由多个对象协作实现的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重用视图提高性能"><span class="nav-number">2.2.</span> <span class="nav-text">重用视图提高性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#布局对象控制视图的视觉效果"><span class="nav-number">2.3.</span> <span class="nav-text">布局对象控制视图的视觉效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UICollectionViewDataSource"><span class="nav-number">3.1.</span> <span class="nav-text">UICollectionViewDataSource</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UICollectionViewDelegate"><span class="nav-number">3.2.</span> <span class="nav-text">UICollectionViewDelegate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UICollectionViewDelegateFlowLayout"><span class="nav-number">3.3.</span> <span class="nav-text">UICollectionViewDelegateFlowLayout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cell和supplementary-view的重用"><span class="nav-number">3.4.</span> <span class="nav-text">cell和supplementary view的重用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cell的插入，删除和移动"><span class="nav-number">3.5.</span> <span class="nav-text">cell的插入，删除和移动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长按cell弹出编辑菜单"><span class="nav-number">3.6.</span> <span class="nav-text">长按cell弹出编辑菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切换布局时的转场动画"><span class="nav-number">3.7.</span> <span class="nav-text">切换布局时的转场动画</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进阶"><span class="nav-number">4.</span> <span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流水布局"><span class="nav-number">4.1.</span> <span class="nav-text">流水布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义布局"><span class="nav-number">4.2.</span> <span class="nav-text">自定义布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#理解布局过程"><span class="nav-number">4.2.1.</span> <span class="nav-text">理解布局过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建布局信息对象"><span class="nav-number">4.2.2.</span> <span class="nav-text">创建布局信息对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据需要为单个视图提供布局属性"><span class="nav-number">4.2.3.</span> <span class="nav-text">根据需要为单个视图提供布局属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义cell的插入，删除，移动和刷新动画"><span class="nav-number">4.2.4.</span> <span class="nav-text">自定义cell的插入，删除，移动和刷新动画</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -723,6 +769,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
 
   
 
@@ -740,6 +790,18 @@
       <script id="dsq-count-scr" src="https://ShiJian.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2016/06/05/UICollectionView探究/';
+          this.page.identifier = '2016/06/05/UICollectionView探究/';
+          this.page.title = 'UICollectionView探究';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ShiJian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
