@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Art/windowlayers.jpg">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Art/uiview_convert_rotated.jpg">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Art/uiview_autoresize.jpg">
-<meta property="og:updated_time" content="2017-12-04T14:01:22.000Z">
+<meta property="og:updated_time" content="2017-12-04T14:17:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UIView详解">
 <meta name="twitter:description" content="概述视图是应用程序中用户界面的基本组成部分，UIView类定义了所有视图的通用行为。视图在其边界矩形内呈现内容，并处理与该内容有关的任何交互。UIView类是一个具体类，可以使用其实例对象来显示一个固定的背景颜色，也可以子类化UIView来绘制更复杂的内容。要展示应用程序中常见的标签、图像、 按钮 和其它界面元素，应首先选择使用UIKit框架提供的视图子类。 视图对象是应用程序与用户交互的主要方式">
@@ -340,6 +340,7 @@
 <li>视图对象是<code>UIResponder</code>类的子类对象，能够响应触摸事件和其它类型的事件。</li>
 <li>视图可以附加手势识别器来处理常见的手势。</li>
 </ul>
+<a id="more"></a>
 <h2 id="创建和管理视图层次结构"><a href="#创建和管理视图层次结构" class="headerlink" title="创建和管理视图层次结构"></a>创建和管理视图层次结构</h2><p>管理视图层次结构是开发应用程序用户界面的关键部分，视图层次结构会影响应用程序用户界面的外观以及应用程序如何响应更改和事件。下图显示了时钟应用程序的视图层次结构，标签栏和导航视图是标签栏和导航视图控制器对象提供的特殊视图层次结构，用于管理整个用户界面的各个部分。</p>
 <p><img src="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Art/windowlayers.jpg" alt="图2-1"></p>
 <h3 id="添加和移除视图"><a href="#添加和移除视图" class="headerlink" title="添加和移除视图"></a>添加和移除视图</h3><p>Interface Builder是创建视图层次结构最便捷的方式，因为我们可以使用图形方式来组装视图，查看视图之间的关系，并确切了解在运行时将如何显示这些视图。如果以编程方式创建视图，可以使用以下方法来排列视图层次结构：</p>
