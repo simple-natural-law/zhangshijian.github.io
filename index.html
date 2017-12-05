@@ -865,44 +865,8 @@
 
       
         
-          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&emsp;&emsp;<a href="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/CollectionViewBasics/CollectionViewBasics.html#//apple_ref/doc/uid/TP40012334-CH2-SW7" target="_blank" rel="external">UICollectionView</a>是iOS开发中最常用的UI控件之一，可以用它来管理一组有序的不同尺寸的视图，并以可定制的布局来展示它们。UICollectionView支持动画，当视图被插入，删除或重新排序时，会触发动画，动画效果支持自定义。为了更好的使用UICollectionView，我们有必要对其进行深入了解。</p>
-<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="UICollectionView是由多个对象协作实现的"><a href="#UICollectionView是由多个对象协作实现的" class="headerlink" title="UICollectionView是由多个对象协作实现的"></a>UICollectionView是由多个对象协作实现的</h3><p>&emsp;&emsp;集合视图将视图的数据内容与视图的布局方式分开来管理。数据内容由集合视图的dataSource对象管理，而布局方式则是由许多不同的对象协作来管理。下表列出了UIKit中与集合视图相关的类，并根据它们在集合视图中的作用进行了划分。</p>
-<table>
-<thead>
-<tr>
-<th>目的</th>
-<th>类/协议</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>顶层容器和管理者</td>
-<td>UICollectionView UICollectionViewController</td>
-<td>UICollectionView定义了显示视图内容的空间，它继承自<a href="https://developer.apple.com/documentation/uikit/uiscrollview" target="_blank" rel="external">UIScrollView</a>，能够根据内容的高度来调整其滚动区域。它的layout布局对象会提供布局信息来呈现数据。UICollectionViewController对象提供了一个UICollectionView的视图控制器级管理支持。</td>
-</tr>
-<tr>
-<td>内容管理</td>
-<td>UICollectionViewDataSource协议 UICollectionViewDelegate协议</td>
-<td>DataSource协议是必须实现的，它创造并管理UICollectionView的视图内容。Delegate协议能获取视图的信息并自定义视图的行为，这个协议是可选实现的。</td>
-</tr>
-<tr>
-<td>内容视图</td>
-<td>UICollectionReusableView UICollectionViewCell</td>
-<td>UICollectionView展示的所有视图都必须是UICollectionReusableView类的实例，该类支持回收复用机制。在视图滚动时,回收复用视图而不是重新创建，能极大提高性能。UICollectionViewCell对象是用来展示主要数据的可重用视图,该类继承自UICollectionReusableView。</td>
-</tr>
-<tr>
-<td>布局</td>
-<td>UICollectionViewLayout UICollectionViewLayoutAttributes UICollectionViewUpdateItem</td>
-<td>UICollectionViewLayout的子类被称为布局对象，它负责定义集合视图中的cell和可重用视图的位置，大小，视觉效果。在布局过程中，布局对象UICollectionViewLayout会创建一个布局属性对象UICollectionViewLayoutAttributes去告诉集合视图在什么位置，用什么样视觉外观去展示cell和可重用视图。当在集合视图中插入，删除，移动数据项时，布局对象会接收到UICollectionViewUpdateItem类的实例，我们不需要自行创建该类的实例。</td>
-</tr>
-<tr>
-<td>流水布局</td>
-<td>UICollectionViewFlowLayout UICollectionViewDelegateFlowLayout协议</td>
-<td>UICollectionViewFlowLayout类是用于实现网格或其他基于行的布局的具体布局对象。 我们可以按照原样使用该类或者配合UICollectionViewDelegateFlowLayout协议一起使用，这样就可以动态自定义布局信息。</td>
-</tr>
-</tbody>
-</table>
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><a href="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/CollectionViewBasics/CollectionViewBasics.html#//apple_ref/doc/uid/TP40012334-CH2-SW7" target="_blank" rel="external">UICollectionView</a>是iOS开发中最常用的UI控件之一，可以用它来管理一组有序的不同尺寸的视图，并以可定制的布局来展示它们。UICollectionView支持动画，当视图被插入，删除或重新排序时，会触发动画，动画效果支持自定义。为了更好的使用UICollectionView，我们有必要对其进行深入了解。</p>
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="UICollectionView是由多个对象协作实现的"><a href="#UICollectionView是由多个对象协作实现的" class="headerlink" title="UICollectionView是由多个对象协作实现的"></a>UICollectionView是由多个对象协作实现的</h3><p>集合视图将视图的数据内容与视图的布局方式分开来管理。数据内容由集合视图的<code>dataSource</code>对象管理，而布局方式则是由许多不同的对象协作来管理。下表列出了UIKit中与集合视图有关的类，并根据它们在集合视图中的作用进行了划分。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/06/05/UICollectionView探究/#more" rel="contents">
