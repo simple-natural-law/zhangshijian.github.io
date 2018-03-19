@@ -1,0 +1,815 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="概述手势识别器是处理视图中的触摸或者按压事件最简单的方法，我们可以在任意视图上附加一个或多个手势识别器。手势识别器封装了处理和解释该视图的触摸事件所需的所有逻辑，并将其与已知模式进行匹配。当触摸事件与已知模式匹配时，手势识别器会通知其关联的目标对象进行处理。手势识别器使用target-action设计模式去发送通知，如下图所示。当UITapGestureRecognizer对象在视图中检测到单指轻">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手势识别相关">
+<meta property="og:url" content="http://yoursite.com/2016/11/04/手势识别相关/index.html">
+<meta property="og:site_name" content="ShiJian">
+<meta property="og:description" content="概述手势识别器是处理视图中的触摸或者按压事件最简单的方法，我们可以在任意视图上附加一个或多个手势识别器。手势识别器封装了处理和解释该视图的触摸事件所需的所有逻辑，并将其与已知模式进行匹配。当触摸事件与已知模式匹配时，手势识别器会通知其关联的目标对象进行处理。手势识别器使用target-action设计模式去发送通知，如下图所示。当UITapGestureRecognizer对象在视图中检测到单指轻">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-f2ba48c20ef7eaa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-29c77ff614ca9313.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-2db3230493df9487.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-9c70b7c4c9f8d552.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-8d9774b6d1813708.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-9aa464561493cff7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-9b489d8cbaf9a310.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-03-19T15:36:34.822Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="手势识别相关">
+<meta name="twitter:description" content="概述手势识别器是处理视图中的触摸或者按压事件最简单的方法，我们可以在任意视图上附加一个或多个手势识别器。手势识别器封装了处理和解释该视图的触摸事件所需的所有逻辑，并将其与已知模式进行匹配。当触摸事件与已知模式匹配时，手势识别器会通知其关联的目标对象进行处理。手势识别器使用target-action设计模式去发送通知，如下图所示。当UITapGestureRecognizer对象在视图中检测到单指轻">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4906302-f2ba48c20ef7eaa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/04/手势识别相关/"/>
+
+
+
+
+
+  <title>手势识别相关 | ShiJian</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiJian</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/04/手势识别相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiJian">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">手势识别相关</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-04T21:59:04+08:00">
+                2016-11-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/11/04/手势识别相关/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/11/04/手势识别相关/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>手势识别器是处理视图中的触摸或者按压事件最简单的方法，我们可以在任意视图上附加一个或多个手势识别器。手势识别器封装了处理和解释该视图的触摸事件所需的所有逻辑，并将其与已知模式进行匹配。当触摸事件与已知模式匹配时，手势识别器会通知其关联的目标对象进行处理。手势识别器使用<code>target-action</code>设计模式去发送通知，如下图所示。当<code>UITapGestureRecognizer</code>对象在视图中检测到单指轻敲时，会调用视图所属的视图控制器的操作方法来回应。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-f2ba48c20ef7eaa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图1-1 手势识别器通知其关联到目标对象"></p>
+<a id="more"></a>
+<p>手势识别器有两种类型：离散型和连续型。当识别出手势后，<strong>离散型手势识别器</strong>只会调用一次其关联目标对象的操作方法。<strong>连续型手势识别器</strong>则可能会多次调用其关联目标对象的操作方法，包括手势的开始和结束以及跟踪手势细节的变化。例如，使用拖拽手势识别器时，只要触摸事件的位置发生变化，<code>UIPanGestureRecognizer</code>对象就会调用其关联对象的操作方法。</p>
+<h2 id="配置手势识别器"><a href="#配置手势识别器" class="headerlink" title="配置手势识别器"></a>配置手势识别器</h2><p>配置手势识别器分为以下三步：</p>
+<ul>
+<li>使用代码创建一个手势识别器对象，并将其附加到视图上。或者，使用<code>storyboard</code>，直接将手势识别器拖动到视图上。</li>
+<li>实现识别手势后目标对象要调用的操作方法。</li>
+<li>调用手势识别器对象的<code>addTarget:action:</code>方法将目标对象和目标对象要调用的操作方法与手势识别器关联起来。或者，使用<code>storyboard</code>，右键单击手势识别器将其<strong>Sent Action selector</strong>连接到目标对象来创建关联操作方法。</li>
+</ul>
+<h2 id="回应手势"><a href="#回应手势" class="headerlink" title="回应手势"></a>回应手势</h2><p>与手势识别器关联的操作方法为应用程序提供了对该手势的响应。对于离散型手势，其关联的操作方法与按钮的操作方法类似。只有手势识别成功后，才会调用其关联对象的操作方法作出响应。对于连续型手势，其关联的操作方法不仅可以对手势识别成功后作出响应，还可以在识别手势之前跟踪手势细节的变化。</p>
+<p>手势识别器的<code>state</code>属性可以反映当前的手势识别状态。对于连续型手势，手势识别器会在手势识别过程中将此属性值从<code>UIGestureRecognizerStateBegan</code>变更为<code>UIGestureRecognizerStateChanged</code>，手势被识别后变更为<code>UIGestureRecognizerStateEnded</code>。</p>
+<h3 id="点击手势"><a href="#点击手势" class="headerlink" title="点击手势"></a>点击手势</h3><p>点击手势识别器<code>UITapGestureRecognizer</code>对象会简要地检测一个或多个手指点击屏幕。<strong>在点击手势被识别成功前</strong>，涉及手势的手指不能从初始触摸点<strong>显著移动</strong>到其他地方，但可以配置手指必须触摸屏幕的次数。例如，可以配置点击手势识别器来检测单击，双击或者三击。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-29c77ff614ca9313.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-1 Tap gestures"></p>
+<p>点击手势属于离散型手势，只有当点击手势识别成功后才会调用其关联对象的操作方法。由于手势可以被取消的原因有很多，所以在操作方法中回应手势前，检查<code>state</code>属性可以确保不会出错。</p>
+<p>如果触摸屏幕后没有调用与手势识别器关联的对象的操作方法，请检查下列条件是否成立：</p>
+<ul>
+<li>视图的<code>userInteractionEnabled</code>属性设置为<code>YES</code>。<code>UIImageView</code>和<code>UILabel</code>类默认将此属性设为<code>NO</code>。</li>
+<li>点击次数等于<code>numberOfTapsRequired</code>属性中指定的次数。</li>
+<li>手指个数等于<code>numberOfTouchesRequired</code>属性中指定的个数。</li>
+</ul>
+<h3 id="长按手势"><a href="#长按手势" class="headerlink" title="长按手势"></a>长按手势</h3><p>长按手势识别器<code>UILongPressGestureRecognizer</code>对象检测一个或者多个手指长时间触摸屏幕。<strong>在长按手势被识别成功前</strong>，涉及手势的手指不能从初始触摸点<strong>显著移动</strong>到其他地方，但可以配置手指必须触摸屏幕的次数以及长按手势的最短持续时间。手势识别器仅由触摸的持续时间而不是与其相关的力触发。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-2db3230493df9487.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-2 Long-press gesture"></p>
+<p>长按手势根据触摸的持续时间来确定手势的成功或者失败，它属于连续型手势，手势关联对象的操作方法可能会随着手势状态的变化而被多次调用。长按手势识别器在用户手指停留在屏幕上一定时间后(用户手指仍旧停留在屏幕上)进入<code>UIGestureRecognizerStateBegan</code>状态，当触摸事件更新时，进入<code>UIGestureRecognizerStateChanged</code>状态，用户手指离开屏幕时，进入<code>UIGestureRecognizerStateEnded</code>状态。</p>
+<p>如果触摸屏幕后没有调用与手势识别器关联的对象的操作方法，请检查下列条件是否成立：</p>
+<ul>
+<li>视图的<code>userInteractionEnabled</code>属性设置为<code>YES</code>。<code>UIImageView</code>和<code>UILabel</code>类默认将此属性设为<code>NO</code>。</li>
+<li>点击次数等于<code>numberOfTapsRequired</code>属性中指定的次数。</li>
+<li>手指个数等于<code>numberOfTouchesRequired</code>属性中指定的个数。</li>
+<li>触摸持续时间大于<code>minimumPressDuration</code>属性中指定的时间。</li>
+</ul>
+<h3 id="拖拽手势"><a href="#拖拽手势" class="headerlink" title="拖拽手势"></a>拖拽手势</h3><p>拖拽手势识别器<code>UIPanGestureRecognizer</code>对象检测一个或者多个手指在屏幕上移动。屏幕边缘拖拽手势是限定触摸位置在屏幕边缘的拖拽手势，使用<code>UIScreenEdgePanGestureRecognizer</code>对象来识别屏幕边缘拖拽手势。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-9c70b7c4c9f8d552.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-3 Pan gesture"></p>
+<p>拖拽手势属于连续型手势，在手势识别过程中，会多次调用手势关联对象的操作方法。当手指开始移动时，拖拽手势识别器进入<code>UIGestureRecognizerStateBegan</code>状态，继续移动会导致手势识别器进入<code>UIGestureRecognizerStateChanged</code>状态。当手指离开屏幕时，进入<code>UIGestureRecognizerStateEnded</code>状态。</p>
+<p>使用<code>UIPanGestureRecognizer</code>对象的<code>translationInView:</code>方法可以获取手指从初始触摸位置移动的距离。在手势开始时，拖拽手势识别器会存储初始触摸点。如果手势涉及多个手指，则手势识别器会使用多个手指的触摸点的中心点。</p>
+<p>如果触摸屏幕后没有调用与手势识别器关联的对象的操作方法，请检查下列条件是否成立：</p>
+<ul>
+<li>视图的<code>userInteractionEnabled</code>属性设置为<code>YES</code>。<code>UIImageView</code>和<code>UILabel</code>类默认将此属性设为<code>NO</code>。</li>
+<li>触摸次数在<code>minimumNumberOfTouches</code>和<code>maximumNumberOfTouches</code>属性中指定的值之间。</li>
+<li>如果是屏幕边缘拖拽手势，应确保触摸位置在<code>edges</code>属性中指定的区域中。</li>
+</ul>
+<h3 id="轻扫手势"><a href="#轻扫手势" class="headerlink" title="轻扫手势"></a>轻扫手势</h3><p>轻扫手势识别器<code>UISwipeGestureRecognizer</code>对象检测屏幕上一个或多个手指在特定的水平或垂直方向上移动。轻扫手势的方向和手指的数量是可以配置的，其属于离散型手势，只有在手势被成功识别后才会调用手势关联对象的操作方法。当我们只关注手势的结果而不关注手指的移动时，轻扫手势是最合适的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-8d9774b6d1813708.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-4 Swipe gesture"></p>
+<p>如果触摸屏幕后没有调用与手势识别器关联的对象的操作方法，请检查下列条件是否成立：</p>
+<ul>
+<li>视图的<code>userInteractionEnabled</code>属性设置为<code>YES</code>。<code>UIImageView</code>和<code>UILabel</code>类默认将此属性设为<code>NO</code>。</li>
+<li>触摸次数等于<code>numberOfTouchesRequired</code>属性中指定的值之间。</li>
+<li>滑动的方向与<code>direction</code>属性值相匹配。</li>
+</ul>
+<h3 id="捏合手势"><a href="#捏合手势" class="headerlink" title="捏合手势"></a>捏合手势</h3><p>捏合手势属于连续型手势，其跟踪最先触摸屏幕的两根手指之间的距离，使用<code>UIPinchGestureRecognizer</code>对象来检测捏合手势。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-9aa464561493cff7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-5 Pinch gestures"></p>
+<p>当两个手指间的距离开始改变时，会更新捏合手势识别器对象的手指间当前距离与初始距离的比例<code>scale</code>属性值，然后调用手势关联目标对象的操作方法。捏合手势常用于更改屏幕上的对象或者内容的大小。<strong>在缩放内容大小时，应该取<code>scale</code>值和内容初始大小的积。</strong></p>
+<p>如果触摸屏幕后没有调用与手势识别器关联的对象的操作方法，请检查下列条件是否成立：</p>
+<ul>
+<li>视图的<code>userInteractionEnabled</code>属性设置为<code>YES</code>。<code>UIImageView</code>和<code>UILabel</code>类默认将此属性设为<code>NO</code>。</li>
+<li>至少两根手指同时触摸屏幕。</li>
+<li>正在使用<code>scale</code>值缩放内容大小。</li>
+</ul>
+<h3 id="旋转手势"><a href="#旋转手势" class="headerlink" title="旋转手势"></a>旋转手势</h3><p>旋转手势属于连续型手势，其跟踪触摸屏幕的两根手指旋转的角度，使用<code>UIRotationGestureRecognizer</code>对象来检测旋转手势。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-9b489d8cbaf9a310.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-6 Rotation gesture"></p>
+<p>当手指开始在屏幕上旋转时，会更新旋转手势识别器对象的从初始到现在已旋转角度<code>rotation</code>属性值，然后调用手势关联目标对象的操作方法。可以使用旋转手势来旋转视图或者更新自定义控件的值。</p>
+<p>如果触摸屏幕后没有调用与手势识别器关联的对象的操作方法，请检查下列条件是否成立：</p>
+<ul>
+<li>视图的<code>userInteractionEnabled</code>属性设置为<code>YES</code>。<code>UIImageView</code>和<code>UILabel</code>类默认将此属性设为<code>NO</code>。</li>
+<li>至少两根手指同时触摸屏幕。</li>
+<li>正在使用<code>rotation</code>旋转内容。</li>
+</ul>
+<h2 id="处理手势冲突"><a href="#处理手势冲突" class="headerlink" title="处理手势冲突"></a>处理手势冲突</h2><p>在视图上附加多个手势识别器时，多个手势识别器会同时跟踪传入的触摸事件。但<strong>默认</strong>情况下UIKit只允许在单个视图中一次只识别一个手势，也就是说当某个手势识别器成功识别手势后，其他手势识别器就不会再继续去识别该手势。一次只识别一个手势可以防止用户一次触发多个动作，但这种<strong>默认</strong>识别行为可能会导致意想不到的副作用。例如，在包含拖拽和轻扫手势识别器的视图中，轻扫手势永远不会被识别。这是因为拖拽手势是连续的，所以它总是在轻扫手势之前被识别。</p>
+<p>UIKit通过调用手势识别器的委托对象的代理方法来确定一个手势是否必须在其他手势之前或之后被识别，或者两个手势是否可以被同时识别。对于涉及潜在冲突的两个手势识别器，只需要其中一个手势识别器去关联委托对象，该委托对象需要遵循<code>UIGestureRecognizerDelegate</code>协议。</p>
+<h3 id="确定在视图中识别手势的顺序"><a href="#确定在视图中识别手势的顺序" class="headerlink" title="确定在视图中识别手势的顺序"></a>确定在视图中识别手势的顺序</h3><p>当视图上附加有单击和双击手势时，单击手势会始终在双击手势之前被识别，但是可以通过实现单击手势委托对象的<code>gestureRecognizer:shouldRequireFailureOfGestureRecognizer:</code>方法去延后单击手势的识别直到双击手势被识别失败，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">    if (gestureRecognizer == self.singleTap &amp;&amp; otherGestureRecognizer == self.doubleTap)</div><div class="line">    &#123;</div><div class="line">        return YES;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当视图上附加有轻扫和拖拽手势时，拖拽手势会始终在轻扫手势之前被识别。在这种情况下，可以通过实现轻扫手势委托对象的<code>gestureRecognizer:shouldBeRequiredToFailByGestureRecognizer:</code>方法实现在识别轻扫手势失败后才识别拖拽手势，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">    if (gestureRecognizer == self.swip &amp;&amp; otherGestureRecognizer == self.pan)</div><div class="line">    &#123;</div><div class="line">        return YES;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>也可以通过实现拖拽手势委托对象的<code>gestureRecognizer:shouldRequireFailureOfGestureRecognizer:</code>方法去延后拖拽手势的识别直到轻扫手势被识别失败，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">    if (gestureRecognizer == self.pan &amp;&amp; otherGestureRecognizer == self.swip)</div><div class="line">    &#123;</div><div class="line">        return YES;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="允许同时识别多个手势"><a href="#允许同时识别多个手势" class="headerlink" title="允许同时识别多个手势"></a>允许同时识别多个手势</h3><p>在默认情况下，UIkit在单个视图中一次只允许识别一个手势，但如果有需要，也可以在单个视图中同时识别多个手势。要允许在单个视图中同时识别多个手势，需要手势委托对象实现<code>gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:</code>方法。UIKit会调用此方法来判断是否允许同时识别两个手势，默认返回<code>NO</code>。</p>
+<p>当一个视图上同时附加有拖拽、 缩放和旋转手势时，允许用户在屏幕上可以同时拖动、 缩放和旋转视图，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">    // 允许同时识别在同一视图上的特定手势</div><div class="line">    if (gestureRecognizer.view == self.targetView &amp;&amp; otherGestureRecognizer.view == self.targetView)</div><div class="line">    &#123;</div><div class="line">        // 排除长按手势</div><div class="line">        if (![gestureRecognizer isMemberOfClass:[UILongPressGestureRecognizer class]] &amp;&amp; ![otherGestureRecognizer isMemberOfClass:[UILongPressGestureRecognizer class]])</div><div class="line">        &#123;</div><div class="line">            return YES;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>要同时识别多个手势，它们的委托对象都要实现<code>gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:</code>方法，如果只有其中一个手势的委托对象实现了，但其它手势的委托对象没有实现，那么UIKit也不会同时识别它们。</strong></p>
+<h2 id="自定义手势识别器"><a href="#自定义手势识别器" class="headerlink" title="自定义手势识别器"></a>自定义手势识别器</h2><p>当UIKit定义的手势类型不能满足我们需求时，我们也可以自定义手势识别器来处理特定的触摸事件。自定义手势识别器的详情可以参看<a href="https://developer.apple.com/documentation/uikit/touches_presses_and_gestures/implementing_a_custom_gesture_recognizer" target="_blank" rel="external">Implementing a Custom Gesture Recognizer</a></p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>示例代码下载地址：<a href="https://github.com/zhangshijian/GesturesDemo.git" target="_blank" rel="external">https://github.com/zhangshijian/GesturesDemo.git</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/25/响应者、响应者链和事件处理/" rel="next" title="响应者、响应者链和事件处理">
+                <i class="fa fa-chevron-left"></i> 响应者、响应者链和事件处理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/24/导航栏颜色、透明度渐变/" rel="prev" title="导航栏颜色、透明度渐变">
+                导航栏颜色、透明度渐变 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ShiJian" />
+          <p class="site-author-name" itemprop="name">ShiJian</p>
+           
+              <p class="site-description motion-element" itemprop="description">光阴给我们经验,读书给我们知识.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangshijian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/shijianzzzz" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置手势识别器"><span class="nav-number">2.</span> <span class="nav-text">配置手势识别器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回应手势"><span class="nav-number">3.</span> <span class="nav-text">回应手势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#点击手势"><span class="nav-number">3.1.</span> <span class="nav-text">点击手势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长按手势"><span class="nav-number">3.2.</span> <span class="nav-text">长按手势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拖拽手势"><span class="nav-number">3.3.</span> <span class="nav-text">拖拽手势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#轻扫手势"><span class="nav-number">3.4.</span> <span class="nav-text">轻扫手势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#捏合手势"><span class="nav-number">3.5.</span> <span class="nav-text">捏合手势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#旋转手势"><span class="nav-number">3.6.</span> <span class="nav-text">旋转手势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理手势冲突"><span class="nav-number">4.</span> <span class="nav-text">处理手势冲突</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#确定在视图中识别手势的顺序"><span class="nav-number">4.1.</span> <span class="nav-text">确定在视图中识别手势的顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许同时识别多个手势"><span class="nav-number">4.2.</span> <span class="nav-text">允许同时识别多个手势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义手势识别器"><span class="nav-number">5.</span> <span class="nav-text">自定义手势识别器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo"><span class="nav-number">6.</span> <span class="nav-text">Demo</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiJian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://ShiJian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2016/11/04/手势识别相关/';
+          this.page.identifier = '2016/11/04/手势识别相关/';
+          this.page.title = '手势识别相关';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ShiJian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,808 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="视图控制器管理着构成应用程序用户界面中的一部分视图，其负责加载和处理这些视图，管理与这些视图的交互，并协调视图对其展示的数据内容的变更作出响应。视图控制器还能与其他视图控制器对象协调工作，帮助管理应用程序的整体界面。 视图控制器的主要职责包括以下内容：  更新视图的内容来响应底层数据的变化。 响应用户与视图的交互。 调整视图尺寸并管理整个界面的布局。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIViewController详解 -- 概述">
+<meta property="og:url" content="http://yoursite.com/2017/03/27/UIViewController详解-概述/index.html">
+<meta property="og:site_name" content="ShiJian">
+<meta property="og:description" content="视图控制器管理着构成应用程序用户界面中的一部分视图，其负责加载和处理这些视图，管理与这些视图的交互，并协调视图对其展示的数据内容的变更作出响应。视图控制器还能与其他视图控制器对象协调工作，帮助管理应用程序的整体界面。 视图控制器的主要职责包括以下内容：  更新视图的内容来响应底层数据的变化。 响应用户与视图的交互。 调整视图尺寸并管理整个界面的布局。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-01eccfed80f73134.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-9e4944ed301fb9b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-ee0fad0e773ac88f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-4242d1ec5868977a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-26acca2ca628d5ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-2cf3949514fb3027.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-50986ff1a560ebbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-320564a83486b397.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-03-19T15:59:16.845Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIViewController详解 -- 概述">
+<meta name="twitter:description" content="视图控制器管理着构成应用程序用户界面中的一部分视图，其负责加载和处理这些视图，管理与这些视图的交互，并协调视图对其展示的数据内容的变更作出响应。视图控制器还能与其他视图控制器对象协调工作，帮助管理应用程序的整体界面。 视图控制器的主要职责包括以下内容：  更新视图的内容来响应底层数据的变化。 响应用户与视图的交互。 调整视图尺寸并管理整个界面的布局。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4906302-01eccfed80f73134.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/27/UIViewController详解-概述/"/>
+
+
+
+
+
+  <title>UIViewController详解 -- 概述 | ShiJian</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiJian</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/27/UIViewController详解-概述/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiJian">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">UIViewController详解 -- 概述</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-27T23:56:10+08:00">
+                2017-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/27/UIViewController详解-概述/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/03/27/UIViewController详解-概述/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>视图控制器管理着构成应用程序用户界面中的一部分视图，其负责加载和处理这些视图，管理与这些视图的交互，并协调视图对其展示的数据内容的变更作出响应。视图控制器还能与其他视图控制器对象协调工作，帮助管理应用程序的整体界面。</p>
+<p>视图控制器的主要职责包括以下内容：</p>
+<ul>
+<li>更新视图的内容来响应底层数据的变化。</li>
+<li>响应用户与视图的交互。</li>
+<li>调整视图尺寸并管理整个界面的布局。</li>
+</ul>
+<a id="more"></a>
+<h2 id="视图控制器的作用"><a href="#视图控制器的作用" class="headerlink" title="视图控制器的作用"></a>视图控制器的作用</h2><p>视图控制器是应用程序内部结构的基础。每个应用程序至少含有一个视图控制器，大多数应用程序都含有多个视图视图控制器。每个视图控制器管理着应用程序的用户界面，以及该界面和底层数据之间的交互。视图控制器也便于在不同用户界面之间的转换。</p>
+<p><code>UIViewController</code>类定义了一些方法和属性来管理视图、处理事件、从一个视图控制器切换到另一个视图控制器和协调应用程序的其他部分，可以通过继承<code>UIViewController</code>（或其子类之一）来添加实现应用程序行为所需的自定义代码。</p>
+<p>有两种类型的视图控制器：</p>
+<ul>
+<li>内容视图控制器，其管理着应用程序内容的一部分。</li>
+<li>容器视图控制器，其收集来自于其他视图控制器的信息并以便于导航的方式呈现或者以不同方式呈现这些视图控制器的内容。</li>
+</ul>
+<h3 id="视图管理"><a href="#视图管理" class="headerlink" title="视图管理"></a>视图管理</h3><p>视图控制器最重要的作用是管理视图的层次结构。每个视图控制器都含有一个包含所有视图控制器内容的根视图，可以添加需要显示内容的视图到该根视图中。下图显示了视图控制器和视图之间的内置关系，视图控制器总是具有对其根视图的强引用，并且每个视图都具有对其子视图的强引用。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-01eccfed80f73134.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图2-1"></p>
+<p>内容视图控制器自己管理其包含的所有视图，容器视图控制器管理其所包含的所有视图以及来自其一个或多个子视图控制器的<strong>根视图</strong>。容器视图控制器并不管理其子视图控制器的内容，只管理其子视图控制器的根视图。下图说明了<code>UISplitViewController</code>与其子视图控制器之间的关系。<code>UISplitViewController</code>管理其子视图的整体尺寸和位置，但子视图控制器管理这些视图的实际内容。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-9e4944ed301fb9b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图2-2"></p>
+<h3 id="数据封送"><a href="#数据封送" class="headerlink" title="数据封送"></a>数据封送</h3><p>视图控制器充当其管理的视图与应用程序数据之间的媒介。子类化<code>UIViewController</code>的时候，可以添加任何需要在子类中管理的数据变量。添加自定义变量会创建一个如下图所示的关系，其中视图控制器具有对数据的引用以及用于呈现该数据的视图。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-ee0fad0e773ac88f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图2-3"></p>
+<p>应该始终在视图控制器和数据对象中保持清晰的职责分离。大多数确保数据结构完整性的逻辑应属于数据对象本身。视图控制器可以验证来自视图的输入，然后以数据对象需要的格式打包输入，但是应该最小化视图控制器在管理实际数据中的角色。</p>
+<p><code>UIDocument</code>对象是一种独立于视图控制器管理数据的方式。文档对象是一个知道如何读写数据到持久存储的控制器对象。子类化<code>UIDocument</code>时，可以添加任何需要的逻辑和方法来提取数据，并将其传递给视图控制器或者应用程序的某部分。视图控制器可以存储其接收到的任何数据的副本，以便更新视图，但文档仍然拥有真实的数据。</p>
+<h3 id="用户交互"><a href="#用户交互" class="headerlink" title="用户交互"></a>用户交互</h3><p>视图控制器是响应者对象，能够处理响应者链中传递的事件，但视图控制器很少直接处理触摸事件。相反，视图通常会处理自己的触摸事件，并将结果报告给其关联的委托或目标对象（通常是视图控制器）的方法。因此，视图控制器中的大多数事件都是使用委托方法或操作方法处理的。</p>
+<h3 id="资源管理"><a href="#资源管理" class="headerlink" title="资源管理"></a>资源管理</h3><p>视图控制器对其视图和它创建的任何对象承担全部责任。<code>UIViewController</code>类自动处理视图管理的大多数方面，例如，UIKit自动释放不再需要的任何视图相关的资源。子类化<code>UIViewController</code>时，需要自己负责管理创建的任何对象。</p>
+<p>当可用空闲内存不足时，UIKit会要求应用程序释放不再需要的资源。其中一种方式是通过调用视图控制器的<code>didReceiveMemoryWarning</code>方法来删除对不再需要的对象的引用或者稍后重新创建。例如，在该方法中删除缓存的数据。发生内存不足的情况时，释放尽可能多的内存非常重要。消耗太多内存的应用程序可能会被系统彻底终止以恢复内存。</p>
+<h3 id="适应性"><a href="#适应性" class="headerlink" title="适应性"></a>适应性</h3><p>视图控制器负责呈现其视图，并使该呈现适应底层环境。每个iOS应用程序都应该能够在iPad上运行，并且可以在几种不同尺寸的iPhone上运行。不是为每个设备提供不同的视图控制器和视图层，而是使用单个视图控制器来更简单地调整其视图以适应不断变化的空间需求。</p>
+<p>在iOS中，视图控制器需要处理粗粒度的变化和细粒度的变化。当视图控制器的特性改变时，会发生粗粒度的变化。特征是描述整体环境的属性，例如显示比例。其中两个最重要的特性是视图控制器的水平和垂直尺寸类别，是它们表示视图控制器在给定维度中有多少空间。可以使用size class changes来改变布局视图的方式，如下图所示。如果horizontal size class是规则的，视图控制器利用额外的水平空间来排列其内容。如果horizontal size class是紧凑的，视图控制器垂直排列其内容。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-4242d1ec5868977a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图2-4"></p>
+<p>根据给定的size class，可以随时进行更细粒度的尺寸更改。当用户将iPhone从纵向旋转到横向时，size class可能不会改变，但屏幕尺寸通常会改变。在使用自动布局时，UIKt会自动调整视图的尺寸和位置以匹配新尺寸。视图控制器可以根据需要进行其他调整。</p>
+<h2 id="视图控制器层次结构"><a href="#视图控制器层次结构" class="headerlink" title="视图控制器层次结构"></a>视图控制器层次结构</h2><p>应用程序的视图控制器之间的关系定义了每个视图控制器所需的行为，维护正确的视图控制器关系可以确保自动行为在需要时传递给正确的视图控制器。如果违反了UIKit规定的规则和呈现关系，则应用程序的表现可能和预期不一致。</p>
+<h3 id="根视图控制器"><a href="#根视图控制器" class="headerlink" title="根视图控制器"></a>根视图控制器</h3><p>根视图控制器是视图控制器层次结构的锚点。每个窗口只有一个根视图控制器，此根视图控制器的内容填充该窗口。根视图控制器定义了用户看到的初始内容。下图显示了根视图控制器和窗口之间的关系，因为窗口本身没有可见的内容，所以视图控制器的视图提供了所有的内容。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-26acca2ca628d5ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-1"></p>
+<p>根视图控制器可以从<code>UIWindow</code>对象的<code>rootViewController</code>属性访问。当使用storyboard来配置视图控制器时，UIKit会在启动时自动设置该属性的值。对于以编程方式创建的窗口，必须自己设置根视图控制器。</p>
+<h3 id="容器视图控制器"><a href="#容器视图控制器" class="headerlink" title="容器视图控制器"></a>容器视图控制器</h3><p>容器视图控制器允许使用更易于管理和可重用的界面来组装复杂的界面。容器视图控制器将一个或多个子视图控制器的内容与可选的自定义视图混合在一起，来创建其最终界面。例如，<code>UINavigationController</code>对象显示来自其子视图控制器的内容以及由其管理的导航栏和可选工具栏。UIKit包含多个容器视图控制器，包括<code>UINavigationController</code>、<code>UISplitViewController</code> 和<code>UIPageViewController</code>。</p>
+<p>容器视图控制器的视图总是会填充给定的空间，其通常被指定为窗口的根视图控制器。容器视图控制器也可以以模态的方式呈现，或者作为其他容器的子项安装。下图显示了在容器并排放置两个子视图。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-2cf3949514fb3027.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-2"></p>
+<p>由于容器视图控制器管理其子项，UIKit定义了如何在自定义容器中设置这些子项的规则。</p>
+<h3 id="呈现一个视图控制器"><a href="#呈现一个视图控制器" class="headerlink" title="呈现一个视图控制器"></a>呈现一个视图控制器</h3><p>呈现一个视图控制器时，通常会隐藏当前视图控制器的内容来将当前视图控制器的内容替换为新视图控制器的内容。<strong>呈现最常用于模态地显示新内容。</strong>在呈现一个视图控制器时，UIKit会在呈现视图控制器和其呈现的视图控制器之间创建如下图所示的关系。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-50986ff1a560ebbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-3"></p>
+<p>当呈现涉及到容器视图控制器时，UIKit可能会修改呈现链来简化必须编写的代码。不同的呈现风格对应的视图在屏幕上的显示方式有不同的规则，例如全屏呈现总是覆盖整个屏幕。在呈现一个视图控制器时，UIKit会查找为呈现提供合适上下文的视图控制器。在许多情况下，UIKit会选择最近的容器视图控制器，但也可能选择窗口的根视图控制器。在某些情况下，也可以直接告诉UIKit哪个视图控制器定义了呈现上下文，并且应该处理呈现。</p>
+<p>下图显示了容器视图控制器为呈现提供上下文的原因。在执行全屏呈现时，新视图控制器需要覆盖整个屏幕。容器视图控制器决定是否处理呈现，而不需要其子视图控制器知道容器视图的边界。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-320564a83486b397.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-4"></p>
+<h2 id="设计技巧"><a href="#设计技巧" class="headerlink" title="设计技巧"></a>设计技巧</h2><p>视图控制器是在iOS上运行的应用程序的基本工具，并且UIKit的视图控制器基础结构可以很容易地创建复杂的界面，而无需编写大量的代码。在实现我们自己的视图控制器时，请使用一下提示和指导原则，以确保我们不会干涉可能会干扰系统预期的自然行为。</p>
+<h3 id="尽可能使用系统提供的视图控制器"><a href="#尽可能使用系统提供的视图控制器" class="headerlink" title="尽可能使用系统提供的视图控制器"></a>尽可能使用系统提供的视图控制器</h3><p>许多iOS框架定义了视图控制器，使用这些系统提供的视图控制器可一节省时间并确保为用户提供一致的体验。大多数系统控制器都是为特定任务而设计的某些控制器提供对用户数据（如联系人）的访问，也可能提供访问硬件或提供专门调整的界面来管理媒体。例如，UIKit中的<code>UIImagePickerController</code>类显示用于获取图片和视频以及访问用户相机胶卷的标准界面。</p>
+<p>在创建自己的自定义视图控制器前，请查看现有的框架是否存在能够执行需要的任务的视图控制器：</p>
+<ul>
+<li>UIKit框架提供视图控制器用于显示弹窗警告，拍照和录像，以及管理iCloud上的文件。UIKit还定义许多可用于组织内容的标准容器视图控制器。</li>
+<li>GameKit框架提供了视图控制器可用于匹配玩家以及管理排行榜、成就和其他游戏功能。</li>
+<li>Address Book UI框架提供了用于显示和选择联系人信息的视图控制器。</li>
+<li>MediaPlayer框架提供了用于播放和管理视频以及从用户库中选择媒体资源的视图控制器。</li>
+<li>EventKit UI框架提供了用于显示和编辑用户日历数据的视图控制器。</li>
+<li>GLKit框架提供了用于管理OpenGL渲染界面的视图控制器。</li>
+<li>Multipeer Connectivity框架提供了用于检测其他用户并邀请他们进行连接的视图控制器。</li>
+<li>Message UI框架提供了用于撰写电子邮件和SMS消息的视图控制器。</li>
+<li>PassKit框架提供了用于显示通行证并将其添加到Passbook的视图控制器。</li>
+<li>Social框架为Twitter、Facebook和其他社交媒体网站提供了编辑消息的视图控制器。</li>
+<li>AVFoundation框架提供了用于显示媒体资源的视图控制器。</li>
+</ul>
+<blockquote>
+<p><strong>重要</strong>：切勿修改系统提供的视图控制器的视图层次结构。每个视图控制器都拥有其视图层次结构，并负责维护该层次结构的完整性。进行更改可能会在代码中引入错误，或阻止其所属视图控制器的正常运行。使用系统视图控制器时，总是依靠视图控制器公开的可用方法和属性进行所有修改的。</p>
+</blockquote>
+<p>有关使用特定视图控制器的信息，可查看相应框架的参考文档。</p>
+<h3 id="保证每个视图控制器独立运行"><a href="#保证每个视图控制器独立运行" class="headerlink" title="保证每个视图控制器独立运行"></a>保证每个视图控制器独立运行</h3><p>视图控制器应始终是自给自足的对象，没有视图控制器应该含有有关于另一个视图控制器的内部工作或视图层次结构的信息。在两个视图控制器需要来回通信或传递数据的情况下，它们应该始终使用明确定义的公共接口来实现。</p>
+<p>代理设计模式经常用于管理视图控制器之间的通信。通过委托，一个对象定义了一个相关的委托对象进行通信的协议，该委托对象是任何符合该协议的对象。委托对象的确切类型是不重要的，重要的是它实现了协议的方法。</p>
+<h3 id="仅将根视图用作其他视图的容器"><a href="#仅将根视图用作其他视图的容器" class="headerlink" title="仅将根视图用作其他视图的容器"></a>仅将根视图用作其他视图的容器</h3><p>仅将视图控制器的根视图用作其余内容的容器。使用根视图作为容器可以为所有视图提供一个共同的父视图，这使得许多布局操作变得更简单。许多自动布局约束需要共同的父视图来正确布置视图。</p>
+<h3 id="知道数据该存在于哪里"><a href="#知道数据该存在于哪里" class="headerlink" title="知道数据该存在于哪里"></a>知道数据该存在于哪里</h3><p>在模型 - 视图 - 控制器设计模式中，视图控制器的作用是促进模型对象和视图对象之间的数据移动。视图控制器可能会将一些数据存储在临时变量中并执行一些验证，但其主要职责是确保其视图包含准确的信息。而模型数据对象负责管理实际数据并确保数据的完整性。</p>
+<p><code>UIDocument</code>和<code>UIViewController</code>类之间的关系就是一个数据和接口分离的例子。具体而言，两者之间不存在默认关系。<code>UIDocument</code>对象负责协调数据的加载和保存，而<code>UIViewController</code>对象协调屏幕上的视图显示。如果需要在两个对象之间创建关系，请记住视图控制器应该只缓存文档中的信息以提高效率，实际的数据仍然属于文档对象。</p>
+<h3 id="适应变化"><a href="#适应变化" class="headerlink" title="适应变化"></a>适应变化</h3><p>应用程序可以在各种iOS设备上运行，并且视图控制器被设计为适应这些设备上不同尺寸的屏幕。并不是使用单独的视图控制器来管理不同屏幕上的内容，而是使用内置的适配性支持响应视图控制器中的尺寸和size class的更改。UIKit发送的通知使我们有机会对用户界面进行大规模和小规模的更改，而无需更改视图控制器代码的其余部分。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/10/UIView详解/" rel="next" title="UIView详解">
+                <i class="fa fa-chevron-left"></i> UIView详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/15/UIViewController详解-视图控制器定义/" rel="prev" title="UIViewController详解 -- 视图控制器定义">
+                UIViewController详解 -- 视图控制器定义 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ShiJian" />
+          <p class="site-author-name" itemprop="name">ShiJian</p>
+           
+              <p class="site-description motion-element" itemprop="description">光阴给我们经验,读书给我们知识.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangshijian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/shijianzzzz" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#视图控制器的作用"><span class="nav-number">1.</span> <span class="nav-text">视图控制器的作用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#视图管理"><span class="nav-number">1.1.</span> <span class="nav-text">视图管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据封送"><span class="nav-number">1.2.</span> <span class="nav-text">数据封送</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户交互"><span class="nav-number">1.3.</span> <span class="nav-text">用户交互</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源管理"><span class="nav-number">1.4.</span> <span class="nav-text">资源管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适应性"><span class="nav-number">1.5.</span> <span class="nav-text">适应性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图控制器层次结构"><span class="nav-number">2.</span> <span class="nav-text">视图控制器层次结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#根视图控制器"><span class="nav-number">2.1.</span> <span class="nav-text">根视图控制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器视图控制器"><span class="nav-number">2.2.</span> <span class="nav-text">容器视图控制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#呈现一个视图控制器"><span class="nav-number">2.3.</span> <span class="nav-text">呈现一个视图控制器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计技巧"><span class="nav-number">3.</span> <span class="nav-text">设计技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#尽可能使用系统提供的视图控制器"><span class="nav-number">3.1.</span> <span class="nav-text">尽可能使用系统提供的视图控制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保证每个视图控制器独立运行"><span class="nav-number">3.2.</span> <span class="nav-text">保证每个视图控制器独立运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仅将根视图用作其他视图的容器"><span class="nav-number">3.3.</span> <span class="nav-text">仅将根视图用作其他视图的容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#知道数据该存在于哪里"><span class="nav-number">3.4.</span> <span class="nav-text">知道数据该存在于哪里</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适应变化"><span class="nav-number">3.5.</span> <span class="nav-text">适应变化</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiJian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://ShiJian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/03/27/UIViewController详解-概述/';
+          this.page.identifier = '2017/03/27/UIViewController详解-概述/';
+          this.page.title = 'UIViewController详解 -- 概述';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ShiJian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

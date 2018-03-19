@@ -1,0 +1,853 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="转场动画提供了与应用程序的界面更改有关的视觉反馈。UIKit提供了一组用于呈现一个视图控制器的标准转场动画样式，我们也可以使用自定义转场动画来实现特定的视觉效果。 转场动画序列转场动画将一个视图控制器的内容替换为另一个视图控制器的内容。有两种类型的转场：present和dismiss。present转场会将新的视图控制器添加到应用程序的视图控制器结构层次中，而dismiss转场会从视图控制器层次结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIViewController详解 -- 自定义转场动画">
+<meta property="og:url" content="http://yoursite.com/2017/06/10/UIViewController详解-自定义转场动画/index.html">
+<meta property="og:site_name" content="ShiJian">
+<meta property="og:description" content="转场动画提供了与应用程序的界面更改有关的视觉反馈。UIKit提供了一组用于呈现一个视图控制器的标准转场动画样式，我们也可以使用自定义转场动画来实现特定的视觉效果。 转场动画序列转场动画将一个视图控制器的内容替换为另一个视图控制器的内容。有两种类型的转场：present和dismiss。present转场会将新的视图控制器添加到应用程序的视图控制器结构层次中，而dismiss转场会从视图控制器层次结">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-a88a11a896561441.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-f137d9a181d5a7b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-3957cbfbb60fc03c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-f64eab938b83262d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-3576a9dc191ff92b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-03-19T16:14:19.407Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIViewController详解 -- 自定义转场动画">
+<meta name="twitter:description" content="转场动画提供了与应用程序的界面更改有关的视觉反馈。UIKit提供了一组用于呈现一个视图控制器的标准转场动画样式，我们也可以使用自定义转场动画来实现特定的视觉效果。 转场动画序列转场动画将一个视图控制器的内容替换为另一个视图控制器的内容。有两种类型的转场：present和dismiss。present转场会将新的视图控制器添加到应用程序的视图控制器结构层次中，而dismiss转场会从视图控制器层次结">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4906302-a88a11a896561441.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/10/UIViewController详解-自定义转场动画/"/>
+
+
+
+
+
+  <title>UIViewController详解 -- 自定义转场动画 | ShiJian</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiJian</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/UIViewController详解-自定义转场动画/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiJian">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">UIViewController详解 -- 自定义转场动画</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-10T00:07:23+08:00">
+                2017-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/10/UIViewController详解-自定义转场动画/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/06/10/UIViewController详解-自定义转场动画/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>转场动画提供了与应用程序的界面更改有关的视觉反馈。UIKit提供了一组用于呈现一个视图控制器的标准转场动画样式，我们也可以使用自定义转场动画来实现特定的视觉效果。</p>
+<h2 id="转场动画序列"><a href="#转场动画序列" class="headerlink" title="转场动画序列"></a>转场动画序列</h2><p>转场动画将一个视图控制器的内容替换为另一个视图控制器的内容。有两种类型的转场：present和dismiss。present转场会将新的视图控制器添加到应用程序的视图控制器结构层次中，而dismiss转场会从视图控制器层次结构中移除一个或者多个视图控制器。</p>
+<p>实现转场动画需要许多对象协同工作。UIKit提供了转场过程中涉及的所有对象的默认版本，我们可以自定义所有对象或者仅仅子类化UIKit提供的默认对象。</p>
+<a id="more"></a>
+<h3 id="转场动画委托对象"><a href="#转场动画委托对象" class="headerlink" title="转场动画委托对象"></a>转场动画委托对象</h3><p>转场动画委托对象是转场动画和自定义呈现的起点，它是我们定义的遵循<code>UIViewControllerTransitioningDelegate</code>协议的对象。其工作是为UIKit提供以下对象：</p>
+<ul>
+<li><strong>Animator对象</strong>：animator对象负责创建用于显示或者隐藏视图控制器的动画。转场动画委托对象可以提供对应的animator对象来呈现和移除视图控制器。animator对象需要遵循<code>UIViewControllerAnimatedTransitioning</code>协议。</li>
+<li><strong>交互式animator对象</strong>：交互式animator对象使用触摸事件或者手势识别器来驱动自定义动画的校时，其遵循<code>UIViewControllerInteractiveTransitioning</code>协议。创建交互式animator对象的最简单方法是子类化<code>UIPercentDrivenInteractiveTransition</code>类并添加事件处理代码到子类中。其控制着动画的校时。如果需要自行创建特定的交互式animator对象，则必须自己渲染动画的每一帧。</li>
+<li><strong>Presentation controller</strong>：presentation controller管理着视图控制器在屏幕上显示时的呈现样式。系统为内置的呈现样式提供了presentation controller，我们也可以为自定义的呈现样式提供自定义的presentation controller。</li>
+</ul>
+<p>为视图控制器的<code>transitioningDelegate</code>属性值分配一个转场动画委托对象会告知UIKit需要执行自定义转场。转场动画委托对象可以选择其自身提供的对象。如果我们没有提供animator对象，则UIKit在视图控制器的<code>modalTransitionStyle</code>属性中使用标准转场动画。</p>
+<p>图10-1显示了转场动画委托和animator对象与被呈现的视图控制器的关系。仅当视图控制器的<code>modalPresentationStyle</code>属性值设为<code>UIModalPresentationCustom</code>时，才使用presentation controller。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-a88a11a896561441.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图10-1"></p>
+<h3 id="自定义动画序列"><a href="#自定义动画序列" class="headerlink" title="自定义动画序列"></a>自定义动画序列</h3><p>当需要呈现的视图控制器的<code>transitioningDelegate</code>属性包含一个有效对象时，UIKit会使用我们提供的自定义animator对象来呈现此视图控制器。在准备转场动画时，UIKit会调用转场动画委托的<code>animationControllerForPresentedController:presentingController:sourceController:</code>方法来检索自定义animator对象。如果有对象可用，UIKit将执行以下步骤：</p>
+<ol>
+<li>UIKit调用转场动画委托的<code>interactionControllerForPresentation:</code>方法来查看交互式animator对象是否可用。如果该方法返回<code>nil</code>，UIKit将执行动画而不需要发生用户交互。</li>
+<li>UIKit调用animator对象的<code>transitionDuration:</code>方法来获取动画时长。</li>
+<li>UIKit调用适当的方法来启动动画：</li>
+</ol>
+<ul>
+<li>对于非交互式动画，UIKit调用animator对象的<code>animateTransition:</code>方法。</li>
+<li>对于交互式动画，UIKit调用交互式animator对象的<code>startInteractiveTransition:</code>方法。</li>
+</ul>
+<ol>
+<li>UIKit等待aniamtor对象调用转场动画上下文对象的<code>completeTransition:</code>方法。自定义animator对象会在动画执行完毕后，在动画的completion block中调用该方法。调用该方法结束了转场动画，并告知UIKit可以调用<code>presentViewController:animated:completion:</code>方法中的completion handler以及animator对象的<code>animationEnded:</code>方法。</li>
+</ol>
+<p>移除视图控制器时，UIKit会调用转场动画委托的<code>animationControllerForDismissedController:</code>方法并执行以下步骤：</p>
+<ol>
+<li>UIKit调用转场动画委托的<code>interactionControllerForDismissal:</code>方法来查看交互式animator对象是否可用。如果该方法返回<code>nil</code>，UIKit将执行动画而不需要发生用户交互。</li>
+<li>UIKit调用animator对象的<code>transitionDuration:</code>方法来获取动画时长。</li>
+<li>UIKit调用适当的方法来启动动画：</li>
+</ol>
+<ul>
+<li>对于非交互式动画，UIKit调用aniamtor对象的<code>animateTransition:</code>方法。</li>
+<li>对于交互式动画，UIKit调用交互式animator对象的<code>startInteractiveTransition:</code>方法。</li>
+</ul>
+<ol>
+<li>UIKit等待animator对象调用转场动画上下文对象的<code>completeTransition:</code>方法。自定义animator对象会在动画执行完毕后，在动画的completion block中调用该方法。调用该方法结束了转场动画，并告知UIKit可以调用<code>dismissViewControllerAnimated:completion:</code>方法中的completion handler以及animator对象的<code>animationEnded:</code>方法。</li>
+</ol>
+<blockquote>
+<p><strong>重要</strong>：在动画结束时调用<code>completeTransition:</code>方法是必需的。在调用该方法之前，UIKit不会结束转场动画并将控制器返回给应用程序。</p>
+</blockquote>
+<h3 id="转场动画上下文对象"><a href="#转场动画上下文对象" class="headerlink" title="转场动画上下文对象"></a>转场动画上下文对象</h3><p>在转场动画开始执行前，UIKit会创建一个转场动画上下文对象，该转场动画上下文对象会保存关于如何执行动画的信息。转场动画上下文对象是我们代码的重要组成部分，它实现了<code>UIViewControllerContextTransitioning</code>协议并存储对转场动画中涉及的视图控制器和视图的引用。它还存储有关如何执行转场动画的信息，包括动画是否为交互式。animator对象需要所有这些信息来设置和执行实际的动画。</p>
+<blockquote>
+<p><strong>重要</strong>：在设置自定义动画时，请始终使用转场动画上下文对象中的对象和数据，不要使用自己管理的任何缓存信息。转场动画可能发生在各种情况下，其中一些情况可能会改变动画参数。转场动画上下文对象能够保证执行动画所需的信息正确，而在调用animator对象的方法时，我们自己缓存的信息可能已经过时。</p>
+</blockquote>
+<p>图10-2显示了转场动画上下文对象如何与其他对象进行交互。animator对象在其<code>animateTransition:</code>方法中接收转场动画上下文对象，我们创建的动画应该在应该在提供的容器视图中执行。例如，当呈现一个视图控制器时，将该视图控制器的视图添加到容器视图中。容器视图可能是window或者常规视图，但其始终被配置去执行动画。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-f137d9a181d5a7b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图10-2"></p>
+<p>有关转场动画上下文对象的更多信息，请参看<a href="https://developer.apple.com/documentation/uikit/uiviewcontrollercontexttransitioning" target="_blank" rel="external">UIViewControllerContextTransitioning Protocol Reference</a>。</p>
+<h3 id="转场动画协调器"><a href="#转场动画协调器" class="headerlink" title="转场动画协调器"></a>转场动画协调器</h3><p>对于系统提供的转场动画和自定义动画，UIKit都会创建一个转场动画协调器对象来促成我们可能需要执行的任何额外动画。除了呈现和移除视图控制器外，当屏幕旋转或者视图控制器的frame更改时，也可能会触发转场动画。所有的转场动画都意味着对视图层次结构的更改。转场动画协调器是一种跟踪这些更高并同时执行额外动画的方式。要访问转场动画协调器，请获取参与转场的视图控制器的<code>transitionCoordinator</code>属性，转场动画协调器仅在转场动画执行过程中存在。</p>
+<p>图10-3显示了转场动画协调器与参与转换的视图控制器之间的关系。使用转场动画协调器获取有关转场动画的信息，并注册想要与转场动画一起同时执行的动画块。转场动画协调器遵循<code>UIViewControllerTransitionCoordinatorContext</code>协议，该协议提供时间信息、有关动画当前状态的信息以及转场过程中涉及的视图和视图控制器。当注册的动画快被执行时，同样会接收到一个具有含有相同信息的转场动画上下文对象。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-3957cbfbb60fc03c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图10-3"></p>
+<p>有关转场动画协调器对象的更多信息，请参看<a href="https://developer.apple.com/documentation/uikit/uiviewcontrollertransitioncoordinator?language=objc" target="_blank" rel="external">UIViewControllerTransitionCoordinator Protocol Reference</a>。<br>有关可用于配置动画的上下文信息的信息，请参看<a href="https://developer.apple.com/documentation/uikit/uiviewcontrollertransitioncoordinatorcontext?language=objc" target="_blank" rel="external">UIViewControllerTransitionCoordinatorContext Protocol Reference</a>。</p>
+<h2 id="使用自定义动画来呈现一个视图控制器"><a href="#使用自定义动画来呈现一个视图控制器" class="headerlink" title="使用自定义动画来呈现一个视图控制器"></a>使用自定义动画来呈现一个视图控制器</h2><p>要使用自定义动画来呈现一个视图控制器，需要在现有视图控制器的操作方法中执行以下操作：</p>
+<ol>
+<li>创建需要呈现的视图控制器。</li>
+<li>创建自定义转场动画委托对象并将其分配给视图控制器的<code>transitioningDelegate</code>属性。转场动画委托的方法应该在被访问前创建并返回自定义的animator对象。</li>
+<li>调用<code>presentViewController:animated:completion:</code>方法来呈现视图控制器。</li>
+</ol>
+<p>当我们调用<code>presentViewController:animated:completion:</code>方法时，UIKit会启动转场。转场会在runloop的下一周期开始执行并继续，直到自定义animator对象调用<code>completeTransition:</code>方法。交互式转场允许我们在转场过程中处理触摸事件，但非交互式转场会在aniamtor对象指定的持续时间内运行。</p>
+<h2 id="实现转场动画委托方法"><a href="#实现转场动画委托方法" class="headerlink" title="实现转场动画委托方法"></a>实现转场动画委托方法</h2><p>转场动画委托的目的是创建并返回自定义animator对象。以下代码展示了转场动画委托方法的实现是多么简单。本示例创建并返回一个自定义aniamtor对象，大部分实际工作都由aniamtor对象本身处理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source &#123;</div><div class="line">    MyAnimator* animator = [[MyAnimator alloc] init];</div><div class="line">    return animator;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>转场动画委托的其他方法的实现与上面的方法一样简单。可以结合自定义逻辑，根据应用程序的当前状态返回不同的aniamtor对象。有关转场动画委托方法的更多信息，可以参看<a href="https://developer.apple.com/documentation/uikit/uiviewcontrollertransitioningdelegate?language=objc" target="_blank" rel="external">UIViewControllerTransitioningDelegate Protocol Reference</a>。</p>
+<h2 id="实现自定义animator对象"><a href="#实现自定义animator对象" class="headerlink" title="实现自定义animator对象"></a>实现自定义animator对象</h2><p>animator对象是任何符合<code>UIViewControllerAnimatedTransitioning</code>协议的对象。animator对象创建在固定时间段内执行的动画。aniamtor对象的关键是其<code>animateTransition:</code>方法，可以使用该方法来创建实际的动画。动画过程大致分为以下几个部分：</p>
+<ol>
+<li>获取动画参数。</li>
+<li>使用Core Animation或者UIView动画方法创建动画。</li>
+<li>清理并完成转场动画。</li>
+</ol>
+<h3 id="获取动画参数"><a href="#获取动画参数" class="headerlink" title="获取动画参数"></a>获取动画参数</h3><p>传递给<code>animateTransition:</code>方法的转场动画上下文对象包含执行动画时需要使用的数据。绝对不要使用自己的缓存信息或者从视图控制器获取的信息，因为可以从转场动画上下文对象中获取更多最新信息，并且呈现和移除视图控制器时会涉及视图控制器之外的对象。例如，使用presentation controller可能会添加一个背景视图作为呈现内容的一部分。转场动画上下文对象会考虑额外的视图和对象，并为我们提供正确的视图去执行动画。</p>
+<ul>
+<li>两次调用<code>viewControllerForKey:</code>方法以获得转场过程中涉及的“from”和“to”视图控制器。<strong>切勿</strong>假设我们已经知道哪些视图控制器参与了转场，UIKit可能会在适应新的屏幕特性环境或者响应该应用程序的请求时更改视图控制器。</li>
+<li>调用<code>containerView</code>方法来获取动画的容器视图，并将所有关键子视图添加到此视图上。例如，在呈现期间，将被呈现的视图控制器的视图添加到此视图。</li>
+<li>调用<code>viewForKey:</code>方法获取需要被添加或者移除的视图。视图控制器的视图可能不是在转场动画期间添加或者删除的唯一视图。presentation controller可能会将某些视图插入到视图层次结构中，这些视图也必须被添加或者删除。<code>viewForKey:</code>方法返回包含需要添加或者删除的所有内容的根视图。</li>
+<li>调用<code>finalFrameForViewController:</code>方法来获取被添加或者删除的视图的最终<code>frame</code>。</li>
+</ul>
+<p>转场动画上下文对象使用“from”和“to”命名来标识转场中涉及的视图控制器、视图和frame。“from”视图控制器始终是其视图在转场动画刚开始时就在屏幕上的视图控制器，而“to”视图控制器是其视图在转场动画结束时可见的视图控制器。如图10-4所示，“from”和“to”视图控制器在呈现和移除之间交换位置。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-f64eab938b83262d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图10-4"></p>
+<p>对于呈现视图控制器，请将“from”视图添加到容器视图层次结构中。对于移除视图控制器，请从容器视图层次结构中移除“from”视图。</p>
+<h3 id="创建转场动画"><a href="#创建转场动画" class="headerlink" title="创建转场动画"></a>创建转场动画</h3><p>在典型的转场过程中，需要呈现的视图控制器的视图动画显示到屏幕上。其他视图也可能执行动画，该动画属于整个转场动画的一部分。动画的主要目标始终是视图被添加到视图层次结构中。</p>
+<ul>
+<li>呈现动画：</li>
+<li>使用<code>viewControllerForKey:</code>和<code>viewForKey:</code>方法来得到转场过程中涉及的视图控制器和视图。</li>
+<li>设置”to”视图的起始位置，以及设置其他任何属性的起始值。</li>
+<li>从转场动画上下文对象的<code>finalFrameForViewController:</code>方法获取“to”视图的最终位置。</li>
+<li>添加“to”视图到容器视图上。</li>
+<li>创建动画。</li>
+<li>在动画Block中，将“to”视图从起始位置动画到在容器视图中的最终位置。同时，将其他任何属性也设置为它们的最终值。</li>
+<li><p>在完成Block中，调用<code>completeTransition:</code>方法并执行任何其他清理。</p>
+</li>
+<li><p>移除动画：</p>
+</li>
+<li>使用<code>viewControllerForKey:</code>和<code>viewForKey:</code>方法来得到转场过程中涉及的视图控制器和视图。</li>
+<li>计算”from”视图的最终位置，此视图属于目前被移除的已经呈现的视图控制器。</li>
+<li>添加“to”视图到容器视图上。在执行呈现转场动画过程中，发起呈现的视图控制器的视图会在转场完成后被删除。因此，我们必须在移除转场动画过程中将该视图添加回容器视图中。</li>
+<li>创建动画。</li>
+<li>在动画Block中，将“from”视图从起始位置动画到在容器视图中的最终位置。同时，将其他任何属性也设置为它们的最终值。</li>
+<li>在完成Block中，从视图层中移除“from”视图并调用<code>completeTransition:</code>方法并执行需要的任何其他清理。</li>
+</ul>
+<p>图10-5显示了一个自定义的呈现和移除转场动画，它们可以对角地呈现视图。在呈现过程中，需要呈现的视图从屏幕边缘开始沿着对角线向左上方移动，直至完全可见。在移除过程中，动画方向颠倒，视图向右下方移动，直到它完全离开屏幕。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-3576a9dc191ff92b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图10-5"></p>
+<p>以下代码显示了如何实现图10-5中的转场动画：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">- (void)animateTransition:(id&lt;UIViewControllerContextTransitioning&gt;)transitionContext &#123;</div><div class="line">    // Get the set of relevant objects.</div><div class="line">    UIView *containerView = [transitionContext containerView];</div><div class="line">    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];</div><div class="line">    UIViewController *toVC   = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];</div><div class="line"></div><div class="line">    UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];</div><div class="line">    UIView *fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];</div><div class="line"></div><div class="line">    // Set up some variables for the animation.</div><div class="line">    CGRect containerFrame = containerView.frame;</div><div class="line">    CGRect toViewStartFrame = [transitionContext initialFrameForViewController:toVC];</div><div class="line">    CGRect toViewFinalFrame = [transitionContext finalFrameForViewController:toVC];</div><div class="line">    CGRect fromViewFinalFrame = [transitionContext finalFrameForViewController:fromVC];</div><div class="line"></div><div class="line">    // Set up the animation parameters.</div><div class="line">    if (self.presenting) &#123;</div><div class="line">        // Modify the frame of the presented view so that it starts</div><div class="line">        // offscreen at the lower-right corner of the container.</div><div class="line">        toViewStartFrame.origin.x = containerFrame.size.width;</div><div class="line">        toViewStartFrame.origin.y = containerFrame.size.height;</div><div class="line">    &#125;else &#123;</div><div class="line">        // Modify the frame of the dismissed view so it ends in</div><div class="line">        // the lower-right corner of the container view.</div><div class="line">        fromViewFinalFrame = CGRectMake(containerFrame.size.width,containerFrame.size.height,toView.frame.size.width,toView.frame.size.height);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Always add the &quot;to&quot; view to the container.</div><div class="line">    // And it doesn&apos;t hurt to set its start frame.</div><div class="line">    [containerView addSubview:toView];</div><div class="line">    toView.frame = toViewStartFrame;</div><div class="line"></div><div class="line">    // Animate using the animator&apos;s own duration value.</div><div class="line">    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^&#123;</div><div class="line">        if (self.presenting) &#123;</div><div class="line">            // Move the presented view into position.</div><div class="line">            [toView setFrame:toViewFinalFrame];</div><div class="line">        &#125;else &#123;</div><div class="line">            // Move the dismissed view offscreen.</div><div class="line">            [fromView setFrame:fromViewFinalFrame];</div><div class="line">        &#125;</div><div class="line">    &#125;completion:^(BOOL finished)&#123;</div><div class="line">        BOOL success = ![transitionContext transitionWasCancelled];</div><div class="line"></div><div class="line">        // After a failed presentation or successful dismissal, remove the view.</div><div class="line">        if ((self.presenting &amp;&amp; !success) || (!self.presenting &amp;&amp; success)) &#123;</div><div class="line">            [toView removeFromSuperview];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // Notify UIKit that the transition has finished</div><div class="line">        [transitionContext completeTransition:success];</div><div class="line">    &#125;];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="动画结束后的清理"><a href="#动画结束后的清理" class="headerlink" title="动画结束后的清理"></a>动画结束后的清理</h3><p>在转场动画结束时，调用<code>completeTransition:</code>方法至关重要。调用该方法会告知UIKit转场动画已完成并且用户可能会开始使用所呈现的视图控制器，还会触发其他完成处理操作，包括发起呈现的视图控制器的<code>presentViewController:animated:completion:</code>方法和animator对象的<code>animationEnded:</code>方法的完成处理操作。调用<code>completeTransition:</code>方法的最佳位置在动画块的完成处理操作中。</p>
+<p>因为转场动画在执行过程中能够被取消，所以应该使用转场动画上下文对象的<code>transitionWasCancelled</code>方法的返回值来确定需要进行的清理。当呈现被取消时，animator对象必须撤销对视图层次结构所做的任何修改。移除也需要采取类似的行动。</p>
+<h2 id="为转场动画添加交互性"><a href="#为转场动画添加交互性" class="headerlink" title="为转场动画添加交互性"></a>为转场动画添加交互性</h2><p>使用动画交互的最简单方法是使用<code>UIPercentDrivenInteractiveTransition</code>对象。<code>UIPercentDrivenInteractiveTransition</code>对象与现有的animator对象配合使用来控制动画的时间，其使用我们提供的完成百分比来执行此操作。我们只需要配置好计算完成百分比和在每个新事件到达时更新完成百分比的代码。</p>
+<p>我们可以直接使用<code>UIPercentDrivenInteractiveTransition</code>类，也可以使用其子类。如果使用其子类，则使用子类的<code>init</code>方（或者<code>startInteractiveTransition:</code>方法）来执行事件处理代码的一次性设置。之后，使用自定义的事件处理代码来计算新的完成百分比并调用<code>updateInteractiveTransition:</code>方法。当确定已完成转场时，请调用<code>finishInteractiveTransition</code>方法。</p>
+<p>以下代码显示了<code>UIPercentDrivenInteractiveTransition</code>子类的<code>startInteractiveTransition:</code>方法的自定义实现。此方法设置了一个拖拽手势识别器来跟踪触摸事件，并将其与执行动画的容器视图相关联。该方法还保存了对转场动画上下文对象的引用以供以后使用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (void)startInteractiveTransition:(id&lt;UIViewControllerContextTransitioning&gt;)transitionContext &#123;</div><div class="line">    // Always call super first.</div><div class="line">    [super startInteractiveTransition:transitionContext];</div><div class="line"></div><div class="line">    // Save the transition context for future reference.</div><div class="line">    self.contextData = transitionContext;</div><div class="line"></div><div class="line">    // Create a pan gesture recognizer to monitor events.</div><div class="line">    self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeUpdate:)];</div><div class="line">    self.panGesture.maximumNumberOfTouches = 1;</div><div class="line"></div><div class="line">    // Add the gesture recognizer to the container view.</div><div class="line">    UIView* container = [transitionContext containerView];</div><div class="line">    [container addGestureRecognizer:self.panGesture];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>每当有新的触摸事件传入时，手势识别器调用其关联的操作方法。实现操作方法时，可以使用手势识别器的状态信息来确定手势是成功、失败还是仍在进行中。同时，可以使用最新的触摸事件信息来计算新的完成百分比值。</p>
+<p>以下代码显示了配置的拖拽手势识别器关联的操作方法。当有新事件传入时，此方法会使用触摸位置在垂直方向上移动的距离来计算动画的完成百分比。当手势结束时，完成转场。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">- (void)handleSwipeUpdate:(UIGestureRecognizer *)gestureRecognizer &#123;</div><div class="line"></div><div class="line">    UIView* container = [self.contextData containerView];</div><div class="line"></div><div class="line">    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) &#123;</div><div class="line">    </div><div class="line">        // Reset the translation value at the beginning of the gesture.</div><div class="line">        [self.panGesture setTranslation:CGPointMake(0, 0) inView:container];</div><div class="line">        </div><div class="line">    &#125;else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) &#123;</div><div class="line">    </div><div class="line">        // Get the current translation value.</div><div class="line">        CGPoint translation = [self.panGesture translationInView:container];</div><div class="line"></div><div class="line">        // Compute how far the gesture has travelled vertically,</div><div class="line">        // relative to the height of the container view.</div><div class="line">        CGFloat percentage = fabs(translation.y / CGRectGetHeight(container.bounds));</div><div class="line"></div><div class="line">        // Use the translation value to update the interactive animator.</div><div class="line">        [self updateInteractiveTransition:percentage];</div><div class="line">        </div><div class="line">    &#125;else if (gestureRecognizer.state &gt;= UIGestureRecognizerStateEnded) &#123;</div><div class="line">    </div><div class="line">        // Finish the transition and remove the gesture recognizer.</div><div class="line">        [self finishInteractiveTransition];</div><div class="line">        [[self.contextData containerView] removeGestureRecognizer:self.panGesture];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong>重要</strong>：我们计算出来的值代表着动画的完成百分比。对于交互式动画，可能需要避免非线性效应。例如，动画本身的初始速度、阻尼值和非线性完成曲线。这些效应倾向于将触摸位置与任何底层视图的移动分开。</p>
+</blockquote>
+<h2 id="创建与转场动画同时执行的动画"><a href="#创建与转场动画同时执行的动画" class="headerlink" title="创建与转场动画同时执行的动画"></a>创建与转场动画同时执行的动画</h2><p>转场动画过程中涉及的视图控制器可以在转场动画过程中同时执行其他动画。例如，要呈现的视图控制器可能需要在转场过程中对其自己的视图层次结构进行动画处理，并在转场开始时添加运动效果或者其他视觉效果。任何对象都可以创建动画，只要其能访问发起呈现或者被呈现的视图控制器的<code>transitionCoordinator</code>属性即可。转场动画协调器只在转场过程中才存在。</p>
+<p>要创建动画，请调用转场动画协调器的<code>animateAlongsideTransition:completion:</code>或者<code>animateAlongsideTransitionInView:animation:completion:</code>方法。我们提供的动画块将被存储直到转场动画开始，此时它们将会与其余的转场动画一起执行。</p>
+<h2 id="在转场动画中使用presentation-controller"><a href="#在转场动画中使用presentation-controller" class="headerlink" title="在转场动画中使用presentation controller"></a>在转场动画中使用presentation controller</h2><p>对于自定义呈现，我们可以提供自定义的presentation controller，为需要呈现的视图控制器提供自定义外观。presentation controller管理着与被呈现的视图控制器及其内容分离的任何视图。例如，放置在被呈现的视图控制器的视图后面的调光视图就由presentation controller管理。</p>
+<p>我们可以在呈现的视图控制器的转场动画代理中提供自定义presentation controller（视图控制器的<code>modalTransitionStyle</code>属性值必须为<code>UIModalPresentationCustom</code>）。presentation controller与任何animator对象并行操作。随着animator对象将视图控制器的视图动画到其最终位置，presentation controller也会同时将任何其他视图动画到它们的最终位置。在转场结束时，presentation controller有机会对视图层次结构执行任何最终调整。</p>
+<p>有关如何创建自定义presentation controller的信息，请参看<a href="https://developer.apple.com/library/content/featuredarticles/ViewControllerPGforiPhoneOS/DefiningCustomPresentations.html#//apple_ref/doc/uid/TP40007457-CH25-SW1" target="_blank" rel="external">Creating Custom Presentations</a>;</p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>Demo地址：<a href="https://github.com/zhangshijian/UIViewControllerDemo" target="_blank" rel="external">https://github.com/zhangshijian/UIViewControllerDemo</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/04/UIViewController详解-呈现和转场动画/" rel="next" title="UIViewController详解 -- 呈现和转场动画">
+                <i class="fa fa-chevron-left"></i> UIViewController详解 -- 呈现和转场动画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/08/UIViewController详解-创建自定义presentation-controller/" rel="prev" title="UIViewController详解 -- 创建自定义presentation controller">
+                UIViewController详解 -- 创建自定义presentation controller <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ShiJian" />
+          <p class="site-author-name" itemprop="name">ShiJian</p>
+           
+              <p class="site-description motion-element" itemprop="description">光阴给我们经验,读书给我们知识.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangshijian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/shijianzzzz" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#转场动画序列"><span class="nav-number">1.</span> <span class="nav-text">转场动画序列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#转场动画委托对象"><span class="nav-number">1.1.</span> <span class="nav-text">转场动画委托对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义动画序列"><span class="nav-number">1.2.</span> <span class="nav-text">自定义动画序列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转场动画上下文对象"><span class="nav-number">1.3.</span> <span class="nav-text">转场动画上下文对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转场动画协调器"><span class="nav-number">1.4.</span> <span class="nav-text">转场动画协调器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用自定义动画来呈现一个视图控制器"><span class="nav-number">2.</span> <span class="nav-text">使用自定义动画来呈现一个视图控制器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现转场动画委托方法"><span class="nav-number">3.</span> <span class="nav-text">实现转场动画委托方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现自定义animator对象"><span class="nav-number">4.</span> <span class="nav-text">实现自定义animator对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取动画参数"><span class="nav-number">4.1.</span> <span class="nav-text">获取动画参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建转场动画"><span class="nav-number">4.2.</span> <span class="nav-text">创建转场动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动画结束后的清理"><span class="nav-number">4.3.</span> <span class="nav-text">动画结束后的清理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为转场动画添加交互性"><span class="nav-number">5.</span> <span class="nav-text">为转场动画添加交互性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建与转场动画同时执行的动画"><span class="nav-number">6.</span> <span class="nav-text">创建与转场动画同时执行的动画</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在转场动画中使用presentation-controller"><span class="nav-number">7.</span> <span class="nav-text">在转场动画中使用presentation controller</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo"><span class="nav-number">8.</span> <span class="nav-text">Demo</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiJian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://ShiJian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/06/10/UIViewController详解-自定义转场动画/';
+          this.page.identifier = '2017/06/10/UIViewController详解-自定义转场动画/';
+          this.page.title = 'UIViewController详解 -- 自定义转场动画';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ShiJian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

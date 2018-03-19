@@ -1,0 +1,859 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Cocoa operation以一种面向对象的方式来封装需要异步执行的工作，operation被设计为与operation queue一起使用或者单独使用。因为它们基于Objective-C，所以OS X和iOS中基于Cocoa的应用程序最常使用它们。 关于Operation对象operation对象是NSOperation类的实例，用于封装希望应用程序执行的工作。NSOperation类本身是一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS并发编程 -- Operation Queues">
+<meta property="og:url" content="http://yoursite.com/2017/11/02/iOS并发编程-Operation-Queues/index.html">
+<meta property="og:site_name" content="ShiJian">
+<meta property="og:description" content="Cocoa operation以一种面向对象的方式来封装需要异步执行的工作，operation被设计为与operation queue一起使用或者单独使用。因为它们基于Objective-C，所以OS X和iOS中基于Cocoa的应用程序最常使用它们。 关于Operation对象operation对象是NSOperation类的实例，用于封装希望应用程序执行的工作。NSOperation类本身是一">
+<meta property="og:updated_time" content="2018-03-19T16:35:15.047Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS并发编程 -- Operation Queues">
+<meta name="twitter:description" content="Cocoa operation以一种面向对象的方式来封装需要异步执行的工作，operation被设计为与operation queue一起使用或者单独使用。因为它们基于Objective-C，所以OS X和iOS中基于Cocoa的应用程序最常使用它们。 关于Operation对象operation对象是NSOperation类的实例，用于封装希望应用程序执行的工作。NSOperation类本身是一">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/02/iOS并发编程-Operation-Queues/"/>
+
+
+
+
+
+  <title>iOS并发编程 -- Operation Queues | ShiJian</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiJian</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/02/iOS并发编程-Operation-Queues/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiJian">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS并发编程 -- Operation Queues</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-02T00:30:38+08:00">
+                2017-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/02/iOS并发编程-Operation-Queues/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/11/02/iOS并发编程-Operation-Queues/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Cocoa operation以一种面向对象的方式来封装需要异步执行的工作，operation被设计为与operation queue一起使用或者单独使用。因为它们基于Objective-C，所以OS X和iOS中基于Cocoa的应用程序最常使用它们。</p>
+<h2 id="关于Operation对象"><a href="#关于Operation对象" class="headerlink" title="关于Operation对象"></a>关于Operation对象</h2><p>operation对象是<code>NSOperation</code>类的实例，用于封装希望应用程序执行的工作。<code>NSOperation</code>类本身是一个抽象类，为了做任何有用的工作，其必须被分类。尽管是抽象的，但该类确实提供了大量的基础设施来尽量减少我们在自己的子类中要完成的工作量。另外，Foundation框架提供了两个具体的子类，我们可以使用现有代码使用它们。下表列出了这些类以及如何使用每个类的描述。</p>
+<a id="more"></a>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NSInvocationOperation</td>
+<td>使用该类基于应用程序中的对象和方法选择器来创建operation对象。当存在一个执行所需任务的方法时，则可以使用此类。因为它不需要子类化，所以可以使用此类以更动态的方式创建operation对象。</td>
+</tr>
+<tr>
+<td>NSBlockOperation</td>
+<td>使用该类并行执行一个或多个block对象。因为它可以执行多个block，所以block operation对象使用一组语义来操作。只有当所有关联的block已经完成执行时，操作本身才算完成。</td>
+</tr>
+<tr>
+<td>NSOperation</td>
+<td>该类是用于自定义operation对象的基类。通过子类化NSOperation，我们可以完全控制自己操作的实现，包括更改操作执行的默认方式并报告其状态的功能。</td>
+</tr>
+</tbody>
+</table>
+<p>所有operation对象都支持以下主要功能：</p>
+<ul>
+<li>支持在operation对象之间建立基于图形的依赖关系。这些依赖关系会阻止给定的操作运行，直到它所依赖的所有操作都已完成运行。</li>
+<li>支持可选的完成block，该block在操作的主任务完成后执行（仅限OS X v10.6及更高版本）。</li>
+<li>支持使用KVO通知监听对操作执行状态的更改。</li>
+<li>支持对操作进行优先级排序，从而影响其相对执行顺序。</li>
+<li>支持取消正在执行的操作。</li>
+</ul>
+<p>operation旨在帮助提高应用程序中的并发水平。operation也是将应用程序行为组织和封装为简单离散块的好方式。可以将一个或多个operation对象提交给一个队列，并让相应的工作在一个或者多个单独的线程上异步执行，而不是在应用程序的主线程上运行一些代码。</p>
+<h2 id="并发与非并发操作"><a href="#并发与非并发操作" class="headerlink" title="并发与非并发操作"></a>并发与非并发操作</h2><p>虽然通常通过将操作添加到操作队列来执行操作，但这不是必需的。也可以通过调用操作对象的<code>start</code>方法手动执行操作，但这样做并不能保证该操作与其他代码同时运行。<code>NSOperation</code>类的<code>isConcurrent</code>方法会告知我们一个操作相对于调用<code>start</code>方法的线程是同步还是异步运行的。默认情况下，此方法返回<code>NO</code>，这意味着该操作在调用线程中同步运行。</p>
+<p>如果想实现一个并发操作，必须编写额外的代码来异步启动操作。例如，我们可能会创建一个单独的线程，调用异步系统函数或执行其他任何操作来确保<code>start</code>方法启动任务并立即返回，并且很可能在任务完成之前返回。</p>
+<p>大多数开发者应该永远不需要实现并发操作对象。如果始终将操作添加到操作队列中，则不需要实现并发操作对象。当向操作队列提交非并发操作时，队列本身会创建一个线程来运行这些操作。因此，操作队列添加非并发操作队列仍然会导致异步执行操作对象代码。只有在需要异步执行操作而不将其添加到操作队列的情况下，才需要定义并发操作的能力。</p>
+<h2 id="创建NSInvocationOperation对象"><a href="#创建NSInvocationOperation对象" class="headerlink" title="创建NSInvocationOperation对象"></a>创建NSInvocationOperation对象</h2><p><code>NSInvocationOperation</code>类是<code>NSOperation</code>的具体子类，它在运行时会调用指定的关联对象的方法。使用此类可以避免为应用程序中的每个任务自定义大量的operation对象。特别是如果我们需要修改现有的应用程序并且已经拥有执行必要任务所需的对方和方法。当我们想要调用的方法可以根据具体情况而改变时，可以选择使用该类。例如，可以使用调用操作来执行基于用户输入动态选择的方法选择器。</p>
+<p>创建一个<code>NSInvocationOperation</code>对象的过程非常简单。可以创建并初始化类的新实例，将所需的对象和方法选择器传递给初始化方法。以下代码显示了自定义类中的两个方法，用于演示创建过程。<code>taskWithData:</code>方法创建一个新的调用对象并为其提供另一个方法的名称，该方法包含任务的实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">- (NSOperation*)taskWithData:(id)data</div><div class="line">&#123;</div><div class="line">    NSInvocationOperation* theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(myTaskMethod:) object:data];</div><div class="line"></div><div class="line">    return theOp;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// This is the method that does the actual work of the task.</div><div class="line">- (void)myTaskMethod:(id)data</div><div class="line">&#123;</div><div class="line">    // Perform the task.</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure></p>
+<h2 id="创建一个NSBlockOperation对象"><a href="#创建一个NSBlockOperation对象" class="headerlink" title="创建一个NSBlockOperation对象"></a>创建一个NSBlockOperation对象</h2><p><code>NSBlockOperation</code>类是<code>NSOperation</code>的具体子类，充当一个或多个block对象的包装。此类为已经已经使用操作队列并且不想创建调度队列的应用程序提供面向对象的包装器。还可以使用block操作来利用操作依赖关系、KVO 以及可能不适用于调度队列的其他功能。</p>
+<p>在创建一个block操作时，通常在初始化时至少添加一个block，并在稍后根据需要添加更多block。当需要执行<code>NSBlockOperation</code>对象时，该操作对象将其所有block对象提交给默认优先级的并发调度队列（concurrent dispatch queue）。操作对象会等待所有block完成执行，当最后一个block完成执行时，操作对象将自身标记为已完成。因此，我们可以使用block操作来跟踪一组正在执行的block，就像使用线程联结合并多个线程的结果一样。区别在于，<strong>因为block操作本身在单独的线程上运行，所以应用程序的其他线程可以在等待block操作完成的同时继续工作。</strong></p>
+<p>以下代码显示了如何创建一个<code>NSBlockOperation</code>对象的简单示例。该block本身没有参数并且没有返回结果。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">NSBlockOperation* theOp = [NSBlockOperation blockOperationWithBlock: ^&#123;</div><div class="line"></div><div class="line">    NSLog(@&quot;Beginning operation.\n&quot;);</div><div class="line">    // Do some work.</div><div class="line">&#125;];</div></pre></td></tr></table></figure></p>
+<p>创建block操作对象后，可以使用<code>addExecutionBlock:</code>方法向其添加更多block。如果需要连续执行block，则必须将它们直接提交到所需的调度队列。</p>
+<h2 id="定义一个自定义操作对象"><a href="#定义一个自定义操作对象" class="headerlink" title="定义一个自定义操作对象"></a>定义一个自定义操作对象</h2><p>如果block操作和invocation操作对象不能完全满足应用程序的需求，则可以直接子类化<code>NSOperation</code>并添加所需的任何行为。<code>NSOperation</code>类为所有操作对象提供了一个通用的继承点。该类还提供了大量的基础设施来处理依赖关系和KVO通知所需的大部分工作。但是，我们可能还需要补充现有的基础设施，以确保我们的操作正确。必须执行的额外工作量取决于我们是在执行非并发还是并发操作。</p>
+<p>定义非并发操作比定义并发操作简单得多。对于非并发操作，只需执行主要任务并对取消事件作出对应的响应。现有的类级别的基础设施为我们完成了所有其他工作。对于并发操作，必须用我们的自定义代码替换一些现有的基础架构。以下部分展示了如何实现这两种类型的对象。</p>
+<h3 id="执行主要任务"><a href="#执行主要任务" class="headerlink" title="执行主要任务"></a>执行主要任务</h3><p>每个操作对象至少应该实现以下方法：</p>
+<ul>
+<li>自定义初始化方法。</li>
+<li><code>main</code>方法。</li>
+</ul>
+<p>我们需要一个自定义的初始化方法来将操作对象设置为已知状态，还需要自定义<code>main</code>方法来执行我们的任务。还可以根据需要实现其他方法，如下所示：</p>
+<ul>
+<li>计划在<code>main</code>方法的实现中调用的自定义方法。</li>
+<li>用于设置数据值和访问操作结果的访问器方法。</li>
+<li>允许我们归档和反归档操作对象的NSCoding协议方法。</li>
+</ul>
+<p>以下代码展示了一个自定义<code>NSOperation</code>子类的初始模版。（以下代码并未展示如何取消正在执行的操作，只展示了我们通常会使用的方法。有关如何取消操作的信息，请参看<a href="jump">响应取消事件</a>。）此类的初始化方法将单个对象用作数据参数，并存储对操作对象的引用。在将结果返回给应用程序之前，<code>main</code>方法将处理该数据对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">@interface MyNonConcurrentOperation : NSOperation</div><div class="line"></div><div class="line">@property id (strong) myData;</div><div class="line"></div><div class="line">-(id)initWithData:(id)data;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation MyNonConcurrentOperation</div><div class="line"></div><div class="line">- (id)initWithData:(id)data &#123;</div><div class="line"></div><div class="line">    if (self = [super init]) myData = data;</div><div class="line">    </div><div class="line">    return self;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void)main &#123;</div><div class="line">    @try &#123;</div><div class="line">        // Do some work on myData and report the results.</div><div class="line">    &#125;</div><div class="line">    @catch(...) &#123;</div><div class="line">        // Do not rethrow exceptions.</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure></p>
+<p>有关如何实现<code>NSOperation</code>子类的详细示例，请参看<a href="https://developer.apple.com/library/content/samplecode/NSOperationSample/Introduction/Intro.html#//apple_ref/doc/uid/DTS10004184" target="_blank" rel="external">NSOperationSample</a>。</p>
+<h3 id="响应取消事件"><a href="#响应取消事件" class="headerlink" title="响应取消事件"></a>响应取消事件</h3><p>在一个操作开始执行之后，其会执行它的任务直到完成或者我们使用代码明确地取消操作。即使在操作开始执行之前，取消也可能随时发生。尽管<code>NSOperation</code>类为我们提供了一种取消操作的方法，但要意识到取消事件是自愿行为。如果一个操作被彻底终止，可能无法收回已分配的资源。因此，操作对象需要检查取消事件，并在操作过程中正常退出。</p>
+<p>为了支持操作对象中的取消操作，只需要定期在自定义代码中调用操作对象的<code>isCancelled</code>方法，并在该方法返回<code>YES</code>时立即执行<code>return</code>操作。无论操作的持续时间如何重要或者是直接子类化<code>NSOperation</code>还是使用其中一个具体的子类，支持取消操作都很重要。<code>isCancelled</code>方法本身非常轻量级，可以频繁调用而不会有任何明显的性能损失。在设计操作对象时，应考虑在代码中以下位置调用<code>isCancelled</code>方法：</p>
+<ul>
+<li>在执行任何实际的工作之前。</li>
+<li>在循环的每次迭代中至少一次，或者如果每次迭代相对较长，则更频繁。</li>
+<li>在代码中相对容易退出操作的任何地方。</li>
+</ul>
+<p>以下代码提供了一个非常简单的例子来说明如何在操作对象的<code>main</code>方法中响应取消事件。在这种情况下，每一次while循环都会调用<code>isCancelled</code>方法，允许在工作开始之前快速退出操作并且每隔一段时间再次执行一次。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">- (void)main &#123;</div><div class="line">    @try &#123;</div><div class="line">        BOOL isDone = NO;</div><div class="line"></div><div class="line">        while (![self isCancelled] &amp;&amp; !isDone) &#123;</div><div class="line">            // Do some work and set isDone to YES when finished</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    @catch(...) &#123;</div><div class="line">        // Do not rethrow exceptions.</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>虽然以上示例中没有执行清理的代码，但我们在实现时应该确保释放由我们的自定义代码分配的任何资源。</p>
+<h3 id="配置操作以支持并发执行"><a href="#配置操作以支持并发执行" class="headerlink" title="配置操作以支持并发执行"></a>配置操作以支持并发执行</h3><p>操作对象默认以同步方式执行，也就是说它们在调用其启动方法的线程中执行它们的任务。因为操作队列会为非并发操作对象提供线程，但大多数操作对象仍然是异步运行的。然而，如果我们计划手动执行操作对象并仍然希望它们异步执行，则必须采取适当的操作以确保它们可以运行。可以通过将操作对象定义为并发操作来完成此操作。</p>
+<p>下表列出了通常为了实现并发操作而重写的方法。</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>start</td>
+<td>（必需）所有并发操作都必须重写此方法，并用它们自己的自定义实现替换默认行为。要手动执行操作，请调用其<code>start</code>方法。因此，此方法的实现是自定义操作的起点，并且是设置执行任务的线程或者其他执行环境的位置。在自定义实现中，不能调用<code>super</code>。</td>
+</tr>
+<tr>
+<td>main</td>
+<td>（可选）此方法通常用于实现与操作对象关联的任务。虽然可以在<code>start</code>方法中执行任务，但使用此方法执行任务可以使设置和任务代码更清晰地分离。</td>
+</tr>
+<tr>
+<td>isExecuting<br>isFinished</td>
+<td>（必需）并发操作负责设置其执行环境并向外部报告该环境的状态。因此，并发操作必须保存一些状态信息，以知道它如何执行任务以及何时完成该任务。它必须使用这些方法报告该状态。<br>这些方法的实现必须是线程安全的，以便同时从其他线程调用。更改这些方法报告的值时，还必须按照预期的键路径生成对应的KVO通知。</td>
+</tr>
+<tr>
+<td>isConcurrent</td>
+<td>（必需）要将操作标识为并发操作，请覆写方法并返回<code>YES</code>。</td>
+</tr>
+</tbody>
+</table>
+<p>本节的余下部分显示了MyOperation类的示例实现，其演示了实现并发操作所需的基本代码。MyOperation类只是在它创建的单独线程上执行自己的<code>main</code>方法。<code>main</code>方法执行的实际工作师无关紧要的。示例的要点是要演示定义并发操作时需要提供的基础架构。</p>
+<p>以下代码显示了MyOperation类的接口和部分实现。MyOperation类的<code>isConcurrent</code>、<code>isExecuting</code>和<code>isFinished</code>方法的实现相对简单。<code>isConcurrent</code>方法应该简单地返回<code>YES</code>来表明这是一个并发操作。<code>isExecuting</code>和<code>isFinished</code>方法只是返回存储在类本身的实例变量中的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">@interface MyOperation : NSOperation &#123;</div><div class="line">BOOL        executing;</div><div class="line">BOOL        finished;</div><div class="line">&#125;</div><div class="line">- (void)completeOperation;</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation MyOperation</div><div class="line"></div><div class="line">- (id)init &#123;</div><div class="line"></div><div class="line">    self = [super init];</div><div class="line">    if (self) &#123;</div><div class="line">        executing = NO;</div><div class="line">        finished = NO;</div><div class="line">    &#125;</div><div class="line">    return self;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (BOOL)isConcurrent &#123;</div><div class="line">    return YES;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (BOOL)isExecuting &#123;</div><div class="line">    return executing;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (BOOL)isFinished &#123;</div><div class="line">    return finished;</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure></p>
+<p>以下代码显示了MyOperation类的<code>start</code>方法。该方法的实现很少，以便演示绝对必须执行的任务。在这种情况下，该方法只需启动一个新线程并配置该线程调用<code>main</code>方法。该方法还更新<code>executing</code>成员变量，并为<code>isExecuting</code>键路径生成KVO通知以反映该值的变化。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">- (void)start &#123;</div><div class="line">    // Always check for cancellation before launching the task.</div><div class="line">    if ([self isCancelled])</div><div class="line">    &#123;</div><div class="line">        // Must move the operation to the finished state if it is canceled.</div><div class="line">        [self willChangeValueForKey:@&quot;isFinished&quot;];</div><div class="line">        finished = YES;</div><div class="line">        [self didChangeValueForKey:@&quot;isFinished&quot;];</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // If the operation is not canceled, begin executing the task.</div><div class="line">    [self willChangeValueForKey:@&quot;isExecuting&quot;];</div><div class="line">    [NSThread detachNewThreadSelector:@selector(main) toTarget:self withObject:nil];</div><div class="line">    executing = YES;</div><div class="line">    [self didChangeValueForKey:@&quot;isExecuting&quot;];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>以下代码显示了MyOperation类的其余实现。如上代码所示，<code>main</code>方法是新线程的入口点。它执行与操作对象关联的任务，并在该任务最终完成时调用自定义<code>completeOperation</code>方法，<code>completeOperation</code>方法然后为<code>isExecuting</code>和<code>isFinished</code>键路径生成所需的KVO通知，以反映操作状态的变化。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">- (void)main &#123;</div><div class="line">    @try &#123;</div><div class="line"></div><div class="line">        // Do the main work of the operation here.</div><div class="line"></div><div class="line">        [self completeOperation];</div><div class="line">    &#125;</div><div class="line">    @catch(...) &#123;</div><div class="line">        // Do not rethrow exceptions.</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)completeOperation &#123;</div><div class="line">    [self willChangeValueForKey:@&quot;isFinished&quot;];</div><div class="line">    [self willChangeValueForKey:@&quot;isExecuting&quot;];</div><div class="line"></div><div class="line">    executing = NO;</div><div class="line">    finished = YES;</div><div class="line"></div><div class="line">    [self didChangeValueForKey:@&quot;isExecuting&quot;];</div><div class="line">    [self didChangeValueForKey:@&quot;isFinished&quot;];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>即使操作被取消，也应该始终通知KVO观察者操作对象现在已完成其工作。当操作对象依赖于其他操作对象的完成时，它会监听这些对象的<code>isFinished</code>键路径。只有当所有的对象都报告它们已经完成时，才会执行相关的操作信号，表明它已准备好运行。生成完成通知失败，可能会因此阻止应用程序中其他操作的执行。</p>
+<h3 id="维护KVO合规性"><a href="#维护KVO合规性" class="headerlink" title="维护KVO合规性"></a>维护KVO合规性</h3><p><code>NSOperation</code>类兼容了对以下键路径的键-值观察（KVO）：</p>
+<ul>
+<li>isCancelled</li>
+<li>isConcurrent</li>
+<li>isExecuting</li>
+<li>isReady</li>
+<li>dependencies</li>
+<li>queuePriority</li>
+<li>completionBlock</li>
+</ul>
+<p>如果覆写<code>start</code>方法或者对<code>NSOperation</code>对象进行除了重写<code>main</code>方法之外的任何重要定制，则必须确保定制对象对这些键路径保持KVO兼容。当覆写<code>start</code>方法时，最应该考虑的键路径应该是<code>isExecuting</code>和<code>isFinished</code>，这些是重新实现该方法时最常受影响的键路径。</p>
+<p>如果要实现对自定义依赖项（并非其他操作对象）的支持，还可以重写<code>isReady</code>方法，并强制它返回<code>NO</code>，直到满足自定义依赖项为止。（如果要实现自定义依赖项，同时仍然支持由<code>NSOperation</code>类提供的默认依赖项管理系统，请确保在<code>isReady</code>方法调用<code>super</code>。）当操作对象的准备状态更改时，为<code>isReady</code>键路径生成KVO通知报告这些变化。除非重写<code>addDependency:</code>或者<code>removeDependency:</code>方法，否则不需要担心为依赖键路径生成KVO通知。</p>
+<p>虽然可以为<code>NSOperation</code>的其他键路径生成KVO通知，但不太可能需要我们这样做。如果需要取消某项操作，则只需要调用现有的<code>cancel</code>方法即可。同样，很少需要修改操作对象中的队列优先级信息。最后，除非操作对象能够动态更改其并发状态，否则不需要为<code>isConcurrent</code>键路径提供KVO通知。</p>
+<p>与键-值观察（KVO）有关的更多信息以及如何在自定义对象中支持它的更多信息，请参看<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html#//apple_ref/doc/uid/10000177i" target="_blank" rel="external">Key-Value Observing Programming Guide</a>。</p>
+<h2 id="定制操作对象的执行行为"><a href="#定制操作对象的执行行为" class="headerlink" title="定制操作对象的执行行为"></a>定制操作对象的执行行为</h2><p>操作对象的配置在创建它们之后但在将它们添加到队列之前发生。本节中描述的配置类型可以应用于所有操作对象，无论是使用自定义<code>NSOperation</code>对象还是使用现有的<code>NSOperation</code>子类。</p>
+<h3 id="配置相互操作依赖"><a href="#配置相互操作依赖" class="headerlink" title="配置相互操作依赖"></a>配置相互操作依赖</h3><p>依赖关系是一种序列化不同操作对象的执行的方式。依赖于其他操作的操作无法开始执行，直到它所依赖的所有操作都已完成执行。因此，可以使用依赖关系来在两个操作对象之间创建简单的一对一依赖关系或构建复杂的对象依赖关系图。</p>
+<p>要建立两个操作对象之间的依赖关系，可以使用<code>NSOperation</code>对象的<code>addDependency:</code>方法。此方法创建从当前操作对象到作为参数指定的目标操作对象的<strong>单向</strong>依赖关系。这种依赖意味着当前对象不能执行，直到目标操作对象完成执行。依赖关系也不限于同一队列中的操作。操作对象管理它们自己的依赖关系，因此在操作之间创建依赖关系并将它们全部添加到不同的队列是完全可以接受的。然而，有一件不可接受的事情是在操作之间创建循环依赖关系。</p>
+<p>当一个操作的所有依赖都已经完成时，操作对象通常会准备好执行。（如果自定义<code>isReady</code>方法的行为，则操作的准备就会根据我们设置的条件来确定。）如果操作对象位于队列中，则队列可以随时开始执行该操作。如果打算手动执行操作，则由我们自己来调用操作对象的<code>start</code>方法。</p>
+<blockquote>
+<p><strong>重要</strong>：应始终在执行操作或将它们添加到操作队列之前配置依赖关系，之后添加的依赖项可能无法阻止给定的操作对象的执行。</p>
+</blockquote>
+<p>依赖关系依赖于在对象的状态发生改变时每个操作对象发送适当的KVO通知。如果要自定义操作对象的行为，则可能需要在自定义代码中生成对应的KVO通知，以避免导致依赖关系出现问题。</p>
+<h3 id="更改一个操作的执行优先级"><a href="#更改一个操作的执行优先级" class="headerlink" title="更改一个操作的执行优先级"></a>更改一个操作的执行优先级</h3><p>对于已经添加到队列中的操作，执行顺序首先取决于排队的操作是否准备就绪，然后才取决于相对优先级。是否准备就绪取决于操作对其他操作的依赖性，但优先级是操作对象本身的属性。默认情况下，所有新操作对象都具有“正常”优先级，但可以通过调用操作对象的<code>setQueuePriority:</code>方法来根据需要提高或降低该优先级。</p>
+<p><strong>优先级仅适用于在同一操作队列中的操作。</strong> 如果应用程序具有多个操作队列，则每个操作队列都独立于其他队列而优先执行自己的操作。因此，低优先级操作仍然可能在不同队列中的高优先级操作之间执行。</p>
+<p>优先级并不是依赖关系的替代。优先级决定操作队列开始执行其当前准备就绪的操作的顺序。例如，如果队列中既包含高优先级操作又包含低优先级操作，并且这两个操作都已准备就绪，则队列首先执行高优先级操作。但是，如果高优先级操作未准备就绪，但低优先级操作已准备就绪，则队列首先执行低优先级操作。如果要防止一个操作启动，直到另一个操作完成，则必须使用依赖关系。</p>
+<h3 id="更改底层线程优先级"><a href="#更改底层线程优先级" class="headerlink" title="更改底层线程优先级"></a>更改底层线程优先级</h3><p>在OS X v10.6及更高版本中，可以配置一个操作的底层线程的执行优先级。系统中的线程策略由内核管理，但通常优先级较高的线程比低优先级的线程有更多的运行机会。在操作对象中，可以将线程优先级指定为<strong>0.0</strong>到<strong>1.0</strong>范围的浮点值，其中0.0是最低优先级，1.0是最高优先级。如果没有指定明确的线程优先级，则该操作对象的默认线程优先级为0.5。</p>
+<p>要设置操作对象的线程优先级，必须在将操作对象添加到队列（或手动执行）之前调用其<code>setThreadPriority:</code>方法。当需要执行操作时，默认的<code>start</code>方法会使用指定的值来修改当前线程的优先级。这个新的优先级仅在操作对象的<code>main</code>方法执行期间有效。所有其他代码（包括操作的完成block）都以默认的线程优先级运行。如果创建并发操作，并因此重写<code>start</code>方法，则必须自己配置线程优先级。</p>
+<h3 id="配置完成Block"><a href="#配置完成Block" class="headerlink" title="配置完成Block"></a>配置完成Block</h3><p>在OS X v10.6及更高版本中，当主任务完成时，操作对象能够执行完成block。可以使用完成block来执行任何我们认为不是主要任务的工作。例如，可以使用完成block通知感兴趣的客户端操作本身已完成。并发操作对象可能会使用此block来生成其最终的KVO通知。</p>
+<p>要设置完成block，请使用<code>NSOperation</code>对象的<code>setCompletionBlock:</code>方法，我们传递给此方法的block应该没有参数并且没有返回值。</p>
+<h2 id="实现操作对象的一些提示"><a href="#实现操作对象的一些提示" class="headerlink" title="实现操作对象的一些提示"></a>实现操作对象的一些提示</h2>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/03/iOS并发编程-并发性和应用程序设计/" rel="next" title="iOS并发编程 -- 并发性和应用程序设计">
+                <i class="fa fa-chevron-left"></i> iOS并发编程 -- 并发性和应用程序设计
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/01/2017年个人总结/" rel="prev" title="2017年个人总结">
+                2017年个人总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="ShiJian" />
+          <p class="site-author-name" itemprop="name">ShiJian</p>
+           
+              <p class="site-description motion-element" itemprop="description">光阴给我们经验,读书给我们知识.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangshijian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/shijianzzzz" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Operation对象"><span class="nav-number">1.</span> <span class="nav-text">关于Operation对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发与非并发操作"><span class="nav-number">2.</span> <span class="nav-text">并发与非并发操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建NSInvocationOperation对象"><span class="nav-number">3.</span> <span class="nav-text">创建NSInvocationOperation对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建一个NSBlockOperation对象"><span class="nav-number">4.</span> <span class="nav-text">创建一个NSBlockOperation对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义一个自定义操作对象"><span class="nav-number">5.</span> <span class="nav-text">定义一个自定义操作对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#执行主要任务"><span class="nav-number">5.1.</span> <span class="nav-text">执行主要任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#响应取消事件"><span class="nav-number">5.2.</span> <span class="nav-text">响应取消事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置操作以支持并发执行"><span class="nav-number">5.3.</span> <span class="nav-text">配置操作以支持并发执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维护KVO合规性"><span class="nav-number">5.4.</span> <span class="nav-text">维护KVO合规性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定制操作对象的执行行为"><span class="nav-number">6.</span> <span class="nav-text">定制操作对象的执行行为</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置相互操作依赖"><span class="nav-number">6.1.</span> <span class="nav-text">配置相互操作依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改一个操作的执行优先级"><span class="nav-number">6.2.</span> <span class="nav-text">更改一个操作的执行优先级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改底层线程优先级"><span class="nav-number">6.3.</span> <span class="nav-text">更改底层线程优先级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置完成Block"><span class="nav-number">6.4.</span> <span class="nav-text">配置完成Block</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现操作对象的一些提示"><span class="nav-number">7.</span> <span class="nav-text">实现操作对象的一些提示</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiJian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://ShiJian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/11/02/iOS并发编程-Operation-Queues/';
+          this.page.identifier = '2017/11/02/iOS并发编程-Operation-Queues/';
+          this.page.title = 'iOS并发编程 -- Operation Queues';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ShiJian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
