@@ -93,16 +93,16 @@
 <meta name="description" content="概述应用程序使用响应者对象来接收和处理事件，属于UIResponder类的实例对象都是响应者，常见的子类包括UIView、UIViewController和UIApplication。响应者接收到原始事件后，必须处理该事件或者将此事件转发给另一个响应者。当应用程序接收到一个事件时，UIKit会自动将该事件指向最合适的响应者对象，此响应者称为第一响应者，第一响应者会将未处理的事件传递给处于激活状态的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="响应者、响应者链和事件处理">
-<meta property="og:url" content="http://yoursite.com/2016/07/05/响应者、响应者链和事件处理/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/08/25/响应者、响应者链和事件处理/index.html">
 <meta property="og:site_name" content="ShiJian">
 <meta property="og:description" content="概述应用程序使用响应者对象来接收和处理事件，属于UIResponder类的实例对象都是响应者，常见的子类包括UIView、UIViewController和UIApplication。响应者接收到原始事件后，必须处理该事件或者将此事件转发给另一个响应者。当应用程序接收到一个事件时，UIKit会自动将该事件指向最合适的响应者对象，此响应者称为第一响应者，第一响应者会将未处理的事件传递给处于激活状态的">
-<meta property="og:image" content="https://docs-assets.developer.apple.com/published/7c21d852b9/f17df5bc-d80b-4e17-81cf-4277b1e0f6e4.png">
-<meta property="og:image" content="https://docs-assets.developer.apple.com/published/7c21d852b9/08b952fe-6f46-41eb-8b8a-4830c1d48842.png">
-<meta property="og:updated_time" content="2017-12-04T14:16:48.000Z">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-0996a2fde508bb7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-14891d86ae7edb0a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-03-19T15:17:07.082Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="响应者、响应者链和事件处理">
 <meta name="twitter:description" content="概述应用程序使用响应者对象来接收和处理事件，属于UIResponder类的实例对象都是响应者，常见的子类包括UIView、UIViewController和UIApplication。响应者接收到原始事件后，必须处理该事件或者将此事件转发给另一个响应者。当应用程序接收到一个事件时，UIKit会自动将该事件指向最合适的响应者对象，此响应者称为第一响应者，第一响应者会将未处理的事件传递给处于激活状态的">
-<meta name="twitter:image" content="https://docs-assets.developer.apple.com/published/7c21d852b9/f17df5bc-d80b-4e17-81cf-4277b1e0f6e4.png">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4906302-0996a2fde508bb7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -130,7 +130,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/07/05/响应者、响应者链和事件处理/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/08/25/响应者、响应者链和事件处理/"/>
 
 
 
@@ -250,7 +250,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/05/响应者、响应者链和事件处理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/25/响应者、响应者链和事件处理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiJian">
@@ -279,8 +279,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-05T12:08:21+08:00">
-                2016-07-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-25T12:08:21+08:00">
+                2016-08-25
               </time>
             
 
@@ -298,9 +298,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/07/05/响应者、响应者链和事件处理/#comments" itemprop="discussionUrl">
+                <a href="/2016/08/25/响应者、响应者链和事件处理/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/07/05/响应者、响应者链和事件处理/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2016/08/25/响应者、响应者链和事件处理/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -326,8 +326,8 @@
 
       
         <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>应用程序使用响应者对象来接收和处理事件，属于<code>UIResponder</code>类的实例对象都是响应者，常见的子类包括<code>UIView</code>、<code>UIViewController</code>和<code>UIApplication</code>。响应者接收到原始事件后，必须处理该事件或者将此事件转发给另一个响应者。当应用程序接收到一个事件时，UIKit会自动将该事件指向最合适的响应者对象，此响应者称为第一响应者，第一响应者会将未处理的事件传递给处于激活状态的响应者链中的的下一个响应者对象。应用程序中不存在单一的响应者链，UIkit定义了如何将对象从一个响应者传递到下一个响应者的默认规则，我们可以随时通过覆盖响应者对象中的<code>nextResponder</code>属性来更改这些规则。下图显示了应用程序中的默认响应者链，其界面包含一个label，一个text field，一个button和两个background view。如果text field没有处理触摸事件，UIKit会将事件发送到text field的父视图对象，如果事件还是未被处理，UIKit会继续发送该事件到此视图的父视图，直到发送到window的根视图，然后响应者链从根视图转移到持有此根视图的视图控制器，再从视图控制器转移到window。如果window不处理这个事件，UIKit会将事件传递给<code>UIApplication</code>对象。如果应用程序的委托对象是<code>UIResponder</code>类的实例并且响应者链中还不包含该对象，那么UiKit可能将该事件传递给应用程序的委托对象。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-0996a2fde508bb7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图1-1"></p>
 <a id="more"></a>
-<p><img src="https://docs-assets.developer.apple.com/published/7c21d852b9/f17df5bc-d80b-4e17-81cf-4277b1e0f6e4.png" alt="图1-1"></p>
 <h2 id="确定事件的第一响应者"><a href="#确定事件的第一响应者" class="headerlink" title="确定事件的第一响应者"></a>确定事件的第一响应者</h2><p>对于每种类型的事件，UIKit都会指定一个第一响应者，并首先将事件发送给该对象，第一响应者根据事件的类型而有所不同：</p>
 <ul>
 <li>触摸事件(Touch events)：第一响应者是触摸点所在的视图。</li>
@@ -351,17 +351,17 @@
 <h2 id="触摸事件-Touch-events"><a href="#触摸事件-Touch-events" class="headerlink" title="触摸事件(Touch events)"></a>触摸事件(Touch events)</h2><h3 id="如何确定触摸事件的第一响应者"><a href="#如何确定触摸事件的第一响应者" class="headerlink" title="如何确定触摸事件的第一响应者"></a>如何确定触摸事件的第一响应者</h3><p>触摸事件的第一响应者是触摸位置所在的视图，UIKit使用基于视图的命中测试来确定触摸事件发生的位置。具体来说，UIKit将触摸位置与视图层中的视图对象的边界进行比较。<code>UIView</code>的<code>hitTest:withEvent:</code>方法会遍历视图层，寻找包含指定触摸位置的最深的子视图，这个视图就会成为触摸事件的第一响应者。</p>
 <p><code>hitTest:withEvent:</code>方法会遍历当前视图层，并调用每个子视图的<code>pointInside:withEvent:</code>方法来判断子视图的边界是否包含触摸点。如果<code>pointInside:withEvent:</code>方法返回<code>YES</code>，则会同样遍历子视图的视图层，直到找到包含触摸点的最上层视图。如果视图不包含该触摸点，那么此视图层分支会被忽略掉。因此，我们可以通过覆写<code>hitTest:withEvent:</code>方法来隐藏子视图中的触摸事件。此方法会忽略掉被隐藏、已禁用用户交互或者<code>alpha</code>小于<strong>0.01</strong>的视图对象。在确定命中视图时，此方法不会考虑视图的内容。因此，即使触摸点位于该视图内容的透明部分，仍然可以确定命中此视图。当视图的<code>clipsToBounds</code>的属性为<code>NO</code>时，如果触摸点在视图的边界之外，即使它的子视图恰好包含该触摸点，但子视图超出了视图的边界，<code>hitTest:withEvent:</code>方法也不会返回命中了此视图。</p>
 <p>UIKit会将每个触摸事件永久指定给包含触摸位置的最上层视图，当触摸开始时，UIKit会为每个触摸事件创建一个<code>UITouch</code>对象，直到触摸结束之后才会释放<code>UITouch</code>对象。随着触摸位置或其他参数的改变，UIKit会使用新信息更新<code>UITouch</code>对象，唯一不变的属性是触摸事件所属的<code>view</code>。即使触摸位置移动到触摸事件所属的原始视图之外，触摸事件所属视图也不会改变。</p>
-<h3 id="回应触摸事件"><a href="#回应触摸事件" class="headerlink" title="回应触摸事件"></a>回应触摸事件</h3><p>响应者对象都是<code>UIResponder</code>类的实例，在处理特定类型的事件时，系统会调用响应者对象相应的方法去回应事件，响应者必须覆写实现相应的方法。为了处理触摸事件，响应者对象需要实现<code>touchesBegan:withEvent:</code>、<code>touchesMoved:withEvent:</code>和<code>touchesEnded:withEvent:</code>方法中的一个或者多个。UIKit确定触摸事件的第一响应者之后，如果这个响应者类覆写实现了<code>touchesBegan:withEvent:</code>、<code>touchesMoved:withEvent:</code>和<code>touchesEnded:withEvent:</code>方法中的一个或者多个，那么当触摸开始发生时，系统会调用响应者对象的<code>touchesBegan:withEvent:</code>方法去回应触摸事件。当触摸位置移动时，会调用响应者对象的<code>touchesMoved:withEvent:</code>方法去回应，当触摸结束时，会调用<code>touchesEnded:withEvent:</code>方法去回应。如果这几个方法一个都没有被实现，那么UIKit会沿着默认的响应者链去传递触摸事件。如果响应者链中有响应者实现了前述方法，那么该响应者对象就会去处理传递来的触摸事件。否则，该触摸事件就不会被处理。</p>
+<h3 id="处理触摸事件"><a href="#处理触摸事件" class="headerlink" title="处理触摸事件"></a>处理触摸事件</h3><p>响应者对象都是<code>UIResponder</code>类的实例，在处理特定类型的事件时，系统会调用响应者对象相应的方法去回应事件，响应者必须覆写实现相应的方法。为了处理触摸事件，响应者对象需要实现<code>touchesBegan:withEvent:</code>、<code>touchesMoved:withEvent:</code>和<code>touchesEnded:withEvent:</code>方法中的一个或者多个。UIKit确定触摸事件的第一响应者之后，如果这个响应者类覆写实现了<code>touchesBegan:withEvent:</code>、<code>touchesMoved:withEvent:</code>和<code>touchesEnded:withEvent:</code>方法中的一个或者多个，那么当触摸开始发生时，系统会调用响应者对象的<code>touchesBegan:withEvent:</code>方法去回应触摸事件。当触摸位置移动时，会调用响应者对象的<code>touchesMoved:withEvent:</code>方法去回应，当触摸结束时，会调用<code>touchesEnded:withEvent:</code>方法去回应。如果这几个方法一个都没有被实现，那么UIKit会沿着默认的响应者链去传递触摸事件。如果响应者链中有响应者实现了前述方法，那么该响应者对象就会去处理传递来的触摸事件。否则，该触摸事件就不会被处理。</p>
 <p>系统还可以随时取消正在进行的触摸序列，当有来电打断应用程序时，UIKit会调用响应者的<code>touchesCancelled:withEvent:</code>方法去通知响应者当前触摸事件已经被系统取消了。</p>
-<p><img src="https://docs-assets.developer.apple.com/published/7c21d852b9/08b952fe-6f46-41eb-8b8a-4830c1d48842.png" alt="图4-1 触摸事件的阶段"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-14891d86ae7edb0a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图4-1 触摸事件的阶段"></p>
 <p><code>touchesBegan:withEvent:</code>、<code>touchesMoved:withEvent:</code>、<code>touchesEnded:withEvent:</code>和<code>touchesCancelled:withEvent:</code>方法分别对应于触摸事件处理过程的不同阶段。当手指(或Apple Pencil)触摸屏幕时，UIKit会创建一个<code>UITouch</code>对象，将触摸点设置为相应的屏幕坐标点，并将其<code>phase</code>属性值设为<code>UITouchPhaseBegan</code>。当手指在屏幕上移动时，UIKit会更新触摸位置，并将<code>UITouch</code>对象的<code>phase</code>属性值改变为<code>UITouchPhaseMoved</code>。当用户从屏幕上移开手指时，UIKit会将<code>phase</code>属性值改变为<code>UITouchPhaseEnded</code>，触摸序列结束。当触摸事件被系统取消时，UIKit会将<code>phase</code>属性值改变为<code>UITouchPhaseCancelled</code>。</p>
 <blockquote>
 <p><strong>重要</strong>：在默认配置下，当多个手指同时触摸视图时，视图也只会接收与事件关联的第一个<code>UITouch</code>对象。要接收额外的触摸事件，必须将视图的<code>multipleTouchEnabled</code>属性设为<code>YES</code>。</p>
 </blockquote>
-<h2 id="摇晃-运动事件-Shake-motion-events"><a href="#摇晃-运动事件-Shake-motion-events" class="headerlink" title="摇晃-运动事件(Shake-motion events)"></a>摇晃-运动事件(Shake-motion events)</h2><p>当系统监听到摇晃事件时，会寻找摇晃事件的第一响应者，并将该摇晃事件传递给第一响应者去处理，而摇晃事件的第一响应者是被我们自己(或者UIKit)指定为第一响应者的对象。覆写响应者对象的<code>canBecomeFirstResponder</code>方法并返回<code>YES</code>，同时调用其<code>becomeFirstResponder</code>方法，该响应者对象就会被指定为第一响应者。要对摇晃事件进行处理，响应者对象还需要至少覆写实现<code>motionBegan:withEvent:</code>和<code>motionEnded:withEvent:</code>方法中的一个。当摇晃事件开始发生时，系统会调用响应者对象的<code>motionBegan:withEvent:</code>方法去回应摇晃事件。当摇晃事件结束时，系统会调用响应者对象的<code>motionEnded:withEvent:</code>方法回应。如果第一响应者没有处理，那么UIKit会沿着响应者链传递该摇晃事件。</p>
+<h2 id="摇晃-运动事件"><a href="#摇晃-运动事件" class="headerlink" title="摇晃-运动事件"></a>摇晃-运动事件</h2><p>当系统监听到摇晃事件时，会寻找摇晃事件的第一响应者，并将该摇晃事件传递给第一响应者去处理，而摇晃事件的第一响应者是被我们自己(或者UIKit)指定为第一响应者的对象。覆写响应者对象的<code>canBecomeFirstResponder</code>方法并返回<code>YES</code>，同时调用其<code>becomeFirstResponder</code>方法，该响应者对象就会被指定为第一响应者。要对摇晃事件进行处理，响应者对象还需要至少覆写实现<code>motionBegan:withEvent:</code>和<code>motionEnded:withEvent:</code>方法中的一个。当摇晃事件开始发生时，系统会调用响应者对象的<code>motionBegan:withEvent:</code>方法去回应摇晃事件。当摇晃事件结束时，系统会调用响应者对象的<code>motionEnded:withEvent:</code>方法回应。如果第一响应者没有处理，那么UIKit会沿着响应者链传递该摇晃事件。</p>
 <p>当我们不需要再对摇晃事件进行处理时，需要调用当前响应者对象的<code>resignFirstResponder</code>方法注销其第一响应者身份。</p>
 <p><strong>注意：本人在iOS 11(11以下系统未试)下通过代码实践发现，按照上述步骤指定第一响应对象后，响应者对象并未接收到摇晃事件。当系统监听到摇晃事件时，UIKit直接将该摇晃事件发送给当前视图控制器，如果当前视图控制器覆写实现了<code>motionBegan:withEvent:</code>和<code>motionEnded:withEvent:</code>方法，那么当前视图控制器就会去处理该摇晃事件。如果没有，这个事件就不会被应用程序处理。</strong></p>
-<h2 id="远程控制事件-Remote-control-events"><a href="#远程控制事件-Remote-control-events" class="headerlink" title="远程控制事件(Remote-control events)"></a>远程控制事件(Remote-control events)</h2><p>远程控制事件主要是由耳机线控操作触发的，它和音频播放有关。远程控制事件有以下几种类型：</p>
+<h2 id="远程控制事件"><a href="#远程控制事件" class="headerlink" title="远程控制事件"></a>远程控制事件</h2><p>远程控制事件主要是由耳机线控操作触发的，它和音频播放有关。远程控制事件有以下几种类型：</p>
 <ul>
 <li><code>UIEventSubtypeRemoteControlPlay</code>：播放事件，在暂停状态下，按耳机线控中间按钮一下触发。</li>
 <li><code>UIEventSubtypeRemoteControlPause</code>：暂停事件，在播放状态下，按耳机线控中间按钮一下触发。</li>
@@ -562,7 +562,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#确定事件的第一响应者"><span class="nav-number">2.</span> <span class="nav-text">确定事件的第一响应者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改响应者链"><span class="nav-number">3.</span> <span class="nav-text">更改响应者链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#触摸事件-Touch-events"><span class="nav-number">4.</span> <span class="nav-text">触摸事件(Touch events)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何确定触摸事件的第一响应者"><span class="nav-number">4.1.</span> <span class="nav-text">如何确定触摸事件的第一响应者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回应触摸事件"><span class="nav-number">4.2.</span> <span class="nav-text">回应触摸事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摇晃-运动事件-Shake-motion-events"><span class="nav-number">5.</span> <span class="nav-text">摇晃-运动事件(Shake-motion events)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程控制事件-Remote-control-events"><span class="nav-number">6.</span> <span class="nav-text">远程控制事件(Remote-control events)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo"><span class="nav-number">7.</span> <span class="nav-text">Demo</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#确定事件的第一响应者"><span class="nav-number">2.</span> <span class="nav-text">确定事件的第一响应者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改响应者链"><span class="nav-number">3.</span> <span class="nav-text">更改响应者链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#触摸事件-Touch-events"><span class="nav-number">4.</span> <span class="nav-text">触摸事件(Touch events)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何确定触摸事件的第一响应者"><span class="nav-number">4.1.</span> <span class="nav-text">如何确定触摸事件的第一响应者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理触摸事件"><span class="nav-number">4.2.</span> <span class="nav-text">处理触摸事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摇晃-运动事件"><span class="nav-number">5.</span> <span class="nav-text">摇晃-运动事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程控制事件"><span class="nav-number">6.</span> <span class="nav-text">远程控制事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo"><span class="nav-number">7.</span> <span class="nav-text">Demo</span></a></li></ol></div>
             
 
           </div>
@@ -705,8 +705,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2016/07/05/响应者、响应者链和事件处理/';
-          this.page.identifier = '2016/07/05/响应者、响应者链和事件处理/';
+          this.page.url = 'http://yoursite.com/2016/08/25/响应者、响应者链和事件处理/';
+          this.page.identifier = '2016/08/25/响应者、响应者链和事件处理/';
           this.page.title = '响应者、响应者链和事件处理';
         };
         var d = document, s = d.createElement('script');
