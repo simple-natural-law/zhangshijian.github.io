@@ -96,7 +96,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/03/iOS并发编程-并发性和应用程序设计/index.html">
 <meta property="og:site_name" content="ShiJian">
 <meta property="og:description" content="在计算机发展初期，计算机可以执行的每单位时间的最大工作量取决于CPU的频率。但随着技术进步和处理器设计变得更加紧凑，热量和其他物理约束开始限制处理器的最大频率。因此，芯片制造商寻找其他方法来提高芯片的整体性能。他们的解决方案是增加每个芯片上处理器内核的数量。通过增加内核数量，单个芯片每秒可以执行更多指令，而不会增加CPU速率或者改变芯片尺寸或热特性。唯一的问题是如何利用额外的内核。 为了利用多个内">
-<meta property="og:updated_time" content="2018-03-19T16:30:06.123Z">
+<meta property="og:updated_time" content="2018-03-19T16:40:07.118Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS并发编程 -- 并发性和应用程序设计">
 <meta name="twitter:description" content="在计算机发展初期，计算机可以执行的每单位时间的最大工作量取决于CPU的频率。但随着技术进步和处理器设计变得更加紧凑，热量和其他物理约束开始限制处理器的最大频率。因此，芯片制造商寻找其他方法来提高芯片的整体性能。他们的解决方案是增加每个芯片上处理器内核的数量。通过增加内核数量，单个芯片每秒可以执行更多指令，而不会增加CPU速率或者改变芯片尺寸或热特性。唯一的问题是如何利用额外的内核。 为了利用多个内">
@@ -344,7 +344,7 @@
 <li>串行调度队列为锁和其他同步原函数提供了更高效的替代方案。</li>
 </ul>
 <p>提交给dispatch queue的任务必须封装在函数或者block对象中。block对象是OS X v10.6和iOS 4。0中引入的一种C语言特性，它在概念上类似于函数指针，但有一些额外的好处。通常在其他函数或方法中定义block，以便可以从该函数或方法访问其他变量。block也能被移出栈区并复制到堆区，这是将它们提交给dispatch queue时所发生的情况。所有这些语义都可以用较少的代码实现非常动态的任务。</p>
-<p>Dispatch queues是Grand Central Dispatch技术的一部分，是C语言运行时的一部分。有关在应用程序中使用dispatch queue的更多信息，请参看<a href="https://www.jianshu.com/p/4533e653d49f" target="_blank" rel="external">iOS并发编程 – Dispatch Queues</a>。有关block及其优点的更多信息，请参看<a href="https://www.jianshu.com/p/c1c03ae5a6a5" target="_blank" rel="external">Block编程指南</a>。</p>
+<p>Dispatch queues是Grand Central Dispatch技术的一部分，是C语言运行时的一部分。有关在应用程序中使用dispatch queue的更多信息，请参看<a href="jump">iOS并发编程 – Dispatch Queues</a>。有关block及其优点的更多信息，请参看<a href="jump">Block编程指南</a>。</p>
 <h3 id="Dispatch-Sources"><a href="#Dispatch-Sources" class="headerlink" title="Dispatch Sources"></a>Dispatch Sources</h3><p>Dispatch sources（调度源）是一种基于C语言的机制，其用于异步处理特定类型的系统事件。dispatch source封装了有关特定类型系统事件的信息，并在发生该事件时将特定block对象或者函数提交给dispatch queue。可以使用dispatch source来监视以下类型的系统事件：</p>
 <ul>
 <li>Timers</li>
@@ -354,11 +354,11 @@
 <li>Mach port events</li>
 <li>Custom events that you trigger</li>
 </ul>
-<p>Dispatch sources是Grand Central Dispatch技术的一部分。有关使用dispatch source在应用程序中接收事件的信息，请参看<a href="https://www.jianshu.com/p/6508aaf2df4e" target="_blank" rel="external">iOS并发编程 – Dispatch sources</a>。</p>
+<p>Dispatch sources是Grand Central Dispatch技术的一部分。有关使用dispatch source在应用程序中接收事件的信息，请参看<a href="jump">iOS并发编程 – Dispatch sources</a>。</p>
 <h3 id="Operation-Queues"><a href="#Operation-Queues" class="headerlink" title="Operation Queues"></a>Operation Queues</h3><p>Operation Queue（操作队列）是concurrent dispatch queue的Cocoa同等技术，由<code>NSOperationQueue</code>实现。dispatch queue总是按照先进先出的顺序执行任务，而operation queue在确定任务的执行顺序时会考虑其他因素。这些因素中最主要的是给定的任务是否取决于其他任务的完成。可以在定义任务时配置依赖关系，并可以使用它们为任务创建复杂的执行顺序图。</p>
 <p>提交给operation queue的任务必须是<code>NSOperation</code>类的实例。operation对象是一个Objective-C对象，其封装了想要执行的任务以及执行它所需要的任何数据。由于<code>NSOperation</code>类本质上是一个抽象基类，因此通常会定义自定义子类来执行任务。但是，Foundation框架确实包含了一些可以创建和使用的具体子类来执行任务。</p>
 <p>Operation对象会生成键-值观观察（KVO）通知，这是监视任务进度的有效方法。<strong>虽然operation queue总是并行执行操作，但可以使用依赖关系来确保在需要时它们被串行执行。</strong></p>
-<p>有关如何使用operation queue的更多信息以及如何自定义operation对象的更多信息，请参看<a href="https://www.jianshu.com/p/65ab102cac60" target="_blank" rel="external">iOS并发编程 – Operation Queues</a>。</p>
+<p>有关如何使用operation queue的更多信息以及如何自定义operation对象的更多信息，请参看<a href="jump">iOS并发编程 – Operation Queues</a>。</p>
 <h2 id="异步设计技术"><a href="#异步设计技术" class="headerlink" title="异步设计技术"></a>异步设计技术</h2><p>在考虑重新设计代码以支持并发之前，应该确定一下是否需要这样做。在确保主线程可以自由地响应用户事件的情况下，并发可以提高代码的响应速度。它甚至可以通过利用更多内核在相同的时间内完成更多工作来提高代码的效率。但是，它也增加了开销以及代码的整体复杂性，使得编写和调试代码变得更加困难。</p>
 <p>因为其增加了复杂性，所以并发不是在产品周期结束时可以移植到应用程序中的功能。要做到这一点，需要仔细考虑仔细考虑应用程序执行的任务以及用于执行这些任务的数据结构。如果使用方式不正确，可能会使代码的运行速度比以前更慢，并且对用户的响应性较差。因此，在设计周期的开始阶段花点时间设定一些目标并考虑需要采取的方法是值得的。</p>
 <h3 id="定义应用程序的预期行为"><a href="#定义应用程序的预期行为" class="headerlink" title="定义应用程序的预期行为"></a>定义应用程序的预期行为</h3><p>在考虑为应用程序添加并发性之前，应该首先定义什么才是应用程序的正确行为。了解应用程序的预期行为能够在之后验证此设计。还应该了解一下在引入并发后可能带来的预期性能优势。</p>
