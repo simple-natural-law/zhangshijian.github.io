@@ -90,16 +90,16 @@
 
 
 
-<meta name="description" content="2018年眨眼间就来了，今天对自己在2017年做过的事情做一下简单总结，并制定今年期望完成地目标，以记录自己不断慢慢成长的过程。 总结一2017年最大的收获是意识到自己患上了心理疾病，开始走上自我康复之路。通过阅读一些心理学书籍，明白了人生的真正价值在于与自己身边的人合作来为人类社会的发展做出自己的贡献。同时，也确定了自己的人生目标——不断学习，磨砺自己，成为一个比之前的自己更好的人。">
+<meta name="description" content="当我们与底层系统进行交互时，必须为该任务做好准备，以便只花费少量时间。调用内核或其他系统层涉及上下文的变化，与在我们自己的进程中发生的调用相比，这种变化相当昂贵。因此，许多系统库提供异步接口，以允许我们的代码向系统提交请求，并在处理该请求时继续执行其他工作。Grand Central Dispatch通过允许我们提交请求并使用block和调度队列将结果报告回我们的代码来构建此一般行为。 关于调度源">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2017年个人总结">
-<meta property="og:url" content="http://yoursite.com/2018/01/01/2017年个人总结/index.html">
+<meta property="og:title" content="iOS并发编程 -- Dispatch Sources">
+<meta property="og:url" content="http://yoursite.com/2018/01/28/iOS并发编程-Dispatch-Sources/index.html">
 <meta property="og:site_name" content="ShiJian">
-<meta property="og:description" content="2018年眨眼间就来了，今天对自己在2017年做过的事情做一下简单总结，并制定今年期望完成地目标，以记录自己不断慢慢成长的过程。 总结一2017年最大的收获是意识到自己患上了心理疾病，开始走上自我康复之路。通过阅读一些心理学书籍，明白了人生的真正价值在于与自己身边的人合作来为人类社会的发展做出自己的贡献。同时，也确定了自己的人生目标——不断学习，磨砺自己，成为一个比之前的自己更好的人。">
-<meta property="og:updated_time" content="2018-03-19T15:59:18.739Z">
+<meta property="og:description" content="当我们与底层系统进行交互时，必须为该任务做好准备，以便只花费少量时间。调用内核或其他系统层涉及上下文的变化，与在我们自己的进程中发生的调用相比，这种变化相当昂贵。因此，许多系统库提供异步接口，以允许我们的代码向系统提交请求，并在处理该请求时继续执行其他工作。Grand Central Dispatch通过允许我们提交请求并使用block和调度队列将结果报告回我们的代码来构建此一般行为。 关于调度源">
+<meta property="og:updated_time" content="2018-03-22T14:05:55.412Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2017年个人总结">
-<meta name="twitter:description" content="2018年眨眼间就来了，今天对自己在2017年做过的事情做一下简单总结，并制定今年期望完成地目标，以记录自己不断慢慢成长的过程。 总结一2017年最大的收获是意识到自己患上了心理疾病，开始走上自我康复之路。通过阅读一些心理学书籍，明白了人生的真正价值在于与自己身边的人合作来为人类社会的发展做出自己的贡献。同时，也确定了自己的人生目标——不断学习，磨砺自己，成为一个比之前的自己更好的人。">
+<meta name="twitter:title" content="iOS并发编程 -- Dispatch Sources">
+<meta name="twitter:description" content="当我们与底层系统进行交互时，必须为该任务做好准备，以便只花费少量时间。调用内核或其他系统层涉及上下文的变化，与在我们自己的进程中发生的调用相比，这种变化相当昂贵。因此，许多系统库提供异步接口，以允许我们的代码向系统提交请求，并在处理该请求时继续执行其他工作。Grand Central Dispatch通过允许我们提交请求并使用block和调度队列将结果报告回我们的代码来构建此一般行为。 关于调度源">
 
 
 
@@ -127,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/01/2017年个人总结/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/28/iOS并发编程-Dispatch-Sources/"/>
 
 
 
 
 
-  <title>2017年个人总结 | ShiJian</title>
+  <title>iOS并发编程 -- Dispatch Sources | ShiJian</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -247,7 +247,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/01/2017年个人总结/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/iOS并发编程-Dispatch-Sources/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiJian">
@@ -264,7 +264,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">2017年个人总结</h1>
+          <h1 class="post-title" itemprop="name headline">iOS并发编程 -- Dispatch Sources</h1>
         
 
         <div class="post-meta">
@@ -276,8 +276,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-01T23:54:02+08:00">
-                2018-01-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T22:04:35+08:00">
+                2018-01-28
               </time>
             
 
@@ -295,9 +295,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/01/2017年个人总结/#comments" itemprop="discussionUrl">
+                <a href="/2018/01/28/iOS并发编程-Dispatch-Sources/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/01/01/2017年个人总结/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/01/28/iOS并发编程-Dispatch-Sources/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -322,22 +322,35 @@
       
 
       
-        <p>2018年眨眼间就来了，今天对自己在2017年做过的事情做一下简单总结，并制定今年期望完成地目标，以记录自己不断慢慢成长的过程。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="一"><a href="#一" class="headerlink" title="一"></a>一</h3><p>2017年最大的收获是意识到自己患上了心理疾病，开始走上自我康复之路。通过阅读一些心理学书籍，明白了人生的真正价值在于与自己身边的人合作来为人类社会的发展做出自己的贡献。同时，也确定了自己的人生目标——不断学习，磨砺自己，成为一个比之前的自己更好的人。</p>
-<a id="more"></a>
-<h3 id="二"><a href="#二" class="headerlink" title="二"></a>二</h3><p>在每天上下班通勤期间和睡前半小时，都会使用微信读书App来阅读电子书籍。一共读完了这十四本书：《国富论》、《把时间当作朋友》、《反脆弱：从不确定性中获益》、《乌合之众》、《精神焦虑症的自救：病理分析卷》、《精神焦虑症的自救：演讲卷》、《斯坦福极简经济学》、《指数基金投资指南》、《自卑与超越》、《富爸爸穷爸爸》、《千万别说你懂买房》、《取悦症》、《策略思维》。</p>
-<h3 id="三"><a href="#三" class="headerlink" title="三"></a>三</h3><p>从9月份开始，每天晚上，不管刮风下雨，都会慢跑3公里左右。跑步可以让自己全身完全放松下来，这对治疗精神焦虑症有极大的帮助。同时，第二天工作会感觉精力更加充沛。坚持跑步也锻炼了自己的自律能力，使我体会到了自律给人带来的强大力量。</p>
-<h3 id="四"><a href="#四" class="headerlink" title="四"></a>四</h3><p>一直感到自己掌握的iOS开发知识比较碎片化，于是开始通过阅读官方文档来系统地学习iOS开发。在阅读文档时，为了加深理解，自己尝试将它们翻译成了中文，并整理成技术博客。</p>
-<h3 id="五"><a href="#五" class="headerlink" title="五"></a>五</h3><p>9月份中旬，看着比特币价格一路暴涨，按耐不住内心的欲望。在毫无准备的情况下，拿着攒下1万块钱工资投入到数字货币交易市场当中。不幸的是，不到半个月，国家就宣布关停国内数字货币交易所，比特币价格暴跌，最终亏损40%离场。我卖出比特币半个月后，比特币价格又开始一路狂飙，从2万一枚涨到10万一枚。虽然第一次投资亏了4000块钱，但却是值得的，因为我学到了宝贵的投资经验。等到将来资金量变大时，这些经验能增加以后投资成功的概率。</p>
-<p>投资比特币失败后，并没有让我打消通过投资理财来积累资本的念头，只是不敢再玩超高风险的数字货币了。于是，在11月份拿出5千块钱开始投资股票基金。刚买入第一周，就获得了4%的收益。可惜，后面A股市场开始大幅回调。为了降低平均买入价格，不得不越跌越买，一路加仓，最后总共投入4万。到现在，A股市场开始反弹，开始慢慢回本。</p>
-<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>2018年，我给自己制定了以下目标：</p>
+        <p>当我们与底层系统进行交互时，必须为该任务做好准备，以便只花费少量时间。调用内核或其他系统层涉及上下文的变化，与在我们自己的进程中发生的调用相比，这种变化相当昂贵。因此，许多系统库提供异步接口，以允许我们的代码向系统提交请求，并在处理该请求时继续执行其他工作。Grand Central Dispatch通过允许我们提交请求并使用block和调度队列将结果报告回我们的代码来构建此一般行为。</p>
+<h2 id="关于调度源"><a href="#关于调度源" class="headerlink" title="关于调度源"></a>关于调度源</h2><p>调度源是协调特定低级系统事件处理的基本数据类型。Grand Central Dispatch支持以下类型的调度源：</p>
 <ul>
-<li>坚持每晚慢跑3公里。</li>
-<li>读完12本好书。</li>
-<li>学完《经济学原理–微观经济学分册》。</li>
-<li>全年投资理财总收益达到15%。</li>
-<li>交个女朋友。</li>
-<li>工资涨幅为20%。</li>
+<li>定时器调度源生成定期通知。</li>
+<li>信号调度源在UNIX信号到达时通知我们。</li>
+<li>描述符源通知我们各种基于文件和基于套接字的操作：例如：</li>
+<li>当数据可供读取时。</li>
+<li>当可以写入数据时。</li>
+<li>在文件系统中删除，移动或重命名文件时。</li>
+<li>文件元信息发生变化时。</li>
+<li>进程调度源通知我们与进程相关的事件，例如：</li>
+<li>当一个进程退出时。</li>
+<li>当进程发出一个fork或者exec调用类型时。</li>
+<li>当一个信号被传递给进程时。</li>
+<li>Mach port调度源通知我们Mach相关的事件。</li>
+<li>自定义调度源由我们自己定义并触发。</li>
+</ul>
+<a id="more"></a>
+<p>调度源取代了通常用于处理系统相关事件的异步回调函数。配置调度源时，可以指定要监听的事件以及用于处理这些事件的调度队列和代码。可以使用block对象或函数来指定我们的代码。当监听到事件触发时，调度源将block或函数提交给指定的调度队列执行。</p>
+<p>与手动提交到队列的任务不同，调度源为应用程序提供连续的事件源。调度源会保留其附加的调度队列，直到我们明确取消调度。附加调度队列后，只要相应的事件发生，调度源就会将相关的任务代码提交给调度队列。某些事件（如定时器事件）会定期发生，但大多数情况下只会在特定条件出现时偶发出现。因此，调度源保留其关联的调度队列，以防止可能仍在等待中的事件过早释放。</p>
+<p>为防止事件在调度队列中积压，调度源实现了一个事件合并设计。如果新事件在之前事件的事件处理程序排队和执行之前到达，那么调度源会将新事件数据中的数据与旧事件中的数据合并。根据事件的类型，合并可能会取代旧事件或更新其保存的信息。例如，基于信号的调度源仅提供关于最新信号的信息，但也报告自从最后一次调用事件处理程序以来已传送了多少信号。</p>
+<h2 id="创建调度源"><a href="#创建调度源" class="headerlink" title="创建调度源"></a>创建调度源</h2><p>创建调度源涉及创建事件源和调度源本身。事件源是处理事件所需的本地数据结构。例如，对于基于描述符的调度源，需要打开描述符和一个需要用来获取目标程序的进程ID的基于进程的源。我们可以为我们的事件源创建相应的调度源，如下所示：</p>
+<ol>
+<li>使用<code>dispatch_source_create</code>函数创建调度源。</li>
+<li>配置调度源：</li>
+</ol>
+<ul>
+<li>为调度源分配一个事件处理程序。</li>
+<li>对于定时器源，使用<code>dispatch_source_set_timer</code>函数设置定时器信息。</li>
 </ul>
 
       
@@ -375,8 +388,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/18/iOS并发编程-Dispatch-Queues/" rel="next" title="iOS并发编程 -- Dispatch Queues">
-                <i class="fa fa-chevron-left"></i> iOS并发编程 -- Dispatch Queues
+              <a href="/2018/01/01/2017年个人总结/" rel="next" title="2017年个人总结">
+                <i class="fa fa-chevron-left"></i> 2017年个人总结
               </a>
             
           </div>
@@ -384,10 +397,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/28/iOS并发编程-Dispatch-Sources/" rel="prev" title="iOS并发编程 -- Dispatch Sources">
-                iOS并发编程 -- Dispatch Sources <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -525,7 +534,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一"><span class="nav-number">1.1.</span> <span class="nav-text">一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二"><span class="nav-number">1.2.</span> <span class="nav-text">二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三"><span class="nav-number">1.3.</span> <span class="nav-text">三</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四"><span class="nav-number">1.4.</span> <span class="nav-text">四</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五"><span class="nav-number">1.5.</span> <span class="nav-text">五</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标"><span class="nav-number">2.</span> <span class="nav-text">目标</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于调度源"><span class="nav-number">1.</span> <span class="nav-text">关于调度源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建调度源"><span class="nav-number">2.</span> <span class="nav-text">创建调度源</span></a></li></ol></div>
             
 
           </div>
@@ -668,9 +677,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/01/01/2017年个人总结/';
-          this.page.identifier = '2018/01/01/2017年个人总结/';
-          this.page.title = '2017年个人总结';
+          this.page.url = 'http://yoursite.com/2018/01/28/iOS并发编程-Dispatch-Sources/';
+          this.page.identifier = '2018/01/28/iOS并发编程-Dispatch-Sources/';
+          this.page.title = 'iOS并发编程 -- Dispatch Sources';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://ShiJian.disqus.com/embed.js';

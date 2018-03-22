@@ -96,7 +96,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/11/02/iOS并发编程-Operation-Queues/index.html">
 <meta property="og:site_name" content="ShiJian">
 <meta property="og:description" content="Cocoa operation以一种面向对象的方式来封装需要异步执行的工作，operation被设计为与operation queue一起使用或者单独使用。因为它们基于Objective-C，所以OS X和iOS中基于Cocoa的应用程序最常使用它们。 关于Operation对象operation对象是NSOperation类的实例，用于封装希望应用程序执行的工作。NSOperation类本身是一">
-<meta property="og:updated_time" content="2018-03-20T13:57:12.479Z">
+<meta property="og:updated_time" content="2018-03-22T13:50:27.586Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS并发编程 -- Operation Queues">
 <meta name="twitter:description" content="Cocoa operation以一种面向对象的方式来封装需要异步执行的工作，operation被设计为与operation queue一起使用或者单独使用。因为它们基于Objective-C，所以OS X和iOS中基于Cocoa的应用程序最常使用它们。 关于Operation对象operation对象是NSOperation类的实例，用于封装希望应用程序执行的工作。NSOperation类本身是一">
@@ -362,7 +362,7 @@
 <h2 id="创建NSInvocationOperation对象"><a href="#创建NSInvocationOperation对象" class="headerlink" title="创建NSInvocationOperation对象"></a>创建NSInvocationOperation对象</h2><p><code>NSInvocationOperation</code>类是<code>NSOperation</code>的具体子类，它在运行时会调用指定的关联对象的方法。使用此类可以避免为应用程序中的每个任务自定义大量的operation对象。特别是如果我们需要修改现有的应用程序并且已经拥有执行必要任务所需的对方和方法。当我们想要调用的方法可以根据具体情况而改变时，可以选择使用该类。例如，可以使用调用操作来执行基于用户输入动态选择的方法选择器。</p>
 <p>创建一个<code>NSInvocationOperation</code>对象的过程非常简单。可以创建并初始化类的新实例，将所需的对象和方法选择器传递给初始化方法。以下代码显示了自定义类中的两个方法，用于演示创建过程。<code>taskWithData:</code>方法创建一个新的调用对象并为其提供另一个方法的名称，该方法包含任务的实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">- (NSOperation*)taskWithData:(id)data</div><div class="line">&#123;</div><div class="line">    NSInvocationOperation* theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(myTaskMethod:) object:data];</div><div class="line"></div><div class="line">    return theOp;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// This is the method that does the actual work of the task.</div><div class="line">- (void)myTaskMethod:(id)data</div><div class="line">&#123;</div><div class="line">    // Perform the task.</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure></p>
 <h2 id="创建一个NSBlockOperation对象"><a href="#创建一个NSBlockOperation对象" class="headerlink" title="创建一个NSBlockOperation对象"></a>创建一个NSBlockOperation对象</h2><p><code>NSBlockOperation</code>类是<code>NSOperation</code>的具体子类，充当一个或多个block对象的包装。此类为已经已经使用操作队列并且不想创建调度队列的应用程序提供面向对象的包装器。还可以使用block操作来利用操作依赖关系、KVO 以及可能不适用于调度队列的其他功能。</p>
-<p>在创建一个block操作时，通常在初始化时至少添加一个block，并在稍后根据需要添加更多block。当需要执行<code>NSBlockOperation</code>对象时，该操作对象将其所有block对象提交给默认优先级的并发调度队列（concurrent dispatch queue）。操作对象会等待所有block完成执行，当最后一个block完成执行时，操作对象将自身标记为已完成。因此，我们可以使用block操作来跟踪一组正在执行的block，就像使用线程联结合并多个线程的结果一样。区别在于，<strong>因为block操作本身在单独的线程上运行，所以应用程序的其他线程可以在等待block操作完成的同时继续工作。</strong></p>
+<p>在创建一个block操作时，通常在初始化时至少添加一个block，并在稍后根据需要添加更多block。当需要执行<code>NSBlockOperation</code>对象时，该操作对象将其所有block对象提交给默认优先级的并发调度队列（concurrent dispatch queue）。操作对象会等待所有block完成执行，当最后一个block完成执行时，操作对象将自身标记为已完成。因此，我们可以使用block操作来跟踪一组正在执行的block，就像使用线程连接合并多个线程的结果一样。区别在于，<strong>因为block操作本身在单独的线程上运行，所以应用程序的其他线程可以在等待block操作完成的同时继续工作。</strong></p>
 <p>以下代码显示了如何创建一个<code>NSBlockOperation</code>对象的简单示例。该block本身没有参数并且没有返回结果。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">NSBlockOperation* theOp = [NSBlockOperation blockOperationWithBlock: ^&#123;</div><div class="line"></div><div class="line">    NSLog(@&quot;Beginning operation.\n&quot;);</div><div class="line">    // Do some work.</div><div class="line">&#125;];</div></pre></td></tr></table></figure></p>
 <p>创建block操作对象后，可以使用<code>addExecutionBlock:</code>方法向其添加更多block。如果需要连续执行block，则必须将它们直接提交到所需的调度队列。</p>
 <h2 id="定义一个自定义操作对象"><a href="#定义一个自定义操作对象" class="headerlink" title="定义一个自定义操作对象"></a>定义一个自定义操作对象</h2><p>如果block操作和invocation操作对象不能完全满足应用程序的需求，则可以直接子类化<code>NSOperation</code>并添加所需的任何行为。<code>NSOperation</code>类为所有操作对象提供了一个通用的继承点。该类还提供了大量的基础设施来处理依赖关系和KVO通知所需的大部分工作。但是，我们可能还需要补充现有的基础设施，以确保我们的操作正确。必须执行的额外工作量取决于我们是在执行非并发还是并发操作。</p>
@@ -621,7 +621,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
