@@ -96,7 +96,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/01/28/iOS并发编程-Dispatch-Sources/index.html">
 <meta property="og:site_name" content="ShiJian">
 <meta property="og:description" content="当我们与底层系统进行交互时，必须为该任务做好准备，以便只花费少量时间。调用内核或其他系统层涉及上下文的变化，与在我们自己的进程中发生的调用相比，这种变化相当昂贵。因此，许多系统库提供异步接口，以允许我们的代码向系统提交请求，并在处理该请求时继续执行其他工作。Grand Central Dispatch通过允许我们提交请求并使用block和调度队列将结果报告回我们的代码来构建此一般行为。 关于调度源">
-<meta property="og:updated_time" content="2018-03-22T15:03:53.834Z">
+<meta property="og:updated_time" content="2018-03-22T15:07:17.283Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS并发编程 -- Dispatch Sources">
 <meta name="twitter:description" content="当我们与底层系统进行交互时，必须为该任务做好准备，以便只花费少量时间。调用内核或其他系统层涉及上下文的变化，与在我们自己的进程中发生的调用相比，这种变化相当昂贵。因此，许多系统库提供异步接口，以允许我们的代码向系统提交请求，并在处理该请求时继续执行其他工作。Grand Central Dispatch通过允许我们提交请求并使用block和调度队列将结果报告回我们的代码来构建此一般行为。 关于调度源">
@@ -327,15 +327,19 @@
 <ul>
 <li>定时器调度源生成定期通知。</li>
 <li>信号调度源在UNIX信号到达时通知我们。</li>
-<li>描述符源通知我们各种基于文件和基于套接字的操作：例如：</li>
+<li>描述符源通知我们各种基于文件和基于套接字的操作，例如：<ul>
 <li>当数据可供读取时。</li>
 <li>当可以写入数据时。</li>
 <li>在文件系统中删除，移动或重命名文件时。</li>
 <li>文件元信息发生变化时。</li>
-<li>进程调度源通知我们与进程相关的事件，例如：</li>
+</ul>
+</li>
+<li>进程调度源通知我们与进程相关的事件，例如：<ul>
 <li>当一个进程退出时。</li>
 <li>当进程发出一个fork或者exec调用类型时。</li>
 <li>当一个信号被传递给进程时。</li>
+</ul>
+</li>
 <li>Mach port调度源通知我们Mach相关的事件。</li>
 <li>自定义调度源由我们自己定义并触发。</li>
 </ul>
@@ -346,13 +350,11 @@
 <h2 id="创建调度源"><a href="#创建调度源" class="headerlink" title="创建调度源"></a>创建调度源</h2><p>创建调度源涉及创建事件源和调度源本身。事件源是处理事件所需的本地数据结构。例如，对于基于描述符的调度源，需要打开描述符和一个需要用来获取目标程序的进程ID的基于进程的源。我们可以为我们的事件源创建相应的调度源，如下所示：</p>
 <ol>
 <li>使用<code>dispatch_source_create</code>函数创建调度源。</li>
-<li>配置调度源：</li>
-</ol>
-<ul>
+<li>配置调度源：<ul>
 <li>为调度源分配一个事件处理程序。</li>
 <li>对于定时器源，使用<code>dispatch_source_set_timer</code>函数设置定时器信息。</li>
 </ul>
-<ol>
+</li>
 <li>（可选）分配一个取消处理程序给调度源。</li>
 <li>调用<code>dispatch_resume</code>开始处理事件。</li>
 </ol>
