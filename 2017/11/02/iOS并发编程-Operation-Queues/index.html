@@ -96,7 +96,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/11/02/iOS并发编程-Operation-Queues/index.html">
 <meta property="og:site_name" content="ShiJian">
 <meta property="og:description" content="Cocoa operation以一种面向对象的方式来封装需要并发执行的工作，operation被设计为与operation queue一起使用或者单独使用。因为它们基于Objective-C，所以OS X和iOS中基于Cocoa的应用程序最常使用它们。 关于Operation对象operation对象是NSOperation类的实例，用于封装希望应用程序执行的工作。NSOperation类本身是一">
-<meta property="og:updated_time" content="2018-03-24T05:36:33.189Z">
+<meta property="og:updated_time" content="2018-03-24T05:41:32.570Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS并发编程 -- Operation Queues">
 <meta name="twitter:description" content="Cocoa operation以一种面向对象的方式来封装需要并发执行的工作，operation被设计为与operation queue一起使用或者单独使用。因为它们基于Objective-C，所以OS X和iOS中基于Cocoa的应用程序最常使用它们。 关于Operation对象operation对象是NSOperation类的实例，用于封装希望应用程序执行的工作。NSOperation类本身是一">
@@ -389,7 +389,7 @@
 </ul>
 <p>以下代码提供了一个非常简单的例子来说明如何在操作对象的<code>main</code>方法中响应取消事件。在这种情况下，每一次while循环都会调用<code>isCancelled</code>方法，允许在工作开始之前快速退出操作并且每隔一段时间再次执行一次。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">- (void)main &#123;</div><div class="line">    @try &#123;</div><div class="line">        BOOL isDone = NO;</div><div class="line"></div><div class="line">        while (![self isCancelled] &amp;&amp; !isDone) &#123;</div><div class="line">            // Do some work and set isDone to YES when finished</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    @catch(...) &#123;</div><div class="line">        // Do not rethrow exceptions.</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>虽然以上示例中没有执行清理的代码，但我们在实现时应该确保释放由我们的自定义代码分配的任何资源。</p>
-<h3 id="配置操作以支持并发执行"><a href="#配置操作以支持并发执行" class="headerlink" title="配置操作以支持并发执行"></a>配置操作以支持并发执行</h3><p>操作对象默认以同步方式执行，也就是说它们在调用其启动方法的线程中执行它们的任务。因为操作队列会为非并发操作对象提供线程，但大多数操作对象仍然是异步运行的。然而，如果我们计划手动执行操作对象并仍然希望它们异步执行，则必须采取适当的操作以确保它们可以运行。可以通过将操作对象定义为并发操作来完成此操作。</p>
+<h3 id="配置操作以支持并发执行"><a href="#配置操作以支持并发执行" class="headerlink" title="配置操作以支持并发执行"></a>配置操作以支持并发执行</h3><p>操作对象默认以同步方式执行，也就是说它们在调用其启动方法的线程中执行它们的任务。因为操作队列会为非并发操作对象提供线程，所以大多数操作对象仍然是异步运行的。然而，如果我们计划手动执行操作对象并仍然希望它们异步执行，则必须采取适当的操作以确保它们可以运行。可以通过将操作对象定义为并发操作来完成此操作。</p>
 <p>下表列出了通常为了实现并发操作而重写的方法。</p>
 <table>
 <thead>
