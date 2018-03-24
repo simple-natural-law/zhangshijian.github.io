@@ -729,7 +729,7 @@
 
       
         
-          <p>Cocoa operation以一种面向对象的方式来封装需要异步执行的工作，operation被设计为与operation queue一起使用或者单独使用。因为它们基于Objective-C，所以OS X和iOS中基于Cocoa的应用程序最常使用它们。</p>
+          <p>Cocoa operation以一种面向对象的方式来封装需要并发执行的工作，operation被设计为与operation queue一起使用或者单独使用。因为它们基于Objective-C，所以OS X和iOS中基于Cocoa的应用程序最常使用它们。</p>
 <h2 id="关于Operation对象"><a href="#关于Operation对象" class="headerlink" title="关于Operation对象"></a>关于Operation对象</h2><p>operation对象是<code>NSOperation</code>类的实例，用于封装希望应用程序执行的工作。<code>NSOperation</code>类本身是一个抽象类，为了做任何有用的工作，其必须被分类。尽管是抽象的，但该类确实提供了大量的基础设施来尽量减少我们在自己的子类中要完成的工作量。另外，Foundation框架提供了两个具体的子类，我们可以使用现有代码使用它们。下表列出了这些类以及如何使用每个类的描述。</p>
           <!--noindex-->
           <div class="post-button text-center">
