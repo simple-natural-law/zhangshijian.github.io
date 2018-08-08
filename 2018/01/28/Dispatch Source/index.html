@@ -92,13 +92,13 @@
 
 <meta name="description" content="当我们与底层系统进行交互时，必须为该任务做好准备，以便只花费少量时间。调用内核或其他系统层涉及上下文的变化，与在我们自己的进程中发生的调用相比，这种变化相当昂贵。因此，许多系统库提供异步接口，以允许我们的代码向系统提交请求，并在处理该请求时继续执行其他工作。Grand Central Dispatch通过允许我们提交请求并使用block和调度队列将结果报告回我们的代码来构建此一般行为。 关于调度源">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS并发编程 -- Dispatch Sources">
-<meta property="og:url" content="http://yoursite.com/2018/01/28/iOS并发编程-Dispatch-Sources/index.html">
-<meta property="og:site_name" content="ShiJian">
+<meta property="og:title" content="Dispatch Source">
+<meta property="og:url" content="http://yoursite.com/2018/01/28/Dispatch Source/index.html">
+<meta property="og:site_name" content="野性的呼唤">
 <meta property="og:description" content="当我们与底层系统进行交互时，必须为该任务做好准备，以便只花费少量时间。调用内核或其他系统层涉及上下文的变化，与在我们自己的进程中发生的调用相比，这种变化相当昂贵。因此，许多系统库提供异步接口，以允许我们的代码向系统提交请求，并在处理该请求时继续执行其他工作。Grand Central Dispatch通过允许我们提交请求并使用block和调度队列将结果报告回我们的代码来构建此一般行为。 关于调度源">
-<meta property="og:updated_time" content="2018-03-27T14:44:51.976Z">
+<meta property="og:updated_time" content="2018-08-08T03:45:04.942Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS并发编程 -- Dispatch Sources">
+<meta name="twitter:title" content="Dispatch Source">
 <meta name="twitter:description" content="当我们与底层系统进行交互时，必须为该任务做好准备，以便只花费少量时间。调用内核或其他系统层涉及上下文的变化，与在我们自己的进程中发生的调用相比，这种变化相当昂贵。因此，许多系统库提供异步接口，以允许我们的代码向系统提交请求，并在处理该请求时继续执行其他工作。Grand Central Dispatch通过允许我们提交请求并使用block和调度队列将结果报告回我们的代码来构建此一般行为。 关于调度源">
 
 
@@ -127,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/28/iOS并发编程-Dispatch-Sources/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/28/Dispatch Source/"/>
 
 
 
 
 
-  <title>iOS并发编程 -- Dispatch Sources | ShiJian</title>
+  <title>Dispatch Source | 野性的呼唤</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -170,7 +170,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">ShiJian</span>
+        <span class="site-title">野性的呼唤</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -247,16 +247,16 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/iOS并发编程-Dispatch-Sources/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/Dispatch Source/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiJian">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="image" content="/images/avatar.JPG">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="name" content="野性的呼唤">
     </span>
 
     
@@ -264,7 +264,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS并发编程 -- Dispatch Sources</h1>
+          <h1 class="post-title" itemprop="name headline">Dispatch Source</h1>
         
 
         <div class="post-meta">
@@ -295,9 +295,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/28/iOS并发编程-Dispatch-Sources/#comments" itemprop="discussionUrl">
+                <a href="/2018/01/28/Dispatch Source/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/01/28/iOS并发编程-Dispatch-Sources/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/01/28/Dispatch Source/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -323,26 +323,30 @@
 
       
         <p>当我们与底层系统进行交互时，必须为该任务做好准备，以便只花费少量时间。调用内核或其他系统层涉及上下文的变化，与在我们自己的进程中发生的调用相比，这种变化相当昂贵。因此，许多系统库提供异步接口，以允许我们的代码向系统提交请求，并在处理该请求时继续执行其他工作。Grand Central Dispatch通过允许我们提交请求并使用block和调度队列将结果报告回我们的代码来构建此一般行为。</p>
-<h2 id="关于调度源"><a href="#关于调度源" class="headerlink" title="关于调度源"></a>关于调度源</h2><p>调度源是协调特定低级系统事件处理的基本数据类型。Grand Central Dispatch支持以下类型的调度源：</p>
+<h2 id="关于调度源"><a href="#关于调度源" class="headerlink" title="关于调度源"></a>关于调度源</h2><p>调度源是协调特定底层系统事件处理的基本数据类型。Grand Central Dispatch支持以下类型的调度源：</p>
 <ul>
-<li>定时器调度源生成定期通知。</li>
+<li>定时器调度源定期生成通知。</li>
 <li>信号调度源在UNIX信号到达时通知我们。</li>
-<li>描述符源通知我们各种基于文件和基于套接字的操作，例如：</li>
+<li>描述符源通知我们各种基于文件和基于套接字的操作，例如：<ul>
 <li>当数据可供读取时。</li>
 <li>当可以写入数据时。</li>
 <li>在文件系统中删除，移动或重命名文件时。</li>
 <li>文件元信息发生变化时。</li>
-<li>进程调度源通知我们与进程相关的事件，例如：</li>
+</ul>
+</li>
+<li>进程调度源通知我们与进程相关的事件，例如：<ul>
 <li>当一个进程退出时。</li>
 <li>当进程发出一个fork或者exec调用类型时。</li>
 <li>当一个信号被传递给进程时。</li>
+</ul>
+</li>
 <li>Mach port调度源通知我们Mach相关的事件。</li>
 <li>自定义调度源由我们自己定义并触发。</li>
 </ul>
 <a id="more"></a>
 <p>调度源取代了通常用于处理系统相关事件的异步回调函数。配置调度源时，可以指定要监听的事件以及用于处理这些事件的调度队列和代码。可以使用block对象或函数来指定我们的代码。当监听到事件触发时，调度源将block或函数提交给指定的调度队列执行。</p>
 <p>与手动提交到队列的任务不同，调度源为应用程序提供连续的事件源。调度源会保留其附加的调度队列，直到我们明确取消调度。附加调度队列后，只要相应的事件发生，调度源就会将相关的任务代码提交给调度队列。某些事件（如定时器事件）会定期发生，但大多数情况下只会在特定条件出现时偶发出现。因此，调度源保留其关联的调度队列，以防止可能仍在等待中的事件过早释放。</p>
-<p>为防止事件在调度队列中积压，调度源实现了一个事件合并设计。如果新事件在之前事件的事件处理程序排队和执行之前到达，那么调度源会将新事件数据中的数据与旧事件中的数据合并。根据事件的类型，合并可能会取代旧事件或更新其保存的信息。例如，基于信号的调度源仅提供关于最新信号的信息，但也报告自从最后一次调用事件处理程序以来已传送了多少信号。</p>
+<p>为防止事件在调度队列中积压，调度源实现了一个事件合并策略。如果新事件在旧事件的事件处理程序已经被取出队列并且实际执行之前到达，那么调度源会将新事件数据中的数据与旧事件中的数据合并。根据事件的类型，合并可能会取代旧事件或更新其保存的信息。例如，基于信号的调度源仅提供关于最新信号的信息，但也报告自从最后一次调用事件处理程序以来已传递了多少信号。</p>
 <h2 id="创建调度源"><a href="#创建调度源" class="headerlink" title="创建调度源"></a>创建调度源</h2><p>创建调度源涉及创建事件源和调度源本身。事件源是处理事件所需的本地数据结构。例如，对于基于描述符的调度源，需要打开描述符和一个需要用来获取目标程序的进程ID的基于进程的源。我们可以为我们的事件源创建相应的调度源，如下所示：</p>
 <ol>
 <li>使用<code>dispatch_source_create</code>函数创建调度源。</li>
@@ -355,7 +359,7 @@
 <li>调用<code>dispatch_resume</code>开始处理事件。</li>
 </ol>
 <p>由于调度源在能够使用之前还需要一些额外的配置，<code>dispatch_source_create</code>函数会返回处于暂停状态的调度源。在暂停期间，调度源接收事件但是不处理它们。这样就给了我们时间去设置一个事件处理程序并执行处理实际事件所需的任何其他配置。</p>
-<p>以下部分展示如何配置调度源的各个方面。有关如何配置具体调度源的类型的详细示例，请参看<a href="jump">调度源示例</a>。有关用于创建和配置调度源的函数的额外信息，请参看<a href="jump">Grand Central Dispatch (GCD) Reference</a>。</p>
+<p>以下部分展示如何配置调度源的各个方面。有关如何配置具体调度源的类型的详细示例，请参看<a href="jump">调度源示例</a>。</p>
 <h3 id="安装取消事件处理程序"><a href="#安装取消事件处理程序" class="headerlink" title="安装取消事件处理程序"></a>安装取消事件处理程序</h3><p>取消事件处理程序用于在调度源被释放前执行一些清理操作。对于大多数类型的调度源，取消事件处理程序是可选的，并且只有在我们需要更新与调度源相关的一些自定义行为时才是必需的。但是，对于使用描述符或Mach端口的调度源，必须提供一个取消事件处理程序来关闭描述符或释放Mach端口。如果不这样做，可能会导致代码中或系统的其他部分无意中重复使用这些结构，从而导致代码中出现细微的错误。</p>
 <p>可以在任何时候安装取消事件处理程序，但通常在创建调度源时就这样做。可以使用<code>dispatch_source_set_cancel_handler</code>或<code>dispatch_source_set_cancel_handler_f</code>函数来安装取消事件处理程序，具体取决于是要在实现中使用block对象还是函数。以下示例显示了一个简单的用于关闭被调度源打开的描述符的取消事件处理程序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch_source_set_cancel_handler(mySource, ^&#123;</div><div class="line">    close(fd); // Close a file descriptor opened earlier.</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
 <h3 id="更改目标队列"><a href="#更改目标队列" class="headerlink" title="更改目标队列"></a>更改目标队列</h3><p>尽管在创建调度源时会指定运行事件和取消事件处理程序的队列，但可以随时使用<code>dispatch_set_target_queue</code>函数来更改该队列。当我们需要更改处理调度源事件的优先级的时候，可以这样做。</p>
@@ -369,16 +373,16 @@
 <blockquote>
 <p><strong>注意</strong>：即使我们指定误差值为0，也绝对不要期望一个定时器在要求的精确纳秒下触发。系统会尽最大努力满足我们的需求，但并不能保证准确的触发时间。</p>
 </blockquote>
-<p>当计算机进入睡眠状态时，所有定时器调度源都将暂停。当计算机唤醒时，这些定时器调度源也会自定唤醒。根据定时器的配置，这种性质的暂停可能会影响定时器下次触发的时间。如果使用<code>dispatch_time</code>函数或者<code>DISPATCH_TIME_NOW</code>常量设置定时器调度源，则定时器调度源使用默认系统时钟来确定何时触发。但是，计算机进入睡眠状态时，默认时钟不会前进。相比之下，当使用<code>dispatch_walltime</code>函数设置定时器调度源时，定时器调度源将其触发时间追踪到挂钟时间。后一种选择通常适用于定时间隔相对较大的定时器，因为其可以防止事件时间之间出现太多漂移。</p>
-<p>以下代码给出了一个定时器的例子，梅30秒触发一次，误差值为1秒。由于定时器间隔相对较大，因此使用<code>dispatch_walltime</code>函数创建调度源。定时器首次触发，随后的事件每隔30秒到达一次。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">dispatch_source_t CreateDispatchTimer(uint64_t interval, uint64_t leeway, dispatch_queue_t queue, dispatch_block_t block)</div><div class="line">&#123;</div><div class="line">    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,0, 0, queue);</div><div class="line">    if (timer)</div><div class="line">    &#123;</div><div class="line">        dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), interval, leeway);</div><div class="line">        dispatch_source_set_event_handler(timer, block);</div><div class="line">        dispatch_resume(timer);</div><div class="line">    &#125;</div><div class="line">    return timer;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void MyCreateTimer()</div><div class="line">&#123;</div><div class="line">    dispatch_source_t aTimer = CreateDispatchTimer(30ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC, dispatch_get_main_queue(),^&#123; MyPeriodicTask(); &#125;);</div><div class="line"></div><div class="line">    // Store it somewhere for later use.</div><div class="line">    if (aTimer)</div><div class="line">    &#123;</div><div class="line">        MyStoreTimer(aTimer);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当计算机进入睡眠状态时，所有定时器调度源都将暂停。当计算机唤醒时，这些定时器调度源也会自动唤醒。根据定时器的配置，这种性质的暂停可能会影响定时器下次触发的时间。如果使用<code>dispatch_time</code>函数或者<code>DISPATCH_TIME_NOW</code>常量设置定时器调度源，则定时器调度源使用默认系统时钟来确定何时触发。但是，计算机进入睡眠状态时，默认时钟不会前进。相比之下，当使用<code>dispatch_walltime</code>函数设置定时器调度源时，定时器调度源将其触发时间追踪到挂钟时间。后一种选择通常适用于定时间隔相对较大的定时器，因为其可以防止事件时间之间出现太多漂移。</p>
+<p>以下代码给出了一个定时器的例子，每30秒触发一次，误差值为1秒。由于定时器间隔相对较大，因此使用<code>dispatch_walltime</code>函数创建调度源。定时器首次触发，随后的事件每隔30秒到达一次。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">dispatch_source_t CreateDispatchTimer(uint64_t interval, uint64_t leeway, dispatch_queue_t queue, dispatch_block_t block)</div><div class="line">&#123;</div><div class="line">    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,0, 0, queue);</div><div class="line">    if (timer)</div><div class="line">    &#123;</div><div class="line">        dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), interval, leeway);</div><div class="line">        dispatch_source_set_event_handler(timer, block);</div><div class="line">        dispatch_resume(timer);</div><div class="line">    &#125;</div><div class="line">    return timer;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void MyCreateTimer()</div><div class="line">&#123;</div><div class="line">    dispatch_source_t aTimer = CreateDispatchTimer(30ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC, dispatch_get_main_queue(),^&#123; MyPeriodicTask(); &#125;);</div><div class="line"></div><div class="line">    // Store it somewhere for later use.</div><div class="line">    if (aTimer)</div><div class="line">    &#123;</div><div class="line">        MyStoreTimer(aTimer);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>虽然创建定时器调度源是接收基于时间的事件的主要方式，但还有其他选项可用。如果想在指定的时间间隔后执行一次block，则可以使用<code>dispatch_after</code>或者<code>dispatch_after_f</code>函数。该函数的行为与<code>dispatch_async</code>函数非常相似，不同之处在于它允许指定将block提交到队列的时间值。时间值可以根据需要指定为相对或者绝对时间值。</p>
-<h3 id="从描述符中读取数据"><a href="#从描述符中读取数据" class="headerlink" title="从描述符中读取数据"></a>从描述符中读取数据</h3><p>要从文件或套接字读取数据，必须打开文件或者套接字并创建一个类型为<code>DISPATCH_SOURCE_TYPE_READ</code>的调度源。我们指定的事件处理程序应该能够读取和处理文件描述符的内容。对于文件，这相当于读取文件数据（或数据的一个子集）并为应用程序创建适当的数据结构。对于网络套接字，这涉及处理新接收的网络数据。</p>
+<h3 id="从描述符中读取数据"><a href="#从描述符中读取数据" class="headerlink" title="从描述符中读取数据"></a>从描述符中读取数据</h3><p>要从文件或套接字读取数据，必须打开文件或者套接字并创建一个类型为<code>DISPATCH_SOURCE_TYPE_READ</code>的调度源。我们指定的事件处理程序应该能够读取和处理<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/9809582?fr=aladdin" target="_blank" rel="external">文件描述符</a>的内容。对于文件而言，这相当于读取文件数据（或数据的一个子集）并为应用程序创建适当的数据结构。对于网络套接字而言，这涉及处理新接收的网络数据。</p>
 <p>每当读取数据时，都应该将描述符配置为使用非阻塞操作。尽管可以使用<code>dispatch_source_get_data</code>函数来查看有多少数据可供读取，但在拨打电话时该函数返回的数字可能会与实际读取数据时返回的数字不同。如果底层文件被截断或发生网络错误，则阻塞当前线程的描述符读取可能会停止正在执行的事件处理程序，并阻止调度队列调度其他任务。对于串行队列，这可能会使队列死锁，即使是并发队列也会减少可以启动的新任务的数量。</p>
-<p>以下代码显示了配置一个调度源以从文件读取数据的示例。在此示例中，事件处理程序将指定文件的全部内容读入缓冲区，并调用自定义函数来处理数据。（一旦读取操作完成，此函数的调用者将使用返回的调度源来取消它。）为确保在没有数据要读取时调度队列不被阻塞，本示例使用<code>fcntl</code>函数配置文件描述符来执行非阻塞操作。安装在调度源上的取消事件处理程序确保在读取数据后关闭文件描述符。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">dispatch_source_t ProcessContentsOfFile(const char* filename)</div><div class="line">&#123;</div><div class="line">    // Prepare the file for reading.</div><div class="line">    int fd = open(filename, O_RDONLY);</div><div class="line"></div><div class="line">    if (fd == -1)</div><div class="line">        return NULL;</div><div class="line"></div><div class="line">    fcntl(fd, F_SETFL, O_NONBLOCK);  // Avoid blocking the read operation</div><div class="line"></div><div class="line">    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div><div class="line"></div><div class="line">    dispatch_source_t readSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, fd, 0, queue);</div><div class="line"></div><div class="line">    if (!readSource)</div><div class="line">    &#123;</div><div class="line">        close(fd);</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Install the event handler</div><div class="line">    dispatch_source_set_event_handler(readSource, ^&#123;</div><div class="line"></div><div class="line">        size_t estimated = dispatch_source_get_data(readSource) + 1;</div><div class="line"></div><div class="line">        // Read the data into a text buffer.</div><div class="line">        char* buffer = (char*)malloc(estimated);</div><div class="line"></div><div class="line">        if (buffer)</div><div class="line">        &#123;</div><div class="line">            ssize_t actual = read(fd, buffer, (estimated));</div><div class="line">            Boolean done = MyProcessFileData(buffer, actual);  // Process the data.</div><div class="line"></div><div class="line">            // Release the buffer when done.</div><div class="line">            free(buffer);</div><div class="line"></div><div class="line">            // If there is no more data, cancel the source.</div><div class="line">            if (done)</div><div class="line">                dispatch_source_cancel(readSource);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    // Install the cancellation handler</div><div class="line">    dispatch_source_set_cancel_handler(readSource, ^&#123;close(fd);&#125;);</div><div class="line"></div><div class="line">    // Start reading the file.</div><div class="line">    dispatch_resume(readSource);</div><div class="line">    return readSource;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>以下代码显示了配置一个调度源以从文件读取数据的示例。在此示例中，事件处理程序将指定文件的全部内容读入缓冲区，并调用自定义函数来处理数据。（一旦读取操作完成，此函数的调用者将使用返回的调度源来取消它。）为确保在没有数据要读取时调度队列不被阻塞，本示例使用<code>fcntl</code>函数配置文件描述符来执行非阻塞操作。安装在调度源上的取消事件处理程序确保在读取数据后关闭文件描述符。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">dispatch_source_t ProcessContentsOfFile(const char* filename)</div><div class="line">&#123;</div><div class="line">    // Prepare the file for reading.</div><div class="line">    int fd = open(filename, O_RDONLY);</div><div class="line"></div><div class="line">    if (fd == -1)</div><div class="line">        return NULL;</div><div class="line"></div><div class="line">    fcntl(fd, F_SETFL, O_NONBLOCK);  // Avoid blocking the read operation</div><div class="line"></div><div class="line">    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div><div class="line"></div><div class="line">    dispatch_source_t readSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, fd, 0, queue);</div><div class="line"></div><div class="line">    if (!readSource)</div><div class="line">    &#123;</div><div class="line">        close(fd);</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Install the event handler</div><div class="line">    dispatch_source_set_event_handler(readSource, ^&#123;</div><div class="line"></div><div class="line">        size_t estimated = dispatch_source_get_data(readSource) + 1;</div><div class="line"></div><div class="line">        // Read the data into a text buffer.</div><div class="line">        char* buffer = (char*)malloc(estimated);</div><div class="line"></div><div class="line">        if (buffer)</div><div class="line">        &#123;</div><div class="line">            ssize_t actual = read(fd, buffer, (estimated));</div><div class="line">            Boolean done = MyProcessFileData(buffer, actual);  // Process the data.</div><div class="line"></div><div class="line">            // Release the buffer when done.</div><div class="line">            free(buffer);</div><div class="line"></div><div class="line">            // If there is no more data, cancel the source.</div><div class="line">            if (done)</div><div class="line">                dispatch_source_cancel(readSource);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    // Install the cancellation handler</div><div class="line">    dispatch_source_set_cancel_handler(readSource, ^&#123;close(fd);&#125;);</div><div class="line"></div><div class="line">    // Start reading the file.</div><div class="line">    dispatch_resume(readSource);</div><div class="line">    </div><div class="line">    return readSource;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>自定义MyProcessFileData函数确定何时读取了足够的文件数据并且可以取消调度源。默认情况下，从描述符读取数据的调度源被配置为在读取数据的同时，还要重复调度其事件处理程序。如果socket连接关闭或已经读取完整个文件，则调度源将自动停止调度事件处理程序。如果不再需要调度源，可以直接取消它。</p>
 <h3 id="将数据写入到描述符"><a href="#将数据写入到描述符" class="headerlink" title="将数据写入到描述符"></a>将数据写入到描述符</h3><p>将数据写入文件或套接字的过程与读取数据的过程非常相似。在为写入操作配置描述符后，需要创建一个类型为<code>DISPATCH_SOURCE_TYPE_WRITE</code>的调度源。一旦创建了该调度源，系统会调用我们的事件处理程序，使其有机会开始将数据写入文件或套接字。当完成数据写入时，使用<code>dispatch_source_cancel</code>函数取消调度源。</p>
 <p>每次写入数据时，都应该将文件描述符配置为使用非阻塞操作。尽管可以使用<code>dispatch_source_get_data</code>函数来查看写入空间的可用空间，但该函数返回的值仅供参考，调用时返回的值可能和实际写入数据后的值不同。如果发生错误，将数据写入阻塞文件描述符可能会中止正在执行的事件处理程序并阻止调度队列调度其他任务。对于串行队列，这可能会使队列死锁，即使是并发队列也会减少可以启动的新任务的数量。</p>
-<p>以下代码展示了使用调度源将数据写入文件的基本方法。创建新文件后，该函数将生成的文件描述符传递给它的事件处理程序。被放入文件的数据由MyGetData函数提供，可以使用它替换生成文件数据所需的任何代码。在数据写入文件之后，事件处理程序会取消调度源以防止再次调用它。调度源的持有者负责释放它。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">dispatch_source_t WriteDataToFile(const char* filename)</div><div class="line">&#123;</div><div class="line">    int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, (S_IRUSR | S_IWUSR | S_ISUID | S_ISGID));</div><div class="line"></div><div class="line">    if (fd == -1)</div><div class="line">        return NULL;</div><div class="line"></div><div class="line">    fcntl(fd, F_SETFL); // Block during the write.</div><div class="line"></div><div class="line">    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div><div class="line"></div><div class="line">    dispatch_source_t writeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_WRITE, fd, 0, queue);</div><div class="line"></div><div class="line">    if (!writeSource)</div><div class="line">    &#123;</div><div class="line">        close(fd);</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    dispatch_source_set_event_handler(writeSource, ^&#123;</div><div class="line"></div><div class="line">        size_t bufferSize = MyGetDataSize();</div><div class="line">        void* buffer = malloc(bufferSize);</div><div class="line"></div><div class="line">        size_t actual = MyGetData(buffer, bufferSize);</div><div class="line">        write(fd, buffer, actual);</div><div class="line"></div><div class="line">        free(buffer);</div><div class="line"></div><div class="line">        // Cancel and release the dispatch source when done.</div><div class="line">        dispatch_source_cancel(writeSource);</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    dispatch_source_set_cancel_handler(writeSource, ^&#123;close(fd);&#125;);</div><div class="line">    dispatch_resume(writeSource);</div><div class="line">    return (writeSource);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>以下代码展示了使用调度源将数据写入文件的基本方法。创建新文件后，该函数将生成的文件描述符传递给它的事件处理程序。被放入文件的数据由MyGetData函数提供，可以使用它替换生成文件数据所需的任何代码。在数据写入文件之后，事件处理程序会取消调度源以防止再次调用它。调度源的持有者负责释放它。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">dispatch_source_t WriteDataToFile(const char* filename)</div><div class="line">&#123;</div><div class="line">    int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, (S_IRUSR | S_IWUSR | S_ISUID | S_ISGID));</div><div class="line"></div><div class="line">    if (fd == -1)</div><div class="line">        return NULL;</div><div class="line"></div><div class="line">    fcntl(fd, F_SETFL); // Block during the write.</div><div class="line"></div><div class="line">    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div><div class="line"></div><div class="line">    dispatch_source_t writeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_WRITE, fd, 0, queue);</div><div class="line"></div><div class="line">    if (!writeSource)</div><div class="line">    &#123;</div><div class="line">        close(fd);</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    dispatch_source_set_event_handler(writeSource, ^&#123;</div><div class="line"></div><div class="line">        size_t bufferSize = MyGetDataSize();</div><div class="line">        void* buffer = malloc(bufferSize);</div><div class="line"></div><div class="line">        size_t actual = MyGetData(buffer, bufferSize);</div><div class="line">        write(fd, buffer, actual);</div><div class="line"></div><div class="line">        free(buffer);</div><div class="line"></div><div class="line">        // Cancel and release the dispatch source when done.</div><div class="line">        dispatch_source_cancel(writeSource);</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    dispatch_source_set_cancel_handler(writeSource, ^&#123;close(fd);&#125;);</div><div class="line">    dispatch_resume(writeSource);</div><div class="line">    </div><div class="line">    return (writeSource);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="监听文件系统对象"><a href="#监听文件系统对象" class="headerlink" title="监听文件系统对象"></a>监听文件系统对象</h3><p>如果要监视文件系统对象的更改，可以将调度源的类型设置为<code>DISPATCH_SOURCE_TYPE_VNODE</code>。当文件被删除、 写入或重命名时，可以使用这种类型的调度源来接收通知。当文件元信息的特定类型（如大小和链接数量）发生变化时，也可以使用它来提醒用户。</p>
 <blockquote>
 <p><strong>注意</strong>：为调度源指定的文件描述符在调度源本身处理事件时必须保持打开状态。</p>
@@ -432,7 +436,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/01/2017年个人总结/" rel="next" title="2017年个人总结">
+              <a href="/2018/01/02/2017年个人总结/" rel="next" title="2017年个人总结">
                 <i class="fa fa-chevron-left"></i> 2017年个人总结
               </a>
             
@@ -507,7 +511,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.png"
+               src="/images/avatar.JPG"
                alt="ShiJian" />
           <p class="site-author-name" itemprop="name">ShiJian</p>
            
@@ -715,18 +719,18 @@
   
 
     
-      <script id="dsq-count-scr" src="https://ShiJian.disqus.com/count.js" async></script>
+      <script id="dsq-count-scr" src="https://野性的呼唤.disqus.com/count.js" async></script>
     
 
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/01/28/iOS并发编程-Dispatch-Sources/';
-          this.page.identifier = '2018/01/28/iOS并发编程-Dispatch-Sources/';
-          this.page.title = 'iOS并发编程 -- Dispatch Sources';
+          this.page.url = 'http://yoursite.com/2018/01/28/Dispatch Source/';
+          this.page.identifier = '2018/01/28/Dispatch Source/';
+          this.page.title = 'Dispatch Source';
         };
         var d = document, s = d.createElement('script');
-        s.src = 'https://ShiJian.disqus.com/embed.js';
+        s.src = 'https://野性的呼唤.disqus.com/embed.js';
         s.setAttribute('data-timestamp', '' + +new Date());
         (d.head || d.body).appendChild(s);
       </script>

@@ -92,18 +92,18 @@
 
 <meta name="description" content="转场动画提供了与应用程序的界面更改有关的视觉反馈。UIKit提供了一组用于呈现一个视图控制器的标准转场动画样式，我们也可以使用自定义转场动画来实现特定的视觉效果。 转场动画序列转场动画将一个视图控制器的内容替换为另一个视图控制器的内容。有两种类型的转场：present和dismiss。present转场会将新的视图控制器添加到应用程序的视图控制器结构层次中，而dismiss转场会从视图控制器层次结">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UIViewController详解 -- 自定义转场动画">
-<meta property="og:url" content="http://yoursite.com/2017/06/10/UIViewController详解-自定义转场动画/index.html">
-<meta property="og:site_name" content="ShiJian">
+<meta property="og:title" content="UIViewController（四）：自定义转场动画">
+<meta property="og:url" content="http://yoursite.com/2017/06/10/UIViewController（四）：自定义转场动画/index.html">
+<meta property="og:site_name" content="野性的呼唤">
 <meta property="og:description" content="转场动画提供了与应用程序的界面更改有关的视觉反馈。UIKit提供了一组用于呈现一个视图控制器的标准转场动画样式，我们也可以使用自定义转场动画来实现特定的视觉效果。 转场动画序列转场动画将一个视图控制器的内容替换为另一个视图控制器的内容。有两种类型的转场：present和dismiss。present转场会将新的视图控制器添加到应用程序的视图控制器结构层次中，而dismiss转场会从视图控制器层次结">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-a88a11a896561441.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-f137d9a181d5a7b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-3957cbfbb60fc03c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-f64eab938b83262d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-3576a9dc191ff92b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-03-19T16:14:19.407Z">
+<meta property="og:updated_time" content="2018-08-08T03:39:00.062Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UIViewController详解 -- 自定义转场动画">
+<meta name="twitter:title" content="UIViewController（四）：自定义转场动画">
 <meta name="twitter:description" content="转场动画提供了与应用程序的界面更改有关的视觉反馈。UIKit提供了一组用于呈现一个视图控制器的标准转场动画样式，我们也可以使用自定义转场动画来实现特定的视觉效果。 转场动画序列转场动画将一个视图控制器的内容替换为另一个视图控制器的内容。有两种类型的转场：present和dismiss。present转场会将新的视图控制器添加到应用程序的视图控制器结构层次中，而dismiss转场会从视图控制器层次结">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4906302-a88a11a896561441.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/10/UIViewController详解-自定义转场动画/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/10/UIViewController（四）：自定义转场动画/"/>
 
 
 
 
 
-  <title>UIViewController详解 -- 自定义转场动画 | ShiJian</title>
+  <title>UIViewController（四）：自定义转场动画 | 野性的呼唤</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -176,7 +176,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">ShiJian</span>
+        <span class="site-title">野性的呼唤</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -253,16 +253,16 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/UIViewController详解-自定义转场动画/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/UIViewController（四）：自定义转场动画/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiJian">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="image" content="/images/avatar.JPG">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="name" content="野性的呼唤">
     </span>
 
     
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">UIViewController详解 -- 自定义转场动画</h1>
+          <h1 class="post-title" itemprop="name headline">UIViewController（四）：自定义转场动画</h1>
         
 
         <div class="post-meta">
@@ -301,9 +301,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/06/10/UIViewController详解-自定义转场动画/#comments" itemprop="discussionUrl">
+                <a href="/2017/06/10/UIViewController（四）：自定义转场动画/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/06/10/UIViewController详解-自定义转场动画/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/06/10/UIViewController（四）：自定义转场动画/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -345,26 +345,22 @@
 <ol>
 <li>UIKit调用转场动画委托的<code>interactionControllerForPresentation:</code>方法来查看交互式animator对象是否可用。如果该方法返回<code>nil</code>，UIKit将执行动画而不需要发生用户交互。</li>
 <li>UIKit调用animator对象的<code>transitionDuration:</code>方法来获取动画时长。</li>
-<li>UIKit调用适当的方法来启动动画：</li>
-</ol>
-<ul>
+<li>UIKit调用适当的方法来启动动画：<ul>
 <li>对于非交互式动画，UIKit调用animator对象的<code>animateTransition:</code>方法。</li>
 <li>对于交互式动画，UIKit调用交互式animator对象的<code>startInteractiveTransition:</code>方法。</li>
 </ul>
-<ol>
+</li>
 <li>UIKit等待aniamtor对象调用转场动画上下文对象的<code>completeTransition:</code>方法。自定义animator对象会在动画执行完毕后，在动画的completion block中调用该方法。调用该方法结束了转场动画，并告知UIKit可以调用<code>presentViewController:animated:completion:</code>方法中的completion handler以及animator对象的<code>animationEnded:</code>方法。</li>
 </ol>
 <p>移除视图控制器时，UIKit会调用转场动画委托的<code>animationControllerForDismissedController:</code>方法并执行以下步骤：</p>
 <ol>
 <li>UIKit调用转场动画委托的<code>interactionControllerForDismissal:</code>方法来查看交互式animator对象是否可用。如果该方法返回<code>nil</code>，UIKit将执行动画而不需要发生用户交互。</li>
 <li>UIKit调用animator对象的<code>transitionDuration:</code>方法来获取动画时长。</li>
-<li>UIKit调用适当的方法来启动动画：</li>
-</ol>
-<ul>
+<li>UIKit调用适当的方法来启动动画：<ul>
 <li>对于非交互式动画，UIKit调用aniamtor对象的<code>animateTransition:</code>方法。</li>
 <li>对于交互式动画，UIKit调用交互式animator对象的<code>startInteractiveTransition:</code>方法。</li>
 </ul>
-<ol>
+</li>
 <li>UIKit等待animator对象调用转场动画上下文对象的<code>completeTransition:</code>方法。自定义animator对象会在动画执行完毕后，在动画的completion block中调用该方法。调用该方法结束了转场动画，并告知UIKit可以调用<code>dismissViewControllerAnimated:completion:</code>方法中的completion handler以及animator对象的<code>animationEnded:</code>方法。</li>
 </ol>
 <blockquote>
@@ -408,23 +404,31 @@
 <p>对于呈现视图控制器，请将“from”视图添加到容器视图层次结构中。对于移除视图控制器，请从容器视图层次结构中移除“from”视图。</p>
 <h3 id="创建转场动画"><a href="#创建转场动画" class="headerlink" title="创建转场动画"></a>创建转场动画</h3><p>在典型的转场过程中，需要呈现的视图控制器的视图动画显示到屏幕上。其他视图也可能执行动画，该动画属于整个转场动画的一部分。动画的主要目标始终是视图被添加到视图层次结构中。</p>
 <ul>
-<li>呈现动画：</li>
+<li><p>呈现动画：</p>
+<ul>
 <li>使用<code>viewControllerForKey:</code>和<code>viewForKey:</code>方法来得到转场过程中涉及的视图控制器和视图。</li>
 <li>设置”to”视图的起始位置，以及设置其他任何属性的起始值。</li>
 <li>从转场动画上下文对象的<code>finalFrameForViewController:</code>方法获取“to”视图的最终位置。</li>
 <li>添加“to”视图到容器视图上。</li>
-<li>创建动画。</li>
+<li>创建动画。<ul>
 <li>在动画Block中，将“to”视图从起始位置动画到在容器视图中的最终位置。同时，将其他任何属性也设置为它们的最终值。</li>
-<li><p>在完成Block中，调用<code>completeTransition:</code>方法并执行任何其他清理。</p>
+<li>在完成Block中，调用<code>completeTransition:</code>方法并执行任何其他清理。</li>
+</ul>
+</li>
+</ul>
 </li>
 <li><p>移除动画：</p>
-</li>
+<ul>
 <li>使用<code>viewControllerForKey:</code>和<code>viewForKey:</code>方法来得到转场过程中涉及的视图控制器和视图。</li>
 <li>计算”from”视图的最终位置，此视图属于目前被移除的已经呈现的视图控制器。</li>
 <li>添加“to”视图到容器视图上。在执行呈现转场动画过程中，发起呈现的视图控制器的视图会在转场完成后被删除。因此，我们必须在移除转场动画过程中将该视图添加回容器视图中。</li>
-<li>创建动画。</li>
+<li>创建动画。<ul>
 <li>在动画Block中，将“from”视图从起始位置动画到在容器视图中的最终位置。同时，将其他任何属性也设置为它们的最终值。</li>
 <li>在完成Block中，从视图层中移除“from”视图并调用<code>completeTransition:</code>方法并执行需要的任何其他清理。</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p>图10-5显示了一个自定义的呈现和移除转场动画，它们可以对角地呈现视图。在呈现过程中，需要呈现的视图从屏幕边缘开始沿着对角线向左上方移动，直至完全可见。在移除过程中，动画方向颠倒，视图向右下方移动，直到它完全离开屏幕。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/4906302-3576a9dc191ff92b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图10-5"></p>
@@ -435,7 +439,7 @@
 <p>我们可以直接使用<code>UIPercentDrivenInteractiveTransition</code>类，也可以使用其子类。如果使用其子类，则使用子类的<code>init</code>方（或者<code>startInteractiveTransition:</code>方法）来执行事件处理代码的一次性设置。之后，使用自定义的事件处理代码来计算新的完成百分比并调用<code>updateInteractiveTransition:</code>方法。当确定已完成转场时，请调用<code>finishInteractiveTransition</code>方法。</p>
 <p>以下代码显示了<code>UIPercentDrivenInteractiveTransition</code>子类的<code>startInteractiveTransition:</code>方法的自定义实现。此方法设置了一个拖拽手势识别器来跟踪触摸事件，并将其与执行动画的容器视图相关联。该方法还保存了对转场动画上下文对象的引用以供以后使用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (void)startInteractiveTransition:(id&lt;UIViewControllerContextTransitioning&gt;)transitionContext &#123;</div><div class="line">    // Always call super first.</div><div class="line">    [super startInteractiveTransition:transitionContext];</div><div class="line"></div><div class="line">    // Save the transition context for future reference.</div><div class="line">    self.contextData = transitionContext;</div><div class="line"></div><div class="line">    // Create a pan gesture recognizer to monitor events.</div><div class="line">    self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeUpdate:)];</div><div class="line">    self.panGesture.maximumNumberOfTouches = 1;</div><div class="line"></div><div class="line">    // Add the gesture recognizer to the container view.</div><div class="line">    UIView* container = [transitionContext containerView];</div><div class="line">    [container addGestureRecognizer:self.panGesture];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>每当有新的触摸事件传入时，手势识别器调用其关联的操作方法。实现操作方法时，可以使用手势识别器的状态信息来确定手势是成功、失败还是仍在进行中。同时，可以使用最新的触摸事件信息来计算新的完成百分比值。</p>
-<p>以下代码显示了配置的拖拽手势识别器关联的操作方法。当有新事件传入时，此方法会使用触摸位置在垂直方向上移动的距离来计算动画的完成百分比。当手势结束时，完成转场。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">- (void)handleSwipeUpdate:(UIGestureRecognizer *)gestureRecognizer &#123;</div><div class="line"></div><div class="line">    UIView* container = [self.contextData containerView];</div><div class="line"></div><div class="line">    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) &#123;</div><div class="line">    </div><div class="line">        // Reset the translation value at the beginning of the gesture.</div><div class="line">        [self.panGesture setTranslation:CGPointMake(0, 0) inView:container];</div><div class="line">        </div><div class="line">    &#125;else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) &#123;</div><div class="line">    </div><div class="line">        // Get the current translation value.</div><div class="line">        CGPoint translation = [self.panGesture translationInView:container];</div><div class="line"></div><div class="line">        // Compute how far the gesture has travelled vertically,</div><div class="line">        // relative to the height of the container view.</div><div class="line">        CGFloat percentage = fabs(translation.y / CGRectGetHeight(container.bounds));</div><div class="line"></div><div class="line">        // Use the translation value to update the interactive animator.</div><div class="line">        [self updateInteractiveTransition:percentage];</div><div class="line">        </div><div class="line">    &#125;else if (gestureRecognizer.state &gt;= UIGestureRecognizerStateEnded) &#123;</div><div class="line">    </div><div class="line">        // Finish the transition and remove the gesture recognizer.</div><div class="line">        [self finishInteractiveTransition];</div><div class="line">        [[self.contextData containerView] removeGestureRecognizer:self.panGesture];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>以下代码显示了配置的拖拽手势识别器关联的操作方法。当有新事件传入时，此方法会使用触摸位置在垂直方向上移动的距离来计算动画的完成百分比。当手势结束时，完成转场。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">- (void)handleSwipeUpdate:(UIGestureRecognizer *)gestureRecognizer &#123;</div><div class="line">    UIView* container = [self.contextData containerView];</div><div class="line"></div><div class="line">    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) &#123;</div><div class="line">        // Reset the translation value at the beginning of the gesture.</div><div class="line">        [self.panGesture setTranslation:CGPointMake(0, 0) inView:container];</div><div class="line">    &#125;else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) &#123;</div><div class="line">        // Get the current translation value.</div><div class="line">        CGPoint translation = [self.panGesture translationInView:container];</div><div class="line"></div><div class="line">        // Compute how far the gesture has travelled vertically,</div><div class="line">        // relative to the height of the container view.</div><div class="line">        CGFloat percentage = fabs(translation.y / CGRectGetHeight(container.bounds));</div><div class="line"></div><div class="line">        // Use the translation value to update the interactive animator.</div><div class="line">        [self updateInteractiveTransition:percentage];</div><div class="line">    &#125;else if (gestureRecognizer.state &gt;= UIGestureRecognizerStateEnded) &#123;</div><div class="line">        // Finish the transition and remove the gesture recognizer.</div><div class="line">        [self finishInteractiveTransition];</div><div class="line">        [[self.contextData containerView] removeGestureRecognizer:self.panGesture];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <blockquote>
 <p><strong>重要</strong>：我们计算出来的值代表着动画的完成百分比。对于交互式动画，可能需要避免非线性效应。例如，动画本身的初始速度、阻尼值和非线性完成曲线。这些效应倾向于将触摸位置与任何底层视图的移动分开。</p>
 </blockquote>
@@ -481,8 +485,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/04/UIViewController详解-呈现和转场动画/" rel="next" title="UIViewController详解 -- 呈现和转场动画">
-                <i class="fa fa-chevron-left"></i> UIViewController详解 -- 呈现和转场动画
+              <a href="/2017/05/04/UIViewController（三）：呈现和转场动画/" rel="next" title="UIViewController（三）：呈现和转场动画">
+                <i class="fa fa-chevron-left"></i> UIViewController（三）：呈现和转场动画
               </a>
             
           </div>
@@ -491,8 +495,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/07/08/UIViewController详解-创建自定义presentation-controller/" rel="prev" title="UIViewController详解 -- 创建自定义presentation controller">
-                UIViewController详解 -- 创建自定义presentation controller <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/08/UIViewController（五）：创建自定义 Presentation Controller/" rel="prev" title="UIViewController（五）：创建自定义 Presentation Controller">
+                UIViewController（五）：创建自定义 Presentation Controller <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -560,7 +564,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.png"
+               src="/images/avatar.JPG"
                alt="ShiJian" />
           <p class="site-author-name" itemprop="name">ShiJian</p>
            
@@ -768,18 +772,18 @@
   
 
     
-      <script id="dsq-count-scr" src="https://ShiJian.disqus.com/count.js" async></script>
+      <script id="dsq-count-scr" src="https://野性的呼唤.disqus.com/count.js" async></script>
     
 
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/06/10/UIViewController详解-自定义转场动画/';
-          this.page.identifier = '2017/06/10/UIViewController详解-自定义转场动画/';
-          this.page.title = 'UIViewController详解 -- 自定义转场动画';
+          this.page.url = 'http://yoursite.com/2017/06/10/UIViewController（四）：自定义转场动画/';
+          this.page.identifier = '2017/06/10/UIViewController（四）：自定义转场动画/';
+          this.page.title = 'UIViewController（四）：自定义转场动画';
         };
         var d = document, s = d.createElement('script');
-        s.src = 'https://ShiJian.disqus.com/embed.js';
+        s.src = 'https://野性的呼唤.disqus.com/embed.js';
         s.setAttribute('data-timestamp', '' + +new Date());
         (d.head || d.body).appendChild(s);
       </script>

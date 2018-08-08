@@ -92,9 +92,9 @@
 
 <meta name="description" content="子类化视图控制器设计UI可以使用Xcode中的storyboard文件直观地定义视图控制器的UI，也可以以编程方式来创建UI。但storyboard可以将视图的内容可视化，并根据需要自定义视图层次结构。以可视化方式构建UI界面，可以让我们快速进行更改并能看到结果，而无需构建和运行应用程序。 下图显示了一个storyboard的例子。每个矩形区域代表一个视图控制器及其相关视图，视图控制器之间的箭头是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UIViewController详解 -- 视图控制器定义">
-<meta property="og:url" content="http://yoursite.com/2017/04/15/UIViewController详解-视图控制器定义/index.html">
-<meta property="og:site_name" content="ShiJian">
+<meta property="og:title" content="UIViewController（二）：视图控制器定义">
+<meta property="og:url" content="http://yoursite.com/2017/04/15/UIViewController（二）：视图控制器定义/index.html">
+<meta property="og:site_name" content="野性的呼唤">
 <meta property="og:description" content="子类化视图控制器设计UI可以使用Xcode中的storyboard文件直观地定义视图控制器的UI，也可以以编程方式来创建UI。但storyboard可以将视图的内容可视化，并根据需要自定义视图层次结构。以可视化方式构建UI界面，可以让我们快速进行更改并能看到结果，而无需构建和运行应用程序。 下图显示了一个storyboard的例子。每个矩形区域代表一个视图控制器及其相关视图，视图控制器之间的箭头是">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-9c3c06ab097289a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-5eab8813cf57ad4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -102,9 +102,9 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-c3f9e3c8d772d67d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-05ae784f9afe71e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-5df6d24c8fc02a4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-03-19T16:06:50.355Z">
+<meta property="og:updated_time" content="2018-08-08T03:36:40.955Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UIViewController详解 -- 视图控制器定义">
+<meta name="twitter:title" content="UIViewController（二）：视图控制器定义">
 <meta name="twitter:description" content="子类化视图控制器设计UI可以使用Xcode中的storyboard文件直观地定义视图控制器的UI，也可以以编程方式来创建UI。但storyboard可以将视图的内容可视化，并根据需要自定义视图层次结构。以可视化方式构建UI界面，可以让我们快速进行更改并能看到结果，而无需构建和运行应用程序。 下图显示了一个storyboard的例子。每个矩形区域代表一个视图控制器及其相关视图，视图控制器之间的箭头是">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4906302-9c3c06ab097289a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
@@ -134,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/15/UIViewController详解-视图控制器定义/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/15/UIViewController（二）：视图控制器定义/"/>
 
 
 
 
 
-  <title>UIViewController详解 -- 视图控制器定义 | ShiJian</title>
+  <title>UIViewController（二）：视图控制器定义 | 野性的呼唤</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -177,7 +177,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">ShiJian</span>
+        <span class="site-title">野性的呼唤</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -254,16 +254,16 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/15/UIViewController详解-视图控制器定义/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/15/UIViewController（二）：视图控制器定义/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiJian">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="image" content="/images/avatar.JPG">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="name" content="野性的呼唤">
     </span>
 
     
@@ -271,7 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">UIViewController详解 -- 视图控制器定义</h1>
+          <h1 class="post-title" itemprop="name headline">UIViewController（二）：视图控制器定义</h1>
         
 
         <div class="post-meta">
@@ -302,9 +302,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/15/UIViewController详解-视图控制器定义/#comments" itemprop="discussionUrl">
+                <a href="/2017/04/15/UIViewController（二）：视图控制器定义/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/04/15/UIViewController详解-视图控制器定义/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/04/15/UIViewController（二）：视图控制器定义/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -331,13 +331,15 @@
       
         <h2 id="子类化视图控制器"><a href="#子类化视图控制器" class="headerlink" title="子类化视图控制器"></a>子类化视图控制器</h2><h3 id="设计UI"><a href="#设计UI" class="headerlink" title="设计UI"></a>设计UI</h3><p>可以使用Xcode中的storyboard文件直观地定义视图控制器的UI，也可以以编程方式来创建UI。但storyboard可以将视图的内容可视化，并根据需要自定义视图层次结构。以可视化方式构建UI界面，可以让我们快速进行更改并能看到结果，而无需构建和运行应用程序。</p>
 <p>下图显示了一个storyboard的例子。每个矩形区域代表一个视图控制器及其相关视图，视图控制器之间的箭头是视图控制器的关系和节点。关系将容器视图控制器连接到其子视图控制器。Segue可用于在界面中的视图控制器之间导航。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/4906302-9c3c06ab097289a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图5-1"></p>
 <a id="more"></a>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-9c3c06ab097289a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图5-1"></p>
 <h3 id="处理用户交互"><a href="#处理用户交互" class="headerlink" title="处理用户交互"></a>处理用户交互</h3><p>应用程序的响应者对象会处理传入的事件，虽然视图控制器是响应者对象，但它们很少直接处理触摸事件。相反，视图控制器通常以下列方式处理事件：</p>
 <ul>
-<li>视图控制器定义了处理更高级别事件的操作方法。行动方法回应：</li>
+<li>视图控制器定义了处理更高级别事件的操作方法。行动方法回应：<ul>
 <li>具体行动。控件和一些视图调用行动方法来报告特定的交互。</li>
 <li>手势识别器。手势识别器调用行动方法来报告手势的当前状态。使用视图控制器处理状态变更或响应已完成的手势。</li>
+</ul>
+</li>
 <li>视图控制器观察由系统或其他对象发出的通知，通知报告更改。通知也是视图控制器更新其状态的一种方式。</li>
 <li>视图控制器充当另一个对象的数据源或委托。例如，可以将它们用作<code>CLLocationManager</code>对象的代理，该对象将更新的位置发送给其委托对象。</li>
 </ul>
@@ -416,7 +418,7 @@
 <p>删除子视图控制器会永久切断容器视图控制器与子视图控制器之间的关系。只有当不再需要引用子视图控制器时，才能移除子视图控制器。例如，当一个新视图控制器推入导航堆栈时，导航控制器并不会移除当前的子视图控制器。只有当它们从堆栈中弹出时，才会被删除。</p>
 <p>以下代码显示了如何从容器视图控制器中删除子视图控制器。调用子视图控制器的<code>willMoveToParentViewController:</code>方法且传入<code>nil</code>值为子视图控制器提供了为更改做准备的机会。子视图控制器的<code>removeFromParentViewController</code>方法还会调用其<code>didMoveToParentViewController:</code>方法其传入<code>nil</code>值。将容器视图控制器设置为<code>nil</code>，也会从容器中删除子视图。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (void) hideContentController: (UIViewController*) content &#123;</div><div class="line">    [content willMoveToParentViewController:nil];</div><div class="line">    [content.view removeFromSuperview];</div><div class="line">    [content removeFromParentViewController];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h4 id="子视图控制器之间的转场动画"><a href="#子视图控制器之间的转场动画" class="headerlink" title="子视图控制器之间的转场动画"></a>子视图控制器之间的转场动画</h4><p>当需要用一个子视图控制器动画替换另一个子视图控制器时，可以将子视图控制器的添加和删除合并到转场动画过程中。在执行动画前，请确保两个子视图控制器都是容器视图控制器内容的一部分，但是让当前的子视图控制器知道它即将被移除。在动画过程中，将新子视图控制器的视图移动到位并移除旧子视图控制器的视图。动画完成后，移除旧子视图控制器。</p>
-<p>以下代码显示了如何使用转场动画将一个子视图控制器替换成另一个子视图控制器的示例。在这个示例中，<code>transitionFromViewController:toViewController:duration:options:animations:completion:</code>方法会自动更新容器视图控制器的视图层次机构，不需要我们自己手动添加和删除视图。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">- (void)cycleFromViewController:(UIViewController*)oldVC toViewController:(UIViewController*)newVC &#123;</div><div class="line">    // Prepare the two view controllers for the change.</div><div class="line">    [oldVC willMoveToParentViewController:nil];</div><div class="line">    [self addChildViewController:newVC];</div><div class="line"></div><div class="line">    // Get the start frame of the new view controller and the end frame</div><div class="line">    // for the old view controller. Both rectangles are offscreen.</div><div class="line">    newVC.view.frame = [self newViewStartFrame];</div><div class="line">    CGRect endFrame = [self oldViewEndFrame];</div><div class="line"></div><div class="line">    // Queue up the transition animation.</div><div class="line">    [self transitionFromViewController: oldVC toViewController: newVC duration: 0.25 options:0 animations:^&#123;</div><div class="line"></div><div class="line">        // Animate the views to their final positions.</div><div class="line">        newVC.view.frame = oldVC.view.frame;</div><div class="line">        oldVC.view.frame = endFrame;</div><div class="line"></div><div class="line">    &#125;completion:^(BOOL finished) &#123;</div><div class="line">        // Remove the old view controller and send the final</div><div class="line">        // notification to the new view controller.</div><div class="line">        [oldVC removeFromParentViewController];</div><div class="line">        [newVC didMoveToParentViewController:self];</div><div class="line">    &#125;];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>以下代码显示了如何使用转场动画将一个子视图控制器替换成另一个子视图控制器的示例。在这个示例中，<code>transitionFromViewController:toViewController:duration:options:animations:completion:</code>方法会自动更新容器视图控制器的视图层次机构，不需要我们自己手动添加和删除视图。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">- (void)cycleFromViewController:(UIViewController*)oldVC toViewController:(UIViewController*)newVC &#123;</div><div class="line">    // Prepare the two view controllers for the change.</div><div class="line">    [oldVC willMoveToParentViewController:nil];</div><div class="line">    [self addChildViewController:newVC];</div><div class="line"></div><div class="line">    // Get the start frame of the new view controller and the end frame</div><div class="line">    // for the old view controller. Both rectangles are offscreen.</div><div class="line">    newVC.view.frame = [self newViewStartFrame];</div><div class="line">    CGRect endFrame = [self oldViewEndFrame];</div><div class="line"></div><div class="line">    // Queue up the transition animation.</div><div class="line">    [self transitionFromViewController: oldVC toViewController: newVC</div><div class="line">    duration: 0.25 options:0</div><div class="line">    animations:^&#123;</div><div class="line"></div><div class="line">        // Animate the views to their final positions.</div><div class="line">        newVC.view.frame = oldVC.view.frame;</div><div class="line">        oldVC.view.frame = endFrame;</div><div class="line"></div><div class="line">    &#125;completion:^(BOOL finished) &#123;</div><div class="line">        // Remove the old view controller and send the final</div><div class="line">        // notification to the new view controller.</div><div class="line">        [oldVC removeFromParentViewController];</div><div class="line">        [newVC didMoveToParentViewController:self];</div><div class="line">    &#125;];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h4 id="管理子视图控制器的外观更新"><a href="#管理子视图控制器的外观更新" class="headerlink" title="管理子视图控制器的外观更新"></a>管理子视图控制器的外观更新</h4><p>在将子视图控制器添加到容器视图控制器后，容器视图控制器会自动将外观相关的消息转发给子视图控制器。大多数情况下，这样能确保所有事件都正确发生。但是，有时默认行为可能会以无意义的顺序发送这些事件。例如，如果多个子视图控制器同时改变其视图状态，则可能需要合并这些更改，以使外观回调都以更合理的顺序同时发生。</p>
 <p>要接管外观回调的责任，需要覆写容器视图控制器的<code>shouldAutomaticallyForwardAppearanceMethods</code>方法并返回<code>NO</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (BOOL) shouldAutomaticallyForwardAppearanceMethods &#123;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>当有转场动画发生时，根据需要调用子视图控制器的<code>beginAppearanceTransition:animated:</code>或者<code>endAppearanceTransition</code>方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">-(void) viewWillAppear:(BOOL)animated &#123;</div><div class="line">    [self.child beginAppearanceTransition: YES animated: animated];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void) viewDidAppear:(BOOL)animated &#123;</div><div class="line">    [self.child endAppearanceTransition];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void) viewWillDisappear:(BOOL)animated &#123;</div><div class="line">    [self.child beginAppearanceTransition: NO animated: animated];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void) viewDidDisappear:(BOOL)animated &#123;</div><div class="line">    [self.child endAppearanceTransition];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -466,7 +468,7 @@
 <li>如果视图控制器最初是从storyboarrd中加载的，则UIKit使用保存的storyboard信息来定位和创建它。UIKit将有关视图控制器的storyboard信息保存在恢复归档中，在恢复时，UIKit使用该信息来定位相同的storyboard文件，并且会在使用任何其他方式都没有查找到视图控制器的情况下实例化相应的视图控制器。</li>
 </ol>
 <p>为视图控制器分配一个恢复类可以避免UIKit隐式地检索该视图控制器。使用恢复类可以更好地控制是否真的要创建视图控制器。例如，如果恢复类确定不应该重新创建视图控制器，则<code>viewControllerWithRestorationIdentifierPath:coder:</code>方法可以返回<code>nil</code>。当没有恢复类时，UIKit会尽其所能找到或者创建视图控制器，并将其恢复。</p>
-<p>当使用恢复类时，<code>viewControllerWithRestorationIdentifierPath:coder:</code>方法应该创建一个类的新实例对象，执行最低限度的初始化，并返回结果对象。以下代码展示了一个如何使用此方法从storyboard中加载视图控制器的例子。由于视图控制器最初是从storyboard加载的，因此此方法使用<code>UIStateRestorationViewControllerStoryboardKey</code>键值从存档中获取storyboard。<strong>注意，此方法不会尝试配置视图控制器的数据内容。当视图控制器的状态被解码后，才会去配置视图控制器的数据内容。</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">+ (UIViewController*)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder &#123;</div><div class="line">    MyViewController* vc;</div><div class="line">    </div><div class="line">    UIStoryboard* sb = [coder decodeObjectForKey:UIStateRestorationViewControllerStoryboardKey];</div><div class="line">    if (sb) &#123;</div><div class="line">        vc = (PushViewController*)[sb instantiateViewControllerWithIdentifier:@&quot;MyViewController&quot;];</div><div class="line">        vc.restorationIdentifier = [identifierComponents lastObject];</div><div class="line">        vc.restorationClass = [MyViewController class];</div><div class="line">    &#125;</div><div class="line">    return vc;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当使用恢复类时，<code>viewControllerWithRestorationIdentifierPath:coder:</code>方法应该创建一个类的新实例对象，执行最低限度的初始化，并返回结果对象。以下代码展示了一个如何使用此方法从storyboard中加载视图控制器的例子。由于视图控制器最初是从storyboard加载的，因此此方法使用<code>UIStateRestorationViewControllerStoryboardKey</code>键值从存档中获取storyboard。<strong>注意，此方法不会尝试配置视图控制器的数据内容。当视图控制器的状态被解码后，才会去配置视图控制器的数据内容。</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">+ (UIViewController*)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder &#123;</div><div class="line">    MyViewController* vc;</div><div class="line">    UIStoryboard* sb = [coder decodeObjectForKey:UIStateRestorationViewControllerStoryboardKey];</div><div class="line">    if (sb) &#123;</div><div class="line">        vc = (PushViewController*)[sb instantiateViewControllerWithIdentifier:@&quot;MyViewController&quot;];</div><div class="line">        vc.restorationIdentifier = [identifierComponents lastObject];</div><div class="line">        vc.restorationClass = [MyViewController class];</div><div class="line">    &#125;</div><div class="line">    return vc;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>在手动重新创建视图控制器时，重新分配恢复标识符和恢复类是一个好习惯。恢复恢复标识符的最简单方法是获取<code>identifierComponents</code>数组中的最后一项，并将其分配给视图控制器。</p>
 <p>对于在应用程序启动时从<strong>main storyboard</strong>文件中创建的对象，请勿为每个对象创建新的实例。请让UIKit隐式查找这些对象，或者使用应用程序委托对象的<code>application:viewControllerWithRestorationIdentifierPath:coder:</code>方法来查找现有对象。</p>
 <h3 id="编码和解码视图控制器的状态"><a href="#编码和解码视图控制器的状态" class="headerlink" title="编码和解码视图控制器的状态"></a>编码和解码视图控制器的状态</h3><p>对于每个要保存的对象，UIKit都会调用对象的<code>encodeRestorableStateWithCoder:</code>方法，使其有机会保存其状态。在恢复过程中，UIKit会调用对应的<code>decodeRestorableStateWithCoder:</code>方法来解码该状态并将其用于对象。对于视图控制器，这些方法的实现是可选的，但建议实现。可以使用它们来保存和恢复以下类型的信息：</p>
@@ -522,8 +524,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/27/UIViewController详解-概述/" rel="next" title="UIViewController详解 -- 概述">
-                <i class="fa fa-chevron-left"></i> UIViewController详解 -- 概述
+              <a href="/2017/03/27/UIViewController（一）：概述/" rel="next" title="UUIViewController（一）：概述">
+                <i class="fa fa-chevron-left"></i> UUIViewController（一）：概述
               </a>
             
           </div>
@@ -532,8 +534,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/05/04/UIViewController详解-呈现和转场动画/" rel="prev" title="UIViewController详解 -- 呈现和转场动画">
-                UIViewController详解 -- 呈现和转场动画 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/05/04/UIViewController（三）：呈现和转场动画/" rel="prev" title="UIViewController（三）：呈现和转场动画">
+                UIViewController（三）：呈现和转场动画 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -601,7 +603,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.png"
+               src="/images/avatar.JPG"
                alt="ShiJian" />
           <p class="site-author-name" itemprop="name">ShiJian</p>
            
@@ -809,18 +811,18 @@
   
 
     
-      <script id="dsq-count-scr" src="https://ShiJian.disqus.com/count.js" async></script>
+      <script id="dsq-count-scr" src="https://野性的呼唤.disqus.com/count.js" async></script>
     
 
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/04/15/UIViewController详解-视图控制器定义/';
-          this.page.identifier = '2017/04/15/UIViewController详解-视图控制器定义/';
-          this.page.title = 'UIViewController详解 -- 视图控制器定义';
+          this.page.url = 'http://yoursite.com/2017/04/15/UIViewController（二）：视图控制器定义/';
+          this.page.identifier = '2017/04/15/UIViewController（二）：视图控制器定义/';
+          this.page.title = 'UIViewController（二）：视图控制器定义';
         };
         var d = document, s = d.createElement('script');
-        s.src = 'https://ShiJian.disqus.com/embed.js';
+        s.src = 'https://野性的呼唤.disqus.com/embed.js';
         s.setAttribute('data-timestamp', '' + +new Date());
         (d.head || d.body).appendChild(s);
       </script>

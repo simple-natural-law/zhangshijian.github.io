@@ -92,9 +92,9 @@
 
 <meta name="description" content="概述手势识别器是处理视图中的触摸或者按压事件最简单的方法，我们可以在任意视图上附加一个或多个手势识别器。手势识别器封装了处理和解释该视图的触摸事件所需的所有逻辑，并将其与已知模式进行匹配。当触摸事件与已知模式匹配时，手势识别器会通知其关联的目标对象进行处理。手势识别器使用target-action设计模式去发送通知，如下图所示。当UITapGestureRecognizer对象在视图中检测到单指轻">
 <meta property="og:type" content="article">
-<meta property="og:title" content="手势识别相关">
-<meta property="og:url" content="http://yoursite.com/2016/11/04/手势识别相关/index.html">
-<meta property="og:site_name" content="ShiJian">
+<meta property="og:title" content="手势识别以及手势冲突处理">
+<meta property="og:url" content="http://yoursite.com/2016/11/04/手势识别以及手势冲突处理/index.html">
+<meta property="og:site_name" content="野性的呼唤">
 <meta property="og:description" content="概述手势识别器是处理视图中的触摸或者按压事件最简单的方法，我们可以在任意视图上附加一个或多个手势识别器。手势识别器封装了处理和解释该视图的触摸事件所需的所有逻辑，并将其与已知模式进行匹配。当触摸事件与已知模式匹配时，手势识别器会通知其关联的目标对象进行处理。手势识别器使用target-action设计模式去发送通知，如下图所示。当UITapGestureRecognizer对象在视图中检测到单指轻">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-f2ba48c20ef7eaa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-29c77ff614ca9313.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -103,9 +103,9 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-8d9774b6d1813708.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-9aa464561493cff7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-9b489d8cbaf9a310.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-03-19T15:36:34.822Z">
+<meta property="og:updated_time" content="2018-08-08T02:25:48.831Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="手势识别相关">
+<meta name="twitter:title" content="手势识别以及手势冲突处理">
 <meta name="twitter:description" content="概述手势识别器是处理视图中的触摸或者按压事件最简单的方法，我们可以在任意视图上附加一个或多个手势识别器。手势识别器封装了处理和解释该视图的触摸事件所需的所有逻辑，并将其与已知模式进行匹配。当触摸事件与已知模式匹配时，手势识别器会通知其关联的目标对象进行处理。手势识别器使用target-action设计模式去发送通知，如下图所示。当UITapGestureRecognizer对象在视图中检测到单指轻">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4906302-f2ba48c20ef7eaa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
@@ -135,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/11/04/手势识别相关/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/11/04/手势识别以及手势冲突处理/"/>
 
 
 
 
 
-  <title>手势识别相关 | ShiJian</title>
+  <title>手势识别以及手势冲突处理 | 野性的呼唤</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -178,7 +178,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">ShiJian</span>
+        <span class="site-title">野性的呼唤</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -255,16 +255,16 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/04/手势识别相关/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/04/手势识别以及手势冲突处理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiJian">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="image" content="/images/avatar.JPG">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="name" content="野性的呼唤">
     </span>
 
     
@@ -272,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">手势识别相关</h1>
+          <h1 class="post-title" itemprop="name headline">手势识别以及手势冲突处理</h1>
         
 
         <div class="post-meta">
@@ -303,9 +303,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/11/04/手势识别相关/#comments" itemprop="discussionUrl">
+                <a href="/2016/11/04/手势识别以及手势冲突处理/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/11/04/手势识别相关/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2016/11/04/手势识别以及手势冲突处理/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -332,8 +332,8 @@
       
         <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>手势识别器是处理视图中的触摸或者按压事件最简单的方法，我们可以在任意视图上附加一个或多个手势识别器。手势识别器封装了处理和解释该视图的触摸事件所需的所有逻辑，并将其与已知模式进行匹配。当触摸事件与已知模式匹配时，手势识别器会通知其关联的目标对象进行处理。手势识别器使用<code>target-action</code>设计模式去发送通知，如下图所示。当<code>UITapGestureRecognizer</code>对象在视图中检测到单指轻敲时，会调用视图所属的视图控制器的操作方法来回应。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/4906302-f2ba48c20ef7eaa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图1-1 手势识别器通知其关联到目标对象"></p>
-<a id="more"></a>
 <p>手势识别器有两种类型：离散型和连续型。当识别出手势后，<strong>离散型手势识别器</strong>只会调用一次其关联目标对象的操作方法。<strong>连续型手势识别器</strong>则可能会多次调用其关联目标对象的操作方法，包括手势的开始和结束以及跟踪手势细节的变化。例如，使用拖拽手势识别器时，只要触摸事件的位置发生变化，<code>UIPanGestureRecognizer</code>对象就会调用其关联对象的操作方法。</p>
+<a id="more"></a>
 <h2 id="配置手势识别器"><a href="#配置手势识别器" class="headerlink" title="配置手势识别器"></a>配置手势识别器</h2><p>配置手势识别器分为以下三步：</p>
 <ul>
 <li>使用代码创建一个手势识别器对象，并将其附加到视图上。或者，使用<code>storyboard</code>，直接将手势识别器拖动到视图上。</li>
@@ -399,11 +399,11 @@
 </ul>
 <h2 id="处理手势冲突"><a href="#处理手势冲突" class="headerlink" title="处理手势冲突"></a>处理手势冲突</h2><p>在视图上附加多个手势识别器时，多个手势识别器会同时跟踪传入的触摸事件。但<strong>默认</strong>情况下UIKit只允许在单个视图中一次只识别一个手势，也就是说当某个手势识别器成功识别手势后，其他手势识别器就不会再继续去识别该手势。一次只识别一个手势可以防止用户一次触发多个动作，但这种<strong>默认</strong>识别行为可能会导致意想不到的副作用。例如，在包含拖拽和轻扫手势识别器的视图中，轻扫手势永远不会被识别。这是因为拖拽手势是连续的，所以它总是在轻扫手势之前被识别。</p>
 <p>UIKit通过调用手势识别器的委托对象的代理方法来确定一个手势是否必须在其他手势之前或之后被识别，或者两个手势是否可以被同时识别。对于涉及潜在冲突的两个手势识别器，只需要其中一个手势识别器去关联委托对象，该委托对象需要遵循<code>UIGestureRecognizerDelegate</code>协议。</p>
-<h3 id="确定在视图中识别手势的顺序"><a href="#确定在视图中识别手势的顺序" class="headerlink" title="确定在视图中识别手势的顺序"></a>确定在视图中识别手势的顺序</h3><p>当视图上附加有单击和双击手势时，单击手势会始终在双击手势之前被识别，但是可以通过实现单击手势委托对象的<code>gestureRecognizer:shouldRequireFailureOfGestureRecognizer:</code>方法去延后单击手势的识别直到双击手势被识别失败，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">    if (gestureRecognizer == self.singleTap &amp;&amp; otherGestureRecognizer == self.doubleTap)</div><div class="line">    &#123;</div><div class="line">        return YES;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>当视图上附加有轻扫和拖拽手势时，拖拽手势会始终在轻扫手势之前被识别。在这种情况下，可以通过实现轻扫手势委托对象的<code>gestureRecognizer:shouldBeRequiredToFailByGestureRecognizer:</code>方法实现在识别轻扫手势失败后才识别拖拽手势，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">    if (gestureRecognizer == self.swip &amp;&amp; otherGestureRecognizer == self.pan)</div><div class="line">    &#123;</div><div class="line">        return YES;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>也可以通过实现拖拽手势委托对象的<code>gestureRecognizer:shouldRequireFailureOfGestureRecognizer:</code>方法去延后拖拽手势的识别直到轻扫手势被识别失败，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">    if (gestureRecognizer == self.pan &amp;&amp; otherGestureRecognizer == self.swip)</div><div class="line">    &#123;</div><div class="line">        return YES;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="确定在视图中识别手势的顺序"><a href="#确定在视图中识别手势的顺序" class="headerlink" title="确定在视图中识别手势的顺序"></a>确定在视图中识别手势的顺序</h3><p>当视图上附加有单击和双击手势时，单击手势会始终在双击手势之前被识别，但是可以通过实现单击手势委托对象的<code>gestureRecognizer:shouldRequireFailureOfGestureRecognizer:</code>方法去延后单击手势的识别直到双击手势被识别失败，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">if (gestureRecognizer == self.singleTap &amp;&amp; otherGestureRecognizer == self.doubleTap)</div><div class="line">&#123;</div><div class="line">return YES;</div><div class="line">&#125;</div><div class="line">return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当视图上附加有轻扫和拖拽手势时，拖拽手势会始终在轻扫手势之前被识别。在这种情况下，可以通过实现轻扫手势委托对象的<code>gestureRecognizer:shouldBeRequiredToFailByGestureRecognizer:</code>方法实现在识别轻扫手势失败后才识别拖拽手势，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">if (gestureRecognizer == self.swip &amp;&amp; otherGestureRecognizer == self.pan)</div><div class="line">&#123;</div><div class="line">return YES;</div><div class="line">&#125;</div><div class="line">return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>也可以通过实现拖拽手势委托对象的<code>gestureRecognizer:shouldRequireFailureOfGestureRecognizer:</code>方法去延后拖拽手势的识别直到轻扫手势被识别失败，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">if (gestureRecognizer == self.pan &amp;&amp; otherGestureRecognizer == self.swip)</div><div class="line">&#123;</div><div class="line">return YES;</div><div class="line">&#125;</div><div class="line">return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="允许同时识别多个手势"><a href="#允许同时识别多个手势" class="headerlink" title="允许同时识别多个手势"></a>允许同时识别多个手势</h3><p>在默认情况下，UIkit在单个视图中一次只允许识别一个手势，但如果有需要，也可以在单个视图中同时识别多个手势。要允许在单个视图中同时识别多个手势，需要手势委托对象实现<code>gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:</code>方法。UIKit会调用此方法来判断是否允许同时识别两个手势，默认返回<code>NO</code>。</p>
-<p>当一个视图上同时附加有拖拽、 缩放和旋转手势时，允许用户在屏幕上可以同时拖动、 缩放和旋转视图，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">    // 允许同时识别在同一视图上的特定手势</div><div class="line">    if (gestureRecognizer.view == self.targetView &amp;&amp; otherGestureRecognizer.view == self.targetView)</div><div class="line">    &#123;</div><div class="line">        // 排除长按手势</div><div class="line">        if (![gestureRecognizer isMemberOfClass:[UILongPressGestureRecognizer class]] &amp;&amp; ![otherGestureRecognizer isMemberOfClass:[UILongPressGestureRecognizer class]])</div><div class="line">        &#123;</div><div class="line">            return YES;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当一个视图上同时附加有拖拽、 缩放和旋转手势时，允许用户在屏幕上可以同时拖动、 缩放和旋转视图，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</div><div class="line">&#123;</div><div class="line">// 允许同时识别在同一视图上的特定手势</div><div class="line">if (gestureRecognizer.view == self.targetView &amp;&amp; otherGestureRecognizer.view == self.targetView)</div><div class="line">&#123;</div><div class="line">// 排除长按手势</div><div class="line">if (![gestureRecognizer isMemberOfClass:[UILongPressGestureRecognizer class]] &amp;&amp; ![otherGestureRecognizer isMemberOfClass:[UILongPressGestureRecognizer class]])</div><div class="line">&#123;</div><div class="line">return YES;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p><strong>要同时识别多个手势，它们的委托对象都要实现<code>gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:</code>方法，如果只有其中一个手势的委托对象实现了，但其它手势的委托对象没有实现，那么UIKit也不会同时识别它们。</strong></p>
 <h2 id="自定义手势识别器"><a href="#自定义手势识别器" class="headerlink" title="自定义手势识别器"></a>自定义手势识别器</h2><p>当UIKit定义的手势类型不能满足我们需求时，我们也可以自定义手势识别器来处理特定的触摸事件。自定义手势识别器的详情可以参看<a href="https://developer.apple.com/documentation/uikit/touches_presses_and_gestures/implementing_a_custom_gesture_recognizer" target="_blank" rel="external">Implementing a Custom Gesture Recognizer</a></p>
 <h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>示例代码下载地址：<a href="https://github.com/zhangshijian/GesturesDemo.git" target="_blank" rel="external">https://github.com/zhangshijian/GesturesDemo.git</a></p>
@@ -522,7 +522,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.png"
+               src="/images/avatar.JPG"
                alt="ShiJian" />
           <p class="site-author-name" itemprop="name">ShiJian</p>
            
@@ -730,18 +730,18 @@
   
 
     
-      <script id="dsq-count-scr" src="https://ShiJian.disqus.com/count.js" async></script>
+      <script id="dsq-count-scr" src="https://野性的呼唤.disqus.com/count.js" async></script>
     
 
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2016/11/04/手势识别相关/';
-          this.page.identifier = '2016/11/04/手势识别相关/';
-          this.page.title = '手势识别相关';
+          this.page.url = 'http://yoursite.com/2016/11/04/手势识别以及手势冲突处理/';
+          this.page.identifier = '2016/11/04/手势识别以及手势冲突处理/';
+          this.page.title = '手势识别以及手势冲突处理';
         };
         var d = document, s = d.createElement('script');
-        s.src = 'https://ShiJian.disqus.com/embed.js';
+        s.src = 'https://野性的呼唤.disqus.com/embed.js';
         s.setAttribute('data-timestamp', '' + +new Date());
         (d.head || d.body).appendChild(s);
       </script>

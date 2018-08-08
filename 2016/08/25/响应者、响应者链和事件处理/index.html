@@ -94,11 +94,11 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="响应者、响应者链和事件处理">
 <meta property="og:url" content="http://yoursite.com/2016/08/25/响应者、响应者链和事件处理/index.html">
-<meta property="og:site_name" content="ShiJian">
+<meta property="og:site_name" content="野性的呼唤">
 <meta property="og:description" content="概述应用程序使用响应者对象来接收和处理事件，属于UIResponder类的实例对象都是响应者，常见的子类包括UIView、UIViewController和UIApplication。响应者接收到原始事件后，必须处理该事件或者将此事件转发给另一个响应者。当应用程序接收到一个事件时，UIKit会自动将该事件指向最合适的响应者对象，此响应者称为第一响应者，第一响应者会将未处理的事件传递给处于激活状态的">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-0996a2fde508bb7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-14891d86ae7edb0a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-03-19T15:26:08.406Z">
+<meta property="og:updated_time" content="2018-08-08T02:35:45.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="响应者、响应者链和事件处理">
 <meta name="twitter:description" content="概述应用程序使用响应者对象来接收和处理事件，属于UIResponder类的实例对象都是响应者，常见的子类包括UIView、UIViewController和UIApplication。响应者接收到原始事件后，必须处理该事件或者将此事件转发给另一个响应者。当应用程序接收到一个事件时，UIKit会自动将该事件指向最合适的响应者对象，此响应者称为第一响应者，第一响应者会将未处理的事件传递给处于激活状态的">
@@ -136,7 +136,7 @@
 
 
 
-  <title>响应者、响应者链和事件处理 | ShiJian</title>
+  <title>响应者、响应者链和事件处理 | 野性的呼唤</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -173,7 +173,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">ShiJian</span>
+        <span class="site-title">野性的呼唤</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -255,11 +255,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiJian">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="image" content="/images/avatar.JPG">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="name" content="野性的呼唤">
     </span>
 
     
@@ -325,7 +325,8 @@
       
 
       
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>应用程序使用响应者对象来接收和处理事件，属于<code>UIResponder</code>类的实例对象都是响应者，常见的子类包括<code>UIView</code>、<code>UIViewController</code>和<code>UIApplication</code>。响应者接收到原始事件后，必须处理该事件或者将此事件转发给另一个响应者。当应用程序接收到一个事件时，UIKit会自动将该事件指向最合适的响应者对象，此响应者称为第一响应者，第一响应者会将未处理的事件传递给处于激活状态的响应者链中的的下一个响应者对象。应用程序中不存在单一的响应者链，UIkit定义了如何将对象从一个响应者传递到下一个响应者的默认规则，我们可以随时通过覆盖响应者对象中的<code>nextResponder</code>属性来更改这些规则。下图显示了应用程序中的默认响应者链，其界面包含一个label，一个text field，一个button和两个background view。如果text field没有处理触摸事件，UIKit会将事件发送到text field的父视图对象，如果事件还是未被处理，UIKit会继续发送该事件到此视图的父视图，直到发送到window的根视图，然后响应者链从根视图转移到持有此根视图的视图控制器，再从视图控制器转移到window。如果window不处理这个事件，UIKit会将事件传递给<code>UIApplication</code>对象。如果应用程序的委托对象是<code>UIResponder</code>类的实例并且响应者链中还不包含该对象，那么UiKit可能将该事件传递给应用程序的委托对象。</p>
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>应用程序使用响应者对象来接收和处理事件，属于<code>UIResponder</code>类的实例对象都是响应者，常见的子类包括<code>UIView</code>、<code>UIViewController</code>和<code>UIApplication</code>。响应者接收到原始事件后，必须处理该事件或者将此事件转发给另一个响应者。当应用程序接收到一个事件时，UIKit会自动将该事件指向最合适的响应者对象，此响应者称为第一响应者，第一响应者会将未处理的事件传递给处于激活状态的响应者链中的的下一个响应者对象。应用程序中不存在单一的响应者链，UIkit定义了如何将对象从一个响应者传递到下一个响应者的默认规则，我们可以随时通过覆盖响应者对象中的<code>nextResponder</code>属性来更改这些规则。</p>
+<p>下图显示了应用程序中的默认响应者链，其界面包含一个label，一个text field，一个button和两个background view。如果text field没有处理触摸事件，UIKit会将事件发送到text field的父视图对象，如果事件还是未被处理，UIKit会继续发送该事件到此视图的父视图，直到发送到window的根视图，然后响应者链从根视图转移到持有此根视图的视图控制器，再从视图控制器转移到window。如果window不处理这个事件，UIKit会将事件传递给<code>UIApplication</code>对象。如果应用程序的委托对象是<code>UIResponder</code>类的实例并且响应者链中还不包含该对象，那么UiKit可能将该事件传递给应用程序的委托对象。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/4906302-0996a2fde508bb7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图1-1"></p>
 <a id="more"></a>
 <h2 id="确定事件的第一响应者"><a href="#确定事件的第一响应者" class="headerlink" title="确定事件的第一响应者"></a>确定事件的第一响应者</h2><p>对于每种类型的事件，UIKit都会指定一个第一响应者，并首先将事件发送给该对象，第一响应者根据事件的类型而有所不同：</p>
@@ -422,8 +423,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/11/04/手势识别相关/" rel="prev" title="手势识别相关">
-                手势识别相关 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/11/04/手势识别以及手势冲突处理/" rel="prev" title="手势识别以及手势冲突处理">
+                手势识别以及手势冲突处理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -491,7 +492,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.png"
+               src="/images/avatar.JPG"
                alt="ShiJian" />
           <p class="site-author-name" itemprop="name">ShiJian</p>
            
@@ -699,7 +700,7 @@
   
 
     
-      <script id="dsq-count-scr" src="https://ShiJian.disqus.com/count.js" async></script>
+      <script id="dsq-count-scr" src="https://野性的呼唤.disqus.com/count.js" async></script>
     
 
     
@@ -710,7 +711,7 @@
           this.page.title = '响应者、响应者链和事件处理';
         };
         var d = document, s = d.createElement('script');
-        s.src = 'https://ShiJian.disqus.com/embed.js';
+        s.src = 'https://野性的呼唤.disqus.com/embed.js';
         s.setAttribute('data-timestamp', '' + +new Date());
         (d.head || d.body).appendChild(s);
       </script>
