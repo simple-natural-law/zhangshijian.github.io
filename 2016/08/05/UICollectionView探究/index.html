@@ -1,0 +1,890 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="概述UICollectionView是iOS开发中最常用的UI控件之一，可以用它来管理一组有序的不同尺寸的视图，并以可定制的布局来展示它们。UICollectionView支持动画，当视图被插入，删除或重新排序时，会触发动画，动画效果支持自定义。为了更好的使用UICollectionView，我们有必要对其进行深入了解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UICollectionView探究">
+<meta property="og:url" content="http://yoursite.com/2016/08/05/UICollectionView探究/index.html">
+<meta property="og:site_name" content="野性的呼唤">
+<meta property="og:description" content="概述UICollectionView是iOS开发中最常用的UI控件之一，可以用它来管理一组有序的不同尺寸的视图，并以可定制的布局来展示它们。UICollectionView支持动画，当视图被插入，删除或重新排序时，会触发动画，动画效果支持自定义。为了更好的使用UICollectionView，我们有必要对其进行深入了解。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-ba3d276d462c721a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-5978228bb7d267c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-27daed629c81cd54.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-1a616e928e5a1a1b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-b18aadc17f32bff9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-a97e8cd3dd565470.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-08T07:30:41.298Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UICollectionView探究">
+<meta name="twitter:description" content="概述UICollectionView是iOS开发中最常用的UI控件之一，可以用它来管理一组有序的不同尺寸的视图，并以可定制的布局来展示它们。UICollectionView支持动画，当视图被插入，删除或重新排序时，会触发动画，动画效果支持自定义。为了更好的使用UICollectionView，我们有必要对其进行深入了解。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4906302-ba3d276d462c721a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/05/UICollectionView探究/"/>
+
+
+
+
+
+  <title>UICollectionView探究 | 野性的呼唤</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">野性的呼唤</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/05/UICollectionView探究/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="野性的呼唤">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">UICollectionView探究</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-05T22:08:21+08:00">
+                2016-08-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/08/05/UICollectionView探究/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/08/05/UICollectionView探究/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><a href="https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/CollectionViewBasics/CollectionViewBasics.html#//apple_ref/doc/uid/TP40012334-CH2-SW7" target="_blank" rel="external">UICollectionView</a>是iOS开发中最常用的UI控件之一，可以用它来管理一组有序的不同尺寸的视图，并以可定制的布局来展示它们。UICollectionView支持动画，当视图被插入，删除或重新排序时，会触发动画，动画效果支持自定义。为了更好的使用UICollectionView，我们有必要对其进行深入了解。</p>
+<a id="more"></a>
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="UICollectionView是由多个对象协作实现的"><a href="#UICollectionView是由多个对象协作实现的" class="headerlink" title="UICollectionView是由多个对象协作实现的"></a>UICollectionView是由多个对象协作实现的</h3><p>集合视图将视图的数据内容与视图的布局方式分开来管理。数据内容由集合视图的<code>dataSource</code>对象管理，而布局方式则是由许多不同的对象协作来管理。下表列出了UIKit中与集合视图有关的类，并根据它们在集合视图中的作用进行了划分。</p>
+<table>
+<thead>
+<tr>
+<th>目的</th>
+<th>类/协议</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顶层容器和管理者</td>
+<td>UICollectionView<br>UICollectionViewController</td>
+<td>UICollectionView定义了显示视图内容的空间，它继承自<a href="https://developer.apple.com/documentation/uikit/uiscrollview" target="_blank" rel="external">UIScrollView</a>，能够根据内容的高度来调整其滚动区域。其layout布局对象会提供布局信息来呈现数据。<br>UICollectionViewController对象提供了一个UICollectionView的视图控制器级管理支持。</td>
+</tr>
+<tr>
+<td>内容管理</td>
+<td>UICollectionViewDataSource协议<br>UICollectionViewDelegate协议</td>
+<td>DataSource协议是必须实现的，它创造并管理UICollectionView的视图内容。<br>Delegate协议能获取视图的信息并自定义视图的行为，这个协议是可选实现的。</td>
+</tr>
+<tr>
+<td>内容视图</td>
+<td>UICollectionReusableView<br>UICollectionViewCell</td>
+<td>UICollectionView展示的所有视图都必须是UICollectionReusableView类的实例，该类支持回收复用机制。在视图滚动时,回收复用视图而不是重新创建，能极大提高性能。<br>UICollectionViewCell对象是用来展示主要数据的可重用视图,该类继承自UICollectionReusableView。</td>
+</tr>
+<tr>
+<td>布局</td>
+<td>UICollectionViewLayout<br>UICollectionViewLayoutAttributes<br>UICollectionViewUpdateItem</td>
+<td>UICollectionViewLayout的子类被称为布局对象，它负责定义集合视图中的cell和可重用视图的位置，大小，视觉效果。在布局过程中，布局对象UICollectionViewLayout会创建一个布局属性对象UICollectionViewLayoutAttributes去告诉集合视图在什么位置，用什么样视觉外观去展示cell和可重用视图。当在集合视图中插入、删除、移动数据项时，布局对象会接收到UICollectionViewUpdateItem类的实例，不需要自行创建该类的实例。</td>
+</tr>
+<tr>
+<td>流水布局</td>
+<td>UICollectionViewFlowLayout协议<br>UICollectionViewDelegateFlowLayout协议</td>
+<td>UICollectionViewFlowLayout类是用于实现网格或其他基于行的布局的具体布局对象。 可以按照原样使用该类或者配合UICollectionViewDelegateFlowLayout协议一起使用，这样就可以动态自定义布局信息。</td>
+</tr>
+</tbody>
+</table>
+<p>集合视图从其<code>dataSource</code>对象中获取要展示的cell的数据内容，并通过其<code>delegate</code>对象去管理cell的选中和高亮等状态。布局对象负责决定cell所在的位置，布局属性对象记录了cell的布局属性，布局对象将布局属性对象传递给集合视图，集合视图接收到布局属性信息后创建并展示cell。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-ba3d276d462c721a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图1-1"></p>
+<h3 id="重用视图提高性能"><a href="#重用视图提高性能" class="headerlink" title="重用视图提高性能"></a>重用视图提高性能</h3><p>集合视图通过复用已被回收的cell来提高效率，当cell滚动到屏幕外时，它们不会被销毁，但会被移出容器视图并放置到重用队列中。当有新的内容将要滚动到屏幕中时，如果重用队列中有可复用的cell，会首先从重用队列中取，并重置被取出来的cell的数据，然后将其添加到容器视图中展示。如果重用队列没有可复用的cell，这时才会新创建一个cell去展示。为了方便这种循环，集合视图中展示的视图类都必须继承自<code>UICollectionReusableView</code>类。</p>
+<p>集合视图支持三种不同类型的可重用视图，每种视图都具有特定的用途：</p>
+<ul>
+<li>cell(单元格)展示集合视图的主要内容，每个cell展示的内容由<code>dataSource</code>对象提供。每个cell都必须是<code>UICollectionViewCell</code>的实例，同时也可以根据需要对其子类化。cell对象支持管理其选中和高亮状态。</li>
+<li>supplementary view(补充视图)展示每个section(分区)的信息。和cell相同的是：supplementary view也是数据驱动的。不同的是：supplementary view是可选的而不是强制的。supplementary view的使用和布局是由布局对象管理的，系统提供的流水布局支持设置header和footer作为可选的supplementary view。</li>
+<li>decoration view(装饰视图)与<code>dataSource</code>对象提供的数据不相关，完全属于布局对象。布局对象可能会使用它自定义集合视图背景。</li>
+</ul>
+<h3 id="布局对象控制视图的视觉效果"><a href="#布局对象控制视图的视觉效果" class="headerlink" title="布局对象控制视图的视觉效果"></a>布局对象控制视图的视觉效果</h3><p>布局对象负责确定集合视图中每个cell的位置和视觉样式。虽然<code>dataSource</code>对象提供了要展示的视图和实际内容，但布局对象确定了这些视图的位置，大小以及其他与外观相关的属性。这种责任划分使得我们能够在动态的更改布局时无需更改<code>dataSource</code>对象提供的数据。</p>
+<p>布局对象并不拥有任何视图，它只会生成用来描述cell，supplementary view和decoration view的位置，大小，视觉样式的布局属性，并将布局属性传递给集合视图，集合视图将这些属性应用于实际的视图对象。</p>
+<p>布局对象可以随意生成视图的位置，大小以及视觉样式属性，没有任何限制。只有布局对象能改变视图在集合视图中的位置，它能移动视图，也能随机切换横竖屏，甚至能复位某视图而不用考虑此视图周围的视图。例如，如果有需要，布局对象可以将所有视图叠加在一起。</p>
+<p>下图显示了垂直滚动的流水布局对象如何布置cell。在垂直滚动流水布局中，内容区域的宽度保持固定，高度随着内容高度的增加而增加。布局对象一次只放置一个cell，在放置前会先计算出cell在容器视图中的frame，为cell选择最合适的位置。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-5978228bb7d267c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图1-2"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>必须为集合视图提供一个<code>dataSource</code>对象，集合视图从<code>dataSource</code>对象中获取要显示的内容。它可以是一个数据模型对象，也可以是管理集合视图的视图控制器，对<code>dataSource</code>对象的唯一要求是它必须能够提供集合视图所需的所有信息。<code>delegate</code>对象是可选提供的，其被用于管理与内容的呈现以及交互有关的方面。它的主要职责是管理cell的选中和高亮状态，也可以扩展<code>UICollectionViewDelegate</code>协议以提供其他信息。流水布局对象就扩展了<code>UICollectionViewDelegate</code>协议来定制布局，例如，cell的大小和它们之间的间距。</p>
+<h3 id="UICollectionViewDataSource"><a href="#UICollectionViewDataSource" class="headerlink" title="UICollectionViewDataSource"></a>UICollectionViewDataSource</h3><p>提供集合视图包含的section(分区)数量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView*)collectionView</div><div class="line">&#123;</div><div class="line">    return [_dataArray count];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>提供每个section包含的item(单元格)数量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (NSInteger)collectionView:(UICollectionView*)collectionView numberOfItemsInSection:(NSInteger)section</div><div class="line">&#123;</div><div class="line">    NSArray* sectionArray = [_dataArray objectAtIndex:section];</div><div class="line"></div><div class="line">    return [sectionArray count];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>根据IndexPath提供对应的cell：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath</div><div class="line">&#123;</div><div class="line">    UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:@&quot;reuseIdentifier&quot; forIndexPath:indexPath];</div><div class="line"></div><div class="line">    return cell;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>根据IndexPath提供对应的supplementary view，流水布局的supplementary view分为Header和Footer两种类型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath</div><div class="line">&#123;</div><div class="line">    // UICollectionElementKindSectionHeader返回Header，UICollectionElementKindSectionFooter返回Footer</div><div class="line">    if ([kind isEqualToString:UICollectionElementKindSectionHeader])</div><div class="line">    &#123;</div><div class="line">        UICollectionReusableView *supplementaryView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@&quot;HeaderReuseIdentifier&quot; forIndexPath:indexPath];</div><div class="line"></div><div class="line">        return supplementaryView;</div><div class="line">    &#125;else</div><div class="line">    &#123;</div><div class="line">        UICollectionReusableView *supplementaryView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@&quot;FooterReuseIdentifier&quot; forIndexPath:indexPath];</div><div class="line"></div><div class="line">        return supplementaryView;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意：当集合视图展示的cell数量较少时，集合视图的<code>bounce</code>属性会默认关闭，而有时候我们的页面需要下拉刷新数据的功能，这时只需要设置<code>alwaysBounceVertical</code>属性设为<code>YES</code>即可。</p>
+</blockquote>
+<h3 id="UICollectionViewDelegate"><a href="#UICollectionViewDelegate" class="headerlink" title="UICollectionViewDelegate"></a>UICollectionViewDelegate</h3><p>设置cell是否能被选中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath</div><div class="line">&#123;</div><div class="line">    return YES;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当集合视图的<code>allowsMultipleSelection</code>多选属性为<code>YES</code>时，设置是否可以点击取消选中已被选中的cell：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath</div><div class="line">&#123;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>已选中cell后回调：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath</div><div class="line">&#123;</div><div class="line">    // 执行已选中后所需要的操作</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>已取消选中cell后回调：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath</div><div class="line">&#123;</div><div class="line">    // 执行已取消选中后所需要的操作</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>设置cell被选中时是否支持高亮：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath</div><div class="line">&#123;</div><div class="line">    return YES;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>选中cell时触发高亮后回调，可以在这里改变cell的背景色:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath</div><div class="line">&#123;</div><div class="line">    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];</div><div class="line"></div><div class="line">    cell.contentView.backgroundColor = [UIColor lightGrayColor];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>cell被取消选中变为普通状态后回调，可以在这里还原cell的背景色：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath</div><div class="line">&#123;</div><div class="line">    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];</div><div class="line"></div><div class="line">    cell.contentView.backgroundColor = [UIColor whiteColor];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意：点击cell时，cell的状态变化过程为：手指接触屏幕时，cell状态变为高亮，此时cell还未被选中。当手指离开屏幕后，cell状态变回到普通状态，然后cell被集合视图选中。当快速点击选中cell时，由于状态变化很快，导致人眼看不出来cell背景色有发生变化，实际上是发生了变化的。而长按选中cell时，可以看到背景色的变化。</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-27daed629c81cd54.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图2-1"></p>
+<h3 id="UICollectionViewDelegateFlowLayout"><a href="#UICollectionViewDelegateFlowLayout" class="headerlink" title="UICollectionViewDelegateFlowLayout"></a>UICollectionViewDelegateFlowLayout</h3><p>该协议是对<code>UICollectionViewDelegate</code>的扩展，能够动态返回cell的大小，和cell之间的最小间距等。</p>
+<p>根据IndexPath返回对应的Cell的大小：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath</div><div class="line">&#123;</div><div class="line">    return CGSizeMake(80.0, 80.0);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>返回cell到所在section的四周边界的距离：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section</div><div class="line">&#123;</div><div class="line">    return UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>根据Section返回对应的cell之间的行最小间距：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section</div><div class="line">&#123;</div><div class="line">    return 10.0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>根据section返回对应的cell之间的列最小间距：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section</div><div class="line">&#123;</div><div class="line">    return 10.0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>根据section返回对应的Header大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section</div><div class="line">&#123;</div><div class="line">    return CGSizeMake(collectionView.frame.size.width, 40.0);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>根据section返回对应的Footer大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section</div><div class="line">&#123;</div><div class="line">    return CGSizeMake(collectionView.frame.size.width, 40.0);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="cell和supplementary-view的重用"><a href="#cell和supplementary-view的重用" class="headerlink" title="cell和supplementary view的重用"></a>cell和supplementary view的重用</h3><p>视图的重用避免了不断生成和销毁对象的操作，提高了程序运行的效率。要想重用cell和supplementary view，首先需要注册cell和supplementary view，有种三种注册方式：</p>
+<ul>
+<li>使用storyboard布局时，直接拖拽cell或者supplementary view到storyboard中，设置好重用标识即可。</li>
+<li>使用xib布局时，设置重用标识后，使用<code>registerNib:forCellWithReuseIdentifier:</code>方法来注册cell，使用<code>registerNib:forSupplementaryViewOfKind:withReuseIdentifier:</code>方法来注册supplementary view。</li>
+<li>使用代码布局时，使用<code>registerClass:forCellWithReuseIdentifier:</code>方法来注册cell，使用<code>registerClass:forSupplementaryViewOfKind:withReuseIdentifier:</code>方法来注册supplementary view。</li>
+</ul>
+<blockquote>
+<p> 注意：使用纯代码自定义cell和supplementary view时，需要重写<code>initWithFrame:</code>方法，<code>init</code>方法不会被调用。</p>
+</blockquote>
+<p><code>dataSource</code>对象为集合视图配置cell和supplementary view时，使用<code>dequeueReusableCellWithReuseIdentifier:forIndexPath:</code>方法直接从重用队列中取cell，使用<code>dequeueReusableSupplementaryViewOfKind:withReuseIdentifier:forIndexPath:</code>方法直接从重用队列中取supplementary view。当重用队列中没有可复用的视图时，会自动帮我们新创建一个可用的视图。</p>
+<h3 id="cell的插入，删除和移动"><a href="#cell的插入，删除和移动" class="headerlink" title="cell的插入，删除和移动"></a>cell的插入，删除和移动</h3><p>插入，删除，移动单个cell或者某个section的所有cell时，遵循下面两个步骤：</p>
+<ul>
+<li>更新数据源对象中的数据内容。</li>
+<li>调用对应的插入，删除或者移动方法。</li>
+</ul>
+<p>集合视图插入，删除和移动cell之前，必须先对应更新数据源。如果数据源没有更新，程序运行就会崩溃。当插入，删除或者移动cell时，会自动添加动画效果来反映集合视图的更改。在执行动画时，如果还需要<code>同步</code>执行其他操作，可以使用<code>performBatchUpdates:completion:</code>方法，在<code>updates block</code>内执行所有插入，删除或移动调用，动画执行完毕后会调用<code>completion block</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[self.collectionView performBatchUpdates:^&#123;</div><div class="line">    // 执行更改操作</div><div class="line"></div><div class="line">&#125; completion:^(BOOL finished)&#123;</div><div class="line"></div><div class="line">    if (finished)</div><div class="line">    &#123;</div><div class="line">        // 执行其他操作</div><div class="line">    &#125;</div><div class="line">&#125;];</div></pre></td></tr></table></figure></p>
+<h3 id="长按cell弹出编辑菜单"><a href="#长按cell弹出编辑菜单" class="headerlink" title="长按cell弹出编辑菜单"></a>长按cell弹出编辑菜单</h3><p>长按某个cell时，可以弹出一个编辑菜单，能够用于剪切，粘贴，复制这个cell。长按弹出编辑菜单，<code>delegate</code>对象必须实现下面3个委托方法：</p>
+<p>是否显示编辑菜单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath</div><div class="line">&#123;</div><div class="line">    return YES;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以执行哪些操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender</div><div class="line">&#123;</div><div class="line">    if ([NSStringFromSelector(action) isEqualToString:@&quot;copy:&quot;]|| [NSStringFromSelector(action) isEqualToString:@&quot;paste:&quot;])</div><div class="line">    &#123;</div><div class="line">        return YES;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>点击菜单中选项后回调：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender</div><div class="line">&#123;</div><div class="line">    if ([NSStringFromSelector(action) isEqualToString:@&quot;cut:&quot;])</div><div class="line">    &#123;</div><div class="line">        // 剪切操作</div><div class="line">    &#125;else if ([NSStringFromSelector(action) isEqualToString:@&quot;copy:&quot;])</div><div class="line">    &#123;</div><div class="line">        // 复制操作</div><div class="line">    &#125;else if ([NSStringFromSelector(action) isEqualToString:@&quot;paste:&quot;])</div><div class="line">    &#123;</div><div class="line">        // 粘贴操作</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>集合视图只支持<code>cut:</code>，<code>copy:</code>，<code>paste:</code>三种编辑操作。想要了解如何配合剪贴板使用这些操作，可以参看<a href="https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/Introduction/Introduction.html#//apple_ref/doc/uid/TP40009542" target="_blank" rel="external">Text Programming Guide for iOS</a>。</p>
+<h3 id="切换布局时的转场动画"><a href="#切换布局时的转场动画" class="headerlink" title="切换布局时的转场动画"></a>切换布局时的转场动画</h3><p>切换布局最简单的方式是使用<code>setCollectionViewLayout:animated:</code>方法。在<code>UICollectionViewController</code>之间跳转时，如果需要交互式转场切换布局或者控制切换过程，可以使用<code>UICollectionViewTransitionLayout</code>对象。</p>
+<p><code>UICollectionViewTransitionLayout</code>类是一种特殊的布局类，它继承自<code>UICollectionViewLayout</code>类,在切换到新布局的过程中，它将作为集合视图的临时布局。使用<code>UICollectionViewTransitionLayout</code>布局对象时，可以使用不同的计时算法让动画遵循非线性路径，或者根据传入的触摸事件进行移动。官方提供的<code>UICollectionViewTransitionLayout</code>类支持对新布局的线性转换，但我们可以对其进行子类化来实现任何所需的效果。</p>
+<p><code>UICollectionViewLayout</code>提供了几种跟踪布局之间转换进度的方法，<code>UICollectionViewTransitionLayout</code>类通过<code>transitionProgress</code>属性来跟踪转场切换的进度，当转场切换开始后，需要定期更新此属性值来指示完成的百分比。使用自定义<code>UICollectionViewTransitionLayout</code>对象时，<code>UICollectionViewTransitionLayout</code>类提供来2种跟踪与布局相关的值的方法：<code>updateValue:forAnimatedKey:</code>和<code>valueForAnimatedKey:</code>。</p>
+<p>转场切换布局时，使用<code>UICollectionViewTransitionLayout</code>对象的步骤如下：</p>
+<ul>
+<li>使用<code>initWithCurrentLayout:nextLayout:</code>方法创建一个<code>UICollectionViewTransitionLayout</code>实例对象。</li>
+<li>定期修改<code>transitionProgress</code>属性值来指示转场切换的进度。在修改转场进度后，一定要调用<code>invalidateLayout</code>方法来废弃当前布局并更新布局。</li>
+<li>集合视图的<code>delegate</code>对象实现委托方法<code>collectionView:transitionLayoutForOldLayout:newLayout:</code>返回创建的<code>UICollectionViewTransitionLayout</code>实例对象。</li>
+<li>可以使用<code>updateValue:forAnimatedKey:</code>方法来修改与布局相关的值。</li>
+</ul>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><h3 id="流水布局"><a href="#流水布局" class="headerlink" title="流水布局"></a>流水布局</h3><p>官方提供的<code>UICollectionViewFlowLayout</code>流水布局对象实现了基于行的断开布局，单元格被放置在线性路径上，并沿着该行放置尽可能多的单元格，当前行上的空间在使用最小间距也不足以放置下一个单元格时，会重新计算出合适的当前行上摆放的单元格之间的间距，如果该行上只有一个单元格，那么它会被置中，然后会创建新的一行并在该行重复之前的布局过程。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-1a616e928e5a1a1b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-1"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-b18aadc17f32bff9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3-2"></p>
+<p>使用时，通过固定单元格的大小和单元格之间的最小间距来实现网格状视图，同时也可以任意设置单元格的大小和单元格之间的间距来实现不规则排列的视图。当单元格的大小，单元格之间的最小间距，单元格到所在分区四周的边距以及Header和Footer的大小固定时，可以直接设置<code>itemSize</code>，<code>minimumLineSpacing</code>，<code>minimumInteritemSpacing</code>，<code>sectionInset</code>，<code>headerReferenceSize</code>，<code>footerReferenceSize</code>属性值。如果想要动态设置它们，需要集合视图的<code>delegate</code>对象实现<code>UICollectionViewDelegateFlowLayout</code>协议的委托方法。</p>
+<h3 id="自定义布局"><a href="#自定义布局" class="headerlink" title="自定义布局"></a>自定义布局</h3><h4 id="理解布局过程"><a href="#理解布局过程" class="headerlink" title="理解布局过程"></a>理解布局过程</h4><p>子类化<code>UICollectionViewLayout</code>实现自定义布局有两个关键任务需要完成：</p>
+<ul>
+<li>指定可滚动内容区域的大小。</li>
+<li>为每个单元格和补充视图提供布局属性对象以便集合视图定位。</li>
+</ul>
+<p>集合视图和自定义布局对象一起工作来管理整体布局过程，当集合视图需要用到布局信息时，它会请求布局对象提供这些布局信息。调用布局对象的<code>invalidateLayout</code>方法会告知集合视图显式更新其布局，此方法会废弃现有的布局属性，并强制布局对象生成新的布局属性。</p>
+<p>不要将布局对象的<code>invalidateLayout</code>方法与集合视图的<code>reloadData</code>方法混淆，调用<code>invalidateLayout</code>方法不一定会移除当前现有的单元格和子视图，它只会强制布局对象重新计算移动、添加或删除单元格时所需的所有布局信息。如果数据源对象提供的数据发生了更改，则应该调用<code>reloadData</code>方法。使用这两种方法来更新布局时，实际的布局过程都是一样的。</p>
+<p>在布局过程中，集合视图会始终按顺序来调用布局对象的以下三种方法：</p>
+<ul>
+<li><code>- (void)prepareLayout</code></li>
+<li><code>- (CGSize)collectionViewContentSize</code></li>
+<li><code>- (NSArray&lt;UICollectionViewLayoutAttributes *&gt; *)layoutAttributesForElementsInRect:(CGRect)rect</code></li>
+</ul>
+<p>集合视图调用布局对象的<code>prepareLayout</code>方法，提供机会让我们提前计算确定布局属性信息时所需的数据，从计算出来的数据中要能够得知集合视图整个内容区域的大小。</p>
+<p>集合视图调用布局对象的<code>collectionViewContentSize</code>方法获得内容大小来适当的配置其滚动视图，在这里根据提前计算的数据返回整个内容区域的大小。如果内容大小在垂直和水平方向上都超出当前设备屏幕的边界，则会允许滚动视图同时在这两个方向上滚动，而<code>UICollectionViewFlowLayout</code>只能在一个方向上滚动。</p>
+<p>集合视图会基于当前的滚动位置调用<code>layoutAttributesForElementsInRect:</code>方法来查找在特定区域中的单元格和视图的布局属性，此区域和可视区域可能相同也可能不同，在这里遍历提前生成的所有的布局属性信息，检查每个布局信息的frame，返回所有frame和给定rect相交的布局属性，这样核心布局过程就完成了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-a97e8cd3dd565470.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图4-1"></p>
+<p>可以在<code>prepareLayout</code>方法中生成布局属性对象后缓存起来，也可以在<code>layoutAttributesForElementsInRect:</code>方法中生成布局属性对象，但是集合视图在滚动过程中会多次调用<code>layoutAttributesForElementsInRect:</code>方法，这样就会为视图重复计算布局属性，会有性能损耗。</p>
+<p>布局完成后，单元格和视图的布局属性会保持不变。调用布局对象的<code>invalidateLayout</code>会废弃当前所有布局信息，然后再次从调用<code>prepareLayout</code>方法开始，重复布局过程生成新的布局信息。集合视图在滚动过程中，会不断调用布局对象的<code>shouldInvalidateLayoutForBoundsChange:</code>方法来判断是否需要废弃当前布局并重新生成布局。当集合视图的<code>bounds</code>属性发生变化时，也会调用<code>shouldInvalidateLayoutForBoundsChange:</code>方法。</p>
+<p>调用<code>invalidateLayout</code>方法后不会立即开始布局更新过程，该方法仅将布局标记为与数据不一致并需要更新。在下一个视图更新周期中，集合视图会检查其布局是否为脏，如果是，则更新布局。也就是说，当我们快速连续地调用<code>invalidateLayout</code>方法多次后，不会每次调用都立即更新布局。</p>
+<h4 id="创建布局信息对象"><a href="#创建布局信息对象" class="headerlink" title="创建布局信息对象"></a>创建布局信息对象</h4><p>官方提供了三种方法来创建<code>UICollectionViewLayoutAttributes</code>布局信息对象：</p>
+<ul>
+<li><code>+ (instancetype)layoutAttributesForCellWithIndexPath:(NSIndexPath *)indexPath</code></li>
+<li><code>+ (instancetype)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind withIndexPath:(NSIndexPath *)indexPath</code></li>
+<li><code>+ (instancetype)layoutAttributesForDecorationViewOfKind:(NSString *)decorationViewKind withIndexPath:(NSIndexPath *)indexPath</code></li>
+</ul>
+<p>要根据视图的类型调用对应的方法来生成布局属性对象，因为集合视图会根据布局信息对象的<code>representedElementCategory</code>属性从数据源对象中获取对应类型的视图，使用错误的方法生成布局信息对象会导致集合视图在错误的位置创建错误的视图。</p>
+<p>生成布局属性对象后，一定要根据前面提前计算的数据设置好<code>frame</code>或者<code>center</code>和<code>size</code>属性，使集合视图能够确定对应的视图的位置和大小。同时，还可以设置<code>transform</code>，<code>alpha</code>，<code>hidden</code>等属性来控制对应视图的视觉效果。如果视图的布局是重叠的，则可以设置<code>zIndex</code>属性值来确保视图的顺序一致。如果官方提供<code>UICollectionViewLayoutAttributes</code>标准类无法满足需求，可以对其子类化并扩展，以存储和视图外观有关的信息。当对布局属性进行子类化时，需要实现用于比较自定义属性的<code>isEqual:</code>方法，因为集合视图对其某些操作使用此方法。</p>
+<h4 id="根据需要为单个视图提供布局属性"><a href="#根据需要为单个视图提供布局属性" class="headerlink" title="根据需要为单个视图提供布局属性"></a>根据需要为单个视图提供布局属性</h4><p>布局对象还需要能够根据需要为单个视图提供布局属性，因为集合视图会在执行Cell的插入，删除，移动和刷新动画时请求该布局信息。需要覆写下面三种方法：</p>
+<ul>
+<li><code>-(UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath</code></li>
+<li><code>-(UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath</code></li>
+<li><code>-(UICollectionViewLayoutAttributes *)layoutAttributesForDecorationViewOfKind:(NSString*)elementKind atIndexPath:(NSIndexPath *)indexPath</code></li>
+</ul>
+<p>在三种方法中，需要返回已计算好的对应视图的布局属性信息，返回属性时，不应更改布局属性。如果布局中不包含任何补充视图和装饰视图，则不需要覆写后两种方法。</p>
+<h4 id="自定义cell的插入、删除、移动和刷新动画"><a href="#自定义cell的插入、删除、移动和刷新动画" class="headerlink" title="自定义cell的插入、删除、移动和刷新动画"></a>自定义cell的插入、删除、移动和刷新动画</h4><p>集合视图调用对应的方法插入、删除、刷新、移动cell时，布局对象会调用<code>invalidateLayout</code>方法废弃现有的布局信息，重新执行前面提到的布局过程生成新的布局属性。在集合视图更新前调用<code>prepareForCollectionViewUpdates:</code>方法告知要更新的cell在更新前的<code>indexPath</code>和更新完成后的<code>indexPath</code>，以及其要执行的更新方式，需要重写此方法记录这些<code>indexPath</code>。</p>
+<p>之后，集合视图会执行两个动画：更新布局前每个cell被移除的动画和更新布局后每个cell显示的动画，我们看到的动画效果是由这两个动画组合而成的。在执行动画过程中，布局对象会调用<code>finalLayoutAttributesForDisappearingItemAtIndexPath:</code>方法获取对应<code>indexPath</code>的cell被移除时的最终布局属性来执行动画：更新布局前的布局属性值–&gt;cell被移除时的最终布局属性值，调用<code>initialLayoutAttributesForAppearingItemAtIndexPath:</code>方法获取对应<code>indexPath</code>的cell显示时的起始布局属性来执行动画：cell显示时的起始布局属性值–&gt;更新布局后的cell布局属性值。</p>
+<p>插入、删除、移动cell时，会导致其周围cell的布局属性发生变化，这些cell会强制执行这个动画：cell更新布局前的frame–&gt;cell更新布局后的frame，这是官方在内部实现的。在重写<code>finalLayoutAttributesForDisappearingItemAtIndexPath:</code>和<code>initialLayoutAttributesForAppearingItemAtIndexPath:</code>方法设置执行动画用到的布局属性时，最好检查一下传入的<code>indexPath</code>与调用<code>prepareForCollectionViewUpdates:</code>方法时记录的<code>indexPath</code>是否一致。</p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>示例代码下载：<a href="https://github.com/zhangshijian/UICollectionViewDemo" target="_blank" rel="external">https://github.com/zhangshijian/UICollectionViewDemo</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/23/手势识别以及手势冲突处理/" rel="next" title="手势识别以及手势冲突处理">
+                <i class="fa fa-chevron-left"></i> 手势识别以及手势冲突处理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/27/UIViewController（一）：概述/" rel="prev" title="UUIViewController（一）：概述">
+                UUIViewController（一）：概述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.JPG"
+               alt="ShiJian" />
+          <p class="site-author-name" itemprop="name">ShiJian</p>
+           
+              <p class="site-description motion-element" itemprop="description">光阴给我们经验,读书给我们知识.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangshijian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/shijianzzzz" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础"><span class="nav-number">2.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UICollectionView是由多个对象协作实现的"><span class="nav-number">2.1.</span> <span class="nav-text">UICollectionView是由多个对象协作实现的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重用视图提高性能"><span class="nav-number">2.2.</span> <span class="nav-text">重用视图提高性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#布局对象控制视图的视觉效果"><span class="nav-number">2.3.</span> <span class="nav-text">布局对象控制视图的视觉效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UICollectionViewDataSource"><span class="nav-number">3.1.</span> <span class="nav-text">UICollectionViewDataSource</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UICollectionViewDelegate"><span class="nav-number">3.2.</span> <span class="nav-text">UICollectionViewDelegate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UICollectionViewDelegateFlowLayout"><span class="nav-number">3.3.</span> <span class="nav-text">UICollectionViewDelegateFlowLayout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cell和supplementary-view的重用"><span class="nav-number">3.4.</span> <span class="nav-text">cell和supplementary view的重用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cell的插入，删除和移动"><span class="nav-number">3.5.</span> <span class="nav-text">cell的插入，删除和移动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长按cell弹出编辑菜单"><span class="nav-number">3.6.</span> <span class="nav-text">长按cell弹出编辑菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切换布局时的转场动画"><span class="nav-number">3.7.</span> <span class="nav-text">切换布局时的转场动画</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进阶"><span class="nav-number">4.</span> <span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流水布局"><span class="nav-number">4.1.</span> <span class="nav-text">流水布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义布局"><span class="nav-number">4.2.</span> <span class="nav-text">自定义布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#理解布局过程"><span class="nav-number">4.2.1.</span> <span class="nav-text">理解布局过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建布局信息对象"><span class="nav-number">4.2.2.</span> <span class="nav-text">创建布局信息对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据需要为单个视图提供布局属性"><span class="nav-number">4.2.3.</span> <span class="nav-text">根据需要为单个视图提供布局属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义cell的插入、删除、移动和刷新动画"><span class="nav-number">4.2.4.</span> <span class="nav-text">自定义cell的插入、删除、移动和刷新动画</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo"><span class="nav-number">5.</span> <span class="nav-text">Demo</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiJian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://野性的呼唤.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2016/08/05/UICollectionView探究/';
+          this.page.identifier = '2016/08/05/UICollectionView探究/';
+          this.page.title = 'UICollectionView探究';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://野性的呼唤.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,870 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="自适应界面能够充分利用屏幕的可用空间，适应性意味着能够调整内容以便其能够适合任何iOS设备。iOS中的自适应模式支持以简单但是动态的方式来重新排列和调整内容，以响应更改。当使用这种模式时，一个应用程序只需要很少的额外代码就可以适应不同的屏幕尺寸（如图12-1所示）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIViewController（六）：自适应和尺寸的变化">
+<meta property="og:url" content="http://yoursite.com/2017/03/28/UIViewController（六）：自适应和尺寸的变化/index.html">
+<meta property="og:site_name" content="野性的呼唤">
+<meta property="og:description" content="自适应界面能够充分利用屏幕的可用空间，适应性意味着能够调整内容以便其能够适合任何iOS设备。iOS中的自适应模式支持以简单但是动态的方式来重新排列和调整内容，以响应更改。当使用这种模式时，一个应用程序只需要很少的额外代码就可以适应不同的屏幕尺寸（如图12-1所示）。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-9399968956f1abdb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-e3261a4c1eedf98e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-4a376a7a95f89a9e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-e87dd90679d85242.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-69d2e9ac2e0a354e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4906302-24d3c284639573bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-08T07:31:24.858Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIViewController（六）：自适应和尺寸的变化">
+<meta name="twitter:description" content="自适应界面能够充分利用屏幕的可用空间，适应性意味着能够调整内容以便其能够适合任何iOS设备。iOS中的自适应模式支持以简单但是动态的方式来重新排列和调整内容，以响应更改。当使用这种模式时，一个应用程序只需要很少的额外代码就可以适应不同的屏幕尺寸（如图12-1所示）。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4906302-9399968956f1abdb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/28/UIViewController（六）：自适应和尺寸的变化/"/>
+
+
+
+
+
+  <title>UIViewController（六）：自适应和尺寸的变化 | 野性的呼唤</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">野性的呼唤</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/28/UIViewController（六）：自适应和尺寸的变化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="野性的呼唤">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">UIViewController（六）：自适应和尺寸的变化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-28T00:19:45+08:00">
+                2017-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/28/UIViewController（六）：自适应和尺寸的变化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/03/28/UIViewController（六）：自适应和尺寸的变化/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>自适应界面能够充分利用屏幕的可用空间，适应性意味着能够调整内容以便其能够适合任何iOS设备。iOS中的自适应模式支持以简单但是动态的方式来重新排列和调整内容，以响应更改。当使用这种模式时，一个应用程序只需要很少的额外代码就可以适应不同的屏幕尺寸（如图12-1所示）。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-9399968956f1abdb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图12-1"></p>
+<a id="more"></a>
+<p>Auto Layout是构建自适应界面的重要工具。使用Auto Layout，我们可以定义管理视图控制器视图布局的规则（称为约束）。可以在Interface Builder中以可视化方式创建约束，也可以在代码中编程创建约束。当父视图的尺寸发生变化时，iOS系统将根据我们指定的约束条件自动调整视图的尺寸并重新定位其余视图。</p>
+<p>特征（trait）是自适应模式的另一个重要组成部分。特征描述了视图控制器和视图必须运行的环境，特征可以帮助我们做出关于界面的高层决策。</p>
+<h3 id="特征的作用"><a href="#特征的作用" class="headerlink" title="特征的作用"></a>特征的作用</h3><p>当约束不足以管理布局时，视图控制器有几个机会去进行更改。视图控制器、视图和一些其他对象管理着一个特征集合，这些特征指定了与该对象关联的当前环境。下表描述了这些特征以及如何使用它们来影响用户界面。</p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>示例</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>horizontalSizeClass</td>
+<td>UIUserInterfaceSizeClassCompact</td>
+<td>此特征表达了界面的一般宽度。使用它来做出粗略的布局决策，例如视图是垂直堆叠、并排显示、全部隐藏还是以其他方法显示。</td>
+</tr>
+<tr>
+<td>verticalSizeClass</td>
+<td>UIUserInterfaceSizeClassRegular</td>
+<td>此特征表达了界面的一般高度。如果界面设计要求所有内容都适配在屏幕上而不滚动，请使用此特征来作出布局决策。</td>
+</tr>
+<tr>
+<td>displayScale</td>
+<td>2.0</td>
+<td>此特征表达内容是显示在Retina显示屏上还是标准分辨率显示屏上。使用它（根据需要）来做出像素级布局决策或者选择要显示的图像版本。</td>
+</tr>
+<tr>
+<td>userInterfaceIdiom</td>
+<td>UIUserInterfaceIdiomPhone</td>
+<td>此特征提供了向后兼容性，并表达了运行应用程序的设备类型。尽可能避免使用这个特征。对于布局决策，请改为使用horizontal 和 vertical size classes 代替。</td>
+</tr>
+</tbody>
+</table>
+<p>使用特征来做出关于如何呈现用户界面的决策。在Interface Builder中构建界面时，使用特征来更改显示的视图和图像，或者使用特征来应用不同的约束集合。许多UIKit类（如UIImageAsset）使用指定的特征来裁剪它们提供的信息。</p>
+<p>以下是一些提示，可以帮助我们了解何时使用不同类型的特征：</p>
+<ul>
+<li>使用size class对界面进行粗略更改。size class更改是一个添加或删除视图，添加或删除子视图控制器或更改布局约束的合适时机。我们也可以不做任何事情，并让界面使用其现有布局约束去自动适应。</li>
+<li>切勿假设size class与视图的特定宽度或高度相符合。视图控制器的size class可能会因多种原因而发生更改。例如，iPhone上的容器视图控制器可能会使其某个子视图控制器在水平方向上固定来强制其以不同方式显示其内容。</li>
+<li>使用Interface Builder为每个size class指定不同的布局约束。使用Interface Builder来指定约束比编程添加和移除约束要简单得多。视图控制器通过应用其storyboard的对应的约束来自动处理size class更改。</li>
+<li>避免使用idiom信息来做出关于界面布局或界面内容的决策。在iPad和iPhone上运行的应用程序通常应显示相同的信息，并应该使用size class来进行布局决策。</li>
+</ul>
+<h3 id="特征和尺寸的改变会在何时发生"><a href="#特征和尺寸的改变会在何时发生" class="headerlink" title="特征和尺寸的改变会在何时发生?"></a>特征和尺寸的改变会在何时发生?</h3><p>特征的改变很少发生，但确实会发生。UIKit根据底层环境的变化来更新视图控制器的特征，size class特征比display scale特征更可能发生改变，idiom特征很少会改变。size class会由于以下原因而发生改变：</p>
+<ul>
+<li>通常情况下，由于设备的旋转，视图控制器窗口的垂直或者水平size class发生改变。</li>
+<li>容器视图控制器的垂直或者水平size class已改变。</li>
+<li>当前视图控制器的垂直或者水平size class由其容器显式更改。</li>
+</ul>
+<p>视图控制器层次结构中的size class更改会传递到任何子视图控制器。window对象作为该层次结构的最底层，为其根视图控制器提供baseline size class特征。当设备方向在纵向和横向之间变化时，window会更新其自己的size class信息并沿着视图控制器层次结构传递该信息。容器视图控制器可以将size class更改传递给未经修改的子视图控制器，也可以覆盖每个子视图控制器的特征。</p>
+<p>在iOS 8以上系统版本中，window的原点（origin）始终位于左上角，当设备在横向和纵向之间旋转时，window的bounds会发生改变。window的尺寸的变化会与任何相应的特征变化一起沿着视图控制器层次结构向下传递。对于层次结构中的每个视图控制器，UIKit会调用以下方法来报告这些更改：</p>
+<ul>
+<li><code>willTransitionToTraitCollection:withTransitionCoordinator:</code>方法告知每个相关的视图控制器其特征即将改变。</li>
+<li><code>viewWillTransitionToSize:withTransitionCoordinator:</code>方法告知每个相关的视图控制器其尺寸即将改变。</li>
+<li><code>traitCollectionDidChange:</code>方法告知每个相关的视图控制器，其特征现在已经改变了。</li>
+</ul>
+<p>在沿着视图控制器层次结构传递信息时，UIKit仅在有变化需要告知时才将变化告知给视图控制器。如果容器视图控制器覆盖了其子视图控制器的size class，则当容器的size class改变时，不会告知其子视图控制器。同样，如果视图控制器的视图具有固定的高度和宽度，它也不会收到尺寸改变通知。</p>
+<p>图12-2显示了在iPhone 6上发生旋转时视图控制器的特征和视图尺寸是如何更新的。从纵向到横向的旋转将屏幕的垂直size class从常规变为紧凑。size class更改后，相应视图的尺寸也更改，然后沿着视图控制器层次结构传递这些更改。将视图动画为新尺寸后，UIKit在调用视图控制器的<code>traitCollectionDidChange:</code>方法之前会应用size class和视图尺寸的更改。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-e3261a4c1eedf98e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图12-2"></p>
+<h3 id="不同设备的默认size-class"><a href="#不同设备的默认size-class" class="headerlink" title="不同设备的默认size class"></a>不同设备的默认size class</h3><p>每个iOS设备都有一组默认的size class，我们可以在设计界面时作为指导。下表列出了设备在纵向和横向上的size class，未列在表格中的设备与具有相同屏幕尺寸的设备具有相同的size class。</p>
+<table>
+<thead>
+<tr>
+<th>设备</th>
+<th>纵向</th>
+<th>横向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iPad(all)<br>iPad Mini</td>
+<td>Vertical size class: Regular<br>Horizontal size class: Regular</td>
+<td>Vertical size class: Regular<br>Horizontal size class: Regular</td>
+</tr>
+<tr>
+<td>iPhone 6 Plus</td>
+<td>Vertical size class: Regular<br>Horizontal size class: Compact</td>
+<td>Vertical size class: Compact<br>Horizontal size class: Regular</td>
+</tr>
+<tr>
+<td>iPhone 6</td>
+<td>Vertical size class: Regular<br>Horizontal size class: Compact</td>
+<td>Vertical size class: Compact<br>Horizontal size class: Compact</td>
+</tr>
+<tr>
+<td>iPhone 5s<br>iPhone 5c<br>iPhone 5</td>
+<td>Vertical size class: Regular<br>Horizontal size class: Compact</td>
+<td>Vertical size class: Compact<br>Horizontal size class: Compact</td>
+</tr>
+<tr>
+<td>iPhone 4s</td>
+<td>Vertical size class: Regular<br>Horizontal size class: Compact</td>
+<td>Vertical size class: Compact<br>Horizontal size class: Compact</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>重要</strong>：切勿假设应用程序以特定的size class在设备上显示。在决定如何配置某个对象时，应始终检查从该对象的特征集合中得到的size class。</p>
+</blockquote>
+<h2 id="构建一个自适应界面"><a href="#构建一个自适应界面" class="headerlink" title="构建一个自适应界面"></a>构建一个自适应界面</h2><p>自适应界面应该对特征和尺寸的改变做出响应。在视图控制器级别，可以使用特征对显示的内容和该内容的布局进行粗略的确定。例如，在不同的size class之间切换时，可以选择更改视图属性，显示或者隐藏视图，或者显示完全不同的视图集。做出这些重大决策之后，可以选择使用尺寸更改来微调内容。</p>
+<h3 id="适应特征变化"><a href="#适应特征变化" class="headerlink" title="适应特征变化"></a>适应特征变化</h3><p>特征为我们提供了一种在不同环境下配置应用程序使其有所不同的方式，我们可以使用它对界面进行粗略调整。对特征所做的大部分更改都可以直接在storyboard中完成，但有一些还需要额外的代码。</p>
+<h4 id="配置storyboard以处理不同的size-class"><a href="#配置storyboard以处理不同的size-class" class="headerlink" title="配置storyboard以处理不同的size class"></a>配置storyboard以处理不同的size class</h4><p>Interface Builder使我们可以轻松地将界面调整到不同的size class。storyboard编辑器支持配置不同size class的显示界面、在指定配置中删除视图以及指定不同的布局约束。 使用这些工具意味着不必在运行时以编程方式进行相同的更改。相反，UIKit会在当前size class更改时自动更新界面。</p>
+<p>图13-1显示了用于在Interface Builder中配置界面的工具。size class查看控件改变了界面的外观。使用该控件查看给定size class的界面的外观。对于单个视图，使用安装控件来查看对于给定的size class配置是否存在视图。使用复选框左侧的加号（+）按钮添加新配置。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-4a376a7a95f89a9e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图13-1"></p>
+<p>image asset是存储应用程序图片资源的首选方式。每个image asset包含同一图像的多个版本，每个版本均为特定配置而设计。除了为标准分辨率显示屏和Retina显示屏指定不同的图像外，还可以为不同的水平和垂直size class指定不同的图像。使用image asset进行配置时，<code>UIImageView</code>对象会自动选择与当前size class和分辨率相关联的图像。</p>
+<p>图13-2显示了image asset的属性。更改宽度个高度属性为目录中的更多图像添加插槽。用这些图像填充这些插槽以用于每种size class组合。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-e87dd90679d85242.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图13-2"></p>
+<h4 id="更改子视图控制器的特征"><a href="#更改子视图控制器的特征" class="headerlink" title="更改子视图控制器的特征"></a>更改子视图控制器的特征</h4><p>子视图控制器默认继承父视图控制器的特征。对于size class特征，每个子视图控制器都可能没有与其父视图控制器相同的特征。例如，常规环境中的视图控制器可能想要为其一个或者多个子视图控制器配置一个紧凑的size class，来反映该子视图控制器的空间减小。在实现容器视图控制器时，可以通过调用容器视图控制器的<code>setOverrideTraitCollection:forChildViewController:</code>来修改子视图控制器的特征。</p>
+<p>以下代码显示了如何创建一组新特征并将他们与子视图控制器关联。只需在父视图控制器执行这段代码一次。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">UITraitCollection* horizTrait = [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular];</div><div class="line"></div><div class="line">UITraitCollection* vertTrait = [UITraitCollection</div><div class="line">traitCollectionWithVerticalSizeClass:UIUserInterfaceSizeClassCompact];</div><div class="line"></div><div class="line">UITraitCollection* childTraits = [UITraitCollection</div><div class="line">traitCollectionWithTraitsFromCollections:@[horizTrait, vertTrait]];</div><div class="line"></div><div class="line">[self setOverrideTraitCollection:childTraits forChildViewController:self.childViewControllers[0]];</div></pre></td></tr></table></figure></p>
+<p>当父视图控制器的特征改变时，子视图控制器继承任何未由父视图控制器明确覆盖的特征。例如，当父视图控制器的水平size class从常规变为紧凑时，上面例子中的子视图控制器保留其常规水平size class。然而，如果<code>displayScale</code>特征发生改变，则子视图控制器会继承新值。</p>
+<h4 id="将呈现的视图控制器调整为新的样式"><a href="#将呈现的视图控制器调整为新的样式" class="headerlink" title="将呈现的视图控制器调整为新的样式"></a>将呈现的视图控制器调整为新的样式</h4><p>呈现的视图控制器可以在水平常规环境和水平紧凑环境之间自动调整。当从水平常规环境切换到水平紧凑环境时，UIKit默认将内置的呈现样式更改为<code>UIModalPresentationFullScreen</code>。对于自定义呈现样式，presentation controller可以确定适应行为并相应地调整呈现内容。</p>
+<p>对于某些应用程序，适应全屏样式可能会出现问题。例如，Popover通常是通过点击背景调光视图来移除的，但在Popover覆盖整个屏幕的紧凑环境中这样做是不可能的，如图13-3所示。当默认的自适应样式不合适时，我们可以告诉UIKit使用不同的样式或呈现一个更适合全屏样式的完全不同的视图控制器。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-69d2e9ac2e0a354e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图13-3"></p>
+<p>要更改呈现样式的默认自适应行为，请分配一个委托对象给关联的presentation controller。访问呈现的视图控制器的<code>presentationController</code>属性来获取presentation controller。在进行任何与适应性相关的更改之前，presentation controller都会询问委托对象。委托对象可以返回与默认不容的呈现样式，并且可以为presentation controller提供可选的视图控制器以进行显示。</p>
+<p>使用委托对象的<code>adaptivePresentationStyleForPresentationController:</code>方法来指定与默认不同的呈现样式。切换到紧凑环境时，唯一支持的样式是两种全屏样式或者<code>UIModalPresentationNone</code>。返回<code>UIModalPresentationNone</code>会通知presentation controller忽略紧凑环境并继续使用先前的呈现样式。在呈现Popover时，忽略更改会为所有设备提供与iPad类似的弹出式行为。图13-4显示了默认的全屏适应并且没有并排适应，可以比较下结果。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4906302-24d3c284639573bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图13-4"></p>
+<p>要完全替换视图控制器，请实现委托对象的<code>presentationController:viewControllerForAdaptivePresentationStyle:</code>方法。在适应紧凑型环境时，可以使用该方法将导航控制器插入视图层次结构中，或者加载专门为较小控件设计的视图控制器。</p>
+<h4 id="实现自适应Popover的技巧"><a href="#实现自适应Popover的技巧" class="headerlink" title="实现自适应Popover的技巧"></a>实现自适应Popover的技巧</h4><p>从水平正常环境切换到水平紧凑环境时，Popover需要额外的修改。水平紧凑环境的默认行为会将Popover改为全屏呈现。因为通常情况下，Popover是通过点击其背景调光视图来被移除的，改为全屏呈现就废除了移除Popover的主要方式。可以通过执行以下任一操作来补偿该行为：</p>
+<ul>
+<li><strong>将Popover的视图控制器推入到现有导航堆栈上</strong>。当有父导航控制器可用时，请移除Popover并将其视图控制器推入导航堆栈。</li>
+<li><strong>添加控件以在全屏呈现时移除Popover</strong>。可以将控件添加到Popover的视图控制器，但更好的选择是使用<code>presentationController:viewControllerForAdaptivePresentationStyle:</code>方法为导航控制器换掉Popover。使用导航控制器提供了一个模态界面和添加完成按钮或者其他控件（用来移除内容）的空间。</li>
+<li><strong>使用presentation controller的委托对象去废除任何适应性更改</strong>。获取Popover presentation controller并为其分配一个实现了<code>adaptivePresentationStyleForPresentationController:</code>方法的委托对象。从该方法返回<code>UIModalPresentationNone</code>会导致Popover继续使用之前的呈现样式。</li>
+</ul>
+<h3 id="响应尺寸更改"><a href="#响应尺寸更改" class="headerlink" title="响应尺寸更改"></a>响应尺寸更改</h3><p>尺寸更改的发生有很多原因，包括以下：</p>
+<ul>
+<li>底层window的尺寸发生变化，通常是由于设备方向改变。</li>
+<li>父视图控制器调整其子视图控制器的尺寸。</li>
+<li>presentation controller更改其呈现的视图控制器的尺寸。</li>
+</ul>
+<p>当尺寸发生改变时，UIKit会通过正常的布局过程自动更新可见的视图控制器层次结构的尺寸和位置。如果使用Auto Layout约束来指定视图的尺寸和位置，则应用程序会自动适应任何更改并且应该在不同屏幕尺寸的设备上运行。</p>
+<p>如果Auto Layout约束无法实现所需的外观，则可以使用<code>viewWillTransitionToSize:withTransitionCoordinator</code>方法来更改布局。还可以使用该方法创建其他动画与尺寸更改动画一起运行。例如，在界面旋转期间，可以使用转场动画协调器的<code>targetTransform</code>属性为界面的某些部分创建反向旋转矩阵。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/28/UIViewController（五）：创建自定义 Presentation Controller/" rel="next" title="UIViewController（五）：创建自定义 Presentation Controller">
+                <i class="fa fa-chevron-left"></i> UIViewController（五）：创建自定义 Presentation Controller
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/15/导航栏颜色、透明度渐变/" rel="prev" title="导航栏颜色、透明度渐变">
+                导航栏颜色、透明度渐变 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.JPG"
+               alt="ShiJian" />
+          <p class="site-author-name" itemprop="name">ShiJian</p>
+           
+              <p class="site-description motion-element" itemprop="description">光阴给我们经验,读书给我们知识.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangshijian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/shijianzzzz" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#特征的作用"><span class="nav-number">1.</span> <span class="nav-text">特征的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征和尺寸的改变会在何时发生"><span class="nav-number">2.</span> <span class="nav-text">特征和尺寸的改变会在何时发生?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不同设备的默认size-class"><span class="nav-number">3.</span> <span class="nav-text">不同设备的默认size class</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建一个自适应界面"><span class="nav-number"></span> <span class="nav-text">构建一个自适应界面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#适应特征变化"><span class="nav-number">1.</span> <span class="nav-text">适应特征变化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置storyboard以处理不同的size-class"><span class="nav-number">1.1.</span> <span class="nav-text">配置storyboard以处理不同的size class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更改子视图控制器的特征"><span class="nav-number">1.2.</span> <span class="nav-text">更改子视图控制器的特征</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将呈现的视图控制器调整为新的样式"><span class="nav-number">1.3.</span> <span class="nav-text">将呈现的视图控制器调整为新的样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现自适应Popover的技巧"><span class="nav-number">1.4.</span> <span class="nav-text">实现自适应Popover的技巧</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#响应尺寸更改"><span class="nav-number">2.</span> <span class="nav-text">响应尺寸更改</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiJian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://野性的呼唤.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/03/28/UIViewController（六）：自适应和尺寸的变化/';
+          this.page.identifier = '2017/03/28/UIViewController（六）：自适应和尺寸的变化/';
+          this.page.title = 'UIViewController（六）：自适应和尺寸的变化';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://野性的呼唤.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

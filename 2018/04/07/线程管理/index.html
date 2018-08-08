@@ -1,0 +1,845 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="OS X和iOS中的每个进程（应用程序）都由一个或多个线程组成，每个线程代表通过应用程序的代码执行的单个路径。每个应用程序都以单个线程开始，该线程运行应用程序的主要功能。应用程序可以创建额外的线程，这些线程执行特定功能的代码。 当一个应用程序创建一个新的线程时，该线程将成为应用程序进程空间内的一个独立的实体。每个线程都有其自己的执行堆栈，并由内核独立调度运行时间。一个线程可以与其他线程和其他进程通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程管理">
+<meta property="og:url" content="http://yoursite.com/2018/04/07/线程管理/index.html">
+<meta property="og:site_name" content="野性的呼唤">
+<meta property="og:description" content="OS X和iOS中的每个进程（应用程序）都由一个或多个线程组成，每个线程代表通过应用程序的代码执行的单个路径。每个应用程序都以单个线程开始，该线程运行应用程序的主要功能。应用程序可以创建额外的线程，这些线程执行特定功能的代码。 当一个应用程序创建一个新的线程时，该线程将成为应用程序进程空间内的一个独立的实体。每个线程都有其自己的执行堆栈，并由内核独立调度运行时间。一个线程可以与其他线程和其他进程通">
+<meta property="og:updated_time" content="2018-08-08T07:38:21.034Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程管理">
+<meta name="twitter:description" content="OS X和iOS中的每个进程（应用程序）都由一个或多个线程组成，每个线程代表通过应用程序的代码执行的单个路径。每个应用程序都以单个线程开始，该线程运行应用程序的主要功能。应用程序可以创建额外的线程，这些线程执行特定功能的代码。 当一个应用程序创建一个新的线程时，该线程将成为应用程序进程空间内的一个独立的实体。每个线程都有其自己的执行堆栈，并由内核独立调度运行时间。一个线程可以与其他线程和其他进程通">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/07/线程管理/"/>
+
+
+
+
+
+  <title>线程管理 | 野性的呼唤</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">野性的呼唤</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/07/线程管理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="野性的呼唤">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">线程管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-07T14:39:23+08:00">
+                2018-04-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/07/线程管理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/07/线程管理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>OS X和iOS中的每个进程（应用程序）都由一个或多个线程组成，每个线程代表通过应用程序的代码执行的单个路径。每个应用程序都以单个线程开始，该线程运行应用程序的主要功能。应用程序可以创建额外的线程，这些线程执行特定功能的代码。</p>
+<p>当一个应用程序创建一个新的线程时，该线程将成为应用程序进程空间内的一个独立的实体。每个线程都有其自己的执行堆栈，并由内核独立调度运行时间。一个线程可以与其他线程和其他进程通信，执行I/O操作和执行其他任何我们可能需要的操作。但是，由于它们在同一个进程空间内，所以单个应用程序中的所有线程共享相同的虚拟内存空间，并具有与进程本身相同的访问权限。</p>
+<p>本章提供了OS X和iOS中可用线程技术的概述以及如何在应用程序中使用这些技术的示例。</p>
+<a id="more"></a>
+<h2 id="线程开销"><a href="#线程开销" class="headerlink" title="线程开销"></a>线程开销</h2><p>线程在内存使用和性能方面对应用程序（和系统）有实际的成本。每个线程会在内核内存空间和程序的内存空间中请求内存分配。管理线程和协调线程调度所需的核心结构使用wired memory存储在内核中。线程的堆栈空间和per-thread数据存储在应用程序的内存空间中。当我们首次创建线程时，这些结构的大多数才会被创建并初始化。由于必需的与内核的交互，进程可能相对更昂贵。</p>
+<p>下表量化了与在应用程序中创建新的用户级别的线程相关的大概成本。其中一些成本是可配置的，例如为辅助线程分配的堆栈空间数量。创建线程的时间成本是一个粗略的近似值，应仅用于相互比较。创建线程的时间成本可能因处理器负载、 计算机的速度以及可用系统和程序内存的数量而有很大的差异。</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Approximate</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内核数据结构</td>
+<td>大约1 KB</td>
+<td>该内存用于存储线程数据结构和属性，其中大部分分配为wired memory，因此无法被分页到磁盘。</td>
+</tr>
+<tr>
+<td>堆栈空间</td>
+<td>512 KB（辅助线程）<br>8 MB（OS X 主线程）<br>1 MB（iOS 主线程）</td>
+<td>辅助线程允许的最小堆栈大小为16 KB，堆栈大小必须是4 KB的倍数。这个内存的空间在创建线程的时候被放置在进程空间中，但是与该内存相关联的实际页面只有在需要的时候才会被创建。</td>
+</tr>
+<tr>
+<td>创建耗时</td>
+<td>大约90微秒</td>
+<td>该值反映了创建线程的初始调用到线程入口点开始执行的时间间隔。该数据是通过分析在基于Intel的使用2 GHz Core Duo处理器和运行OS X v10.5 的RAM为1 GB的iMac上创建线程时生成的平均值和中值而确定的。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注意</strong>：由于底层内核的支持，操作对象通常可以更快地创建线程。它们不是每次都从头开始创建线程，而是使用已驻留在内核中的线程池来节省分配时间。有关如何使用操作对象的更多信息，请参看<a href="https://www.jianshu.com/p/65ab102cac60" target="_blank" rel="external">NSOperation和NSOperationQueue</a>。</p>
+</blockquote>
+<p>编写线程代码时需要考虑的另一个成本是生产成本。设计线程应用程序有时可能需要对组织应用程序数据结构的方式进行根本性更改。为了避免同步的使用，进行这些更改可能是必要的。这些更改可能会对设计不当的应用程序带来巨大的性能损耗。设计这些数据结构和调试线程代码中的问题可能会增加开发线程应用程序所需的时间。但是，避免这些成本会在运行时产生更大的问题。</p>
+<h2 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h2><p>创建低级线程相对简单。在任何情况下，都必须有一个函数或者方法来充当线程的主入口点，并且必须使用可用线程例程中的一个来启动线程。以下部分显示了更常用的线程技术的基本创建过程。使用这些技术创建的线程将继承默认的一组属性，这些属性由我们使用的技术决定。</p>
+<h3 id="使用NSThread"><a href="#使用NSThread" class="headerlink" title="使用NSThread"></a>使用NSThread</h3><p>有两种使用<code>NSThread</code>类创建一个线程的方法：</p>
+<ul>
+<li>使用<code>detachNewThreadSelector:toTarget:withObject:</code>类方法来生成新的线程。</li>
+<li>创建一个新的<code>NSThread</code>对象并调用其<code>start</code>方法。（仅在iOS和OS X v10.5之后支持。）</li>
+</ul>
+<p>这两种技术都会在应用程序中创建一个分离线程。分离线程意味着线程退出时线程的资源会被系统自动回收。</p>
+<p>因为<code>detachNewThreadSelector:toTarget:withObject:</code>方法在所有版本的OS X中都受支持，所以在现有的使用线程的Cocoa应用程序中经常会见到它。要分离一个新线程，只需提供想要用作线程入口点的方法名称（指定为选择器）、 定义该方法的对象以及要在启动时传递给线程的任何数据。以下示例显示了此方法的基本调用，该方法使用当前对象的自定义方法生成线程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[NSThread detachNewThreadSelector:@selector(myThreadMainMethod:) toTarget:self withObject:nil];</div></pre></td></tr></table></figure></p>
+<p>在OS X v10.5之前，主要使用<code>NSThread</code>类来生成线程。虽然我们可以得到一个<code>NSThread</code>对象并访问一些线程属性，但是只能在线程本身运行后才能这样做。在OS X v10.5中，添加了用于创建<code>NSThread</code>对象而不立即生成相应的新线程的支持。（此支持在iOS中也可用。）此支持使得在启动线程之前可以获取和设置各种线程属性成为可能，它还使得可以使用该线程对象稍后引用正在运行的线程成为可能。</p>
+<p>在OS X v10.5及更高版本中初始化<code>NSThread</code>对象的简单方法是使用<code>initWithTarget:selector:object:</code>方法。此方法使用与<code>detachNewThreadSelector:toTarget:withObject:</code>方法完全相同的信息来初始化新的<code>NSThread</code>实例。但是，它不会立即启动线程。要启动线程，请明确调用线程对象的<code>start</code>方法，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">NSThread* myThread = [[NSThread alloc] initWithTarget:self selector:@selector(myThreadMainMethod:) object:nil];</div><div class="line"></div><div class="line">[myThread start];  // Actually create the thread</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong>注意</strong>：一种使用<code>initWithTarget:selector:object:</code>方法的替代方案是对<code>NSThread</code>进行子类化并覆写其<code>main</code>方法。可以使用<code>main</code>方法的重写版本来实现线程的主入口点。更多信息，请参看<a href="https://developer.apple.com/documentation/foundation/thread" target="_blank" rel="external">NSThread Class Reference</a>。</p>
+</blockquote>
+<p>如果我们有一个其当前线程正在运行的<code>NSThread</code>对象，则一种发送消息到该线程的方法是使用应用程序中几乎任何对象的<code>performSelector:onThread:withObject:waitUntilDone:</code>方法。在OS X v10.5中引入了对线程（主线程除外）执行选择器的支持，这是在线程之间进行通信的便捷方式。（此支持在iOS中也可用。）使用该技术发送的消息由其他线程直接执行，作为目标线程正常运行循环处理的一部分。（当然，这意味着目标线程必须在其run loop中运行。）当我们以这种方式进行通信时，可能仍然需要某种形式的同步，但它比在线程之间设置端口要简单。</p>
+<blockquote>
+<p><strong>注意</strong>：虽然<code>performSelector:onThread:withObject:waitUntilDone:</code>方法适用于线程之间的偶尔通信，但不应该使用该方法来处理线程之间的时间至关重要或频繁的通信。</p>
+</blockquote>
+<h3 id="使用-POSIX-线程"><a href="#使用-POSIX-线程" class="headerlink" title="使用 POSIX 线程"></a>使用 POSIX 线程</h3><p>OS X和iOS为使用POSIX线程API来创建线程提供了基于C语言的支持。该技术实际上可以用于任何类型的应用程序（包括Cocoa和Cocoa Touch应用程序），如果我们正在为多个平台编写软件，该技术可能会更方便。</p>
+<p>以下代码显示了两个使用POSIX调用的自定义函数。LaunchThread函数创建一个新的线程，其主例程在PosixThreadMainRoutine函数中实现。由于POSIX默认将线程创建为可连接，因此此示例更改了线程的属性来创建分离线程。将线程标记为分离，可以让系统在该线程退出时立即回收资源。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">#include &lt;assert.h&gt;</div><div class="line">#include &lt;pthread.h&gt;</div><div class="line"></div><div class="line">void* PosixThreadMainRoutine(void* data)</div><div class="line">&#123;</div><div class="line">    // Do some work here.</div><div class="line"></div><div class="line">    return NULL;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void LaunchThread()</div><div class="line">&#123;</div><div class="line">    // Create the thread using POSIX routines.</div><div class="line">    pthread_attr_t  attr;</div><div class="line">    pthread_t       posixThreadID;</div><div class="line">    int             returnVal;</div><div class="line"></div><div class="line">    returnVal = pthread_attr_init(&amp;attr);</div><div class="line">    assert(!returnVal);</div><div class="line">    returnVal = pthread_attr_setdetachstate(&amp;attr, PTHREAD_CREATE_DETACHED);</div><div class="line">    assert(!returnVal);</div><div class="line"></div><div class="line">    int     threadError = pthread_create(&amp;posixThreadID, &amp;attr, &amp;PosixThreadMainRoutine, NULL);</div><div class="line"></div><div class="line">    returnVal = pthread_attr_destroy(&amp;attr);</div><div class="line">    assert(!returnVal);</div><div class="line">    if (threadError != 0)</div><div class="line">    &#123;</div><div class="line">        // Report an error.</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果将以上代码添加到某个源文件并调用LaunchThread函数，这样会在应用程序中创建一个新的分离线程。当然，使用这段代码创建的新线程不会做任何有用的事情。线程将启动并立即退出。为了使事情更有趣，我们需要将代码添加到PosixThreadMainRoutine函数中以完成一些实际工作。为了确保线程知道要做什么工作，可以在创建时传递一些数据的指针给它。将此指针作为<code>pthread_create</code>函数的最后一个参数传递。</p>
+<p>为了将新创建的线程的信息传递回应用程序的主线程，需要在目标线程之间建立通信路径。对于基于C的应用程序，线程之间有多种通信方式，包括使用端口、 条件或共享内存。对于长寿命的线程，几乎总是应该建立某种线程间通信机制，以便让应用程序的主线程检查线程的状态或者在应用程序退出时干净地关闭线程。</p>
+<h3 id="使用NSObject来生成一个线程"><a href="#使用NSObject来生成一个线程" class="headerlink" title="使用NSObject来生成一个线程"></a>使用NSObject来生成一个线程</h3><p>在iOS和OS X v10.5及更高版本中，所有对象都能够生成一个新线程，并使用该线程来执行对象的方法中的一个。<code>performSelectorInBackground:withObject:</code>方法创建一个新的分离线程，并使用指定的方法作为该线程的入口点。例如，如果我们有一些对象（由变量myObj表示），并且这些对象有一个名为doSomething的方法，我们想要在后台线程中运行该方法，则可以使用以下代码执行此操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[myObj performSelectorInBackground:@selector(doSomething) withObject:nil];</div></pre></td></tr></table></figure></p>
+<p>调用此方法的效果与将当前对象、选择器和参数对象作为参数调用<code>detachNewThreadSelector:toTarget:withObject:</code>方法的效果相同。会立即使用默认配置生成新线程，并启动运行新线程。在选择器内部，必须像任何线程一样配置线程。例如，需要设置一个自动释放池并且配置线程的run loop（如果打算使用它的话）。</p>
+<h3 id="在Cocoa应用程序中使用POSIX线程"><a href="#在Cocoa应用程序中使用POSIX线程" class="headerlink" title="在Cocoa应用程序中使用POSIX线程"></a>在Cocoa应用程序中使用POSIX线程</h3><p>虽然<code>NSThread</code>类是在Cocoa应用程序中创建线程的主要接口，但是我们也可以自由使用POSIX线程（如果这样做更加方便的话）。如果打算在Cocoa应用程序中使用POSIX线程，仍然应该了解Cocoa和线程之间的交互，并遵循以下部分的指导原则。</p>
+<h4 id="保护Cocoa框架"><a href="#保护Cocoa框架" class="headerlink" title="保护Cocoa框架"></a>保护Cocoa框架</h4><p>对于多线程的应用程序，Cocoa框架使用锁和其他形式的内部同步来确保它们的行为正确。但是，为了防止这些锁在单线程的情况下降低性能，Cocoa不会在应用程序使用<code>NSThread</code>类生成其第一个新线程之前创建它们。如果我们仅使用POSIX线程例程生成新线程，则Cocoa不会收到告知它我们的应用程序现在是多线程的通知。当发生这种情况时，涉及Cocoa框架的操作可能会破坏应用程序的稳定性或者崩溃。</p>
+<p>为了让Cocoa知道我们打算使用多线程，需要使用<code>NSThread</code>类生成一个单线程，并让该线程立即退出，线程入口点不需要做任何事情。使用<code>NSThread</code>生成线程的行为足以确保创建Cocoa框架所需的锁。</p>
+<p>如果不确定Cocoa是否认为我们应用程序是多线程的，则可以使用<code>NSThread</code>的<code>isMultiThreaded</code>方法进行检查。</p>
+<h4 id="混合使用POSIX和Cocoa锁"><a href="#混合使用POSIX和Cocoa锁" class="headerlink" title="混合使用POSIX和Cocoa锁"></a>混合使用POSIX和Cocoa锁</h4><p>在同一个应用程序中混合使用POSIX和Cocoa锁是安全的。Cocoa锁和条件对象本质上只是POSIX互斥锁和条件的包装器。但是，对于给定的锁，必须使用相同的接口来创建和操作该锁。换句话说，不能使用Cocoa NSLock对象来操作使用<code>pthread_mutex_init</code>函数创建的互斥锁，反之亦然。</p>
+<h2 id="配置线程属性"><a href="#配置线程属性" class="headerlink" title="配置线程属性"></a>配置线程属性</h2><p>在创建线程之后（有时在之前），可能需要配置线程环境的不同部分。以下各节介绍了可以进行的一些更改以及何时可以进行更改。</p>
+<h3 id="配置线程的堆栈大小"><a href="#配置线程的堆栈大小" class="headerlink" title="配置线程的堆栈大小"></a>配置线程的堆栈大小</h3><p>对于我们创建的每个新线程，系统都会在我们的进程空间中分配特定数量的内存来充当该线程的堆栈。堆栈管理栈帧，也是声明线程的任何局部变量的地方。分配给线程的内存数量在<a href="turn">线程开销</a>已列出。</p>
+<p>如果想要更改给定线程的堆栈大小，则必须在创建线程之前执行此操作。虽然使用<code>NSThread</code>设置堆栈大小仅适用于iOS和OS X v10.5及更高版本，但是所有线程技术都提供了一些设置堆栈大小的方法。下表列出了每种技术的不同选项。</p>
+<table>
+<thead>
+<tr>
+<th>Technology</th>
+<th>Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cocoa</td>
+<td>在iOS和OS X v10.5及更高版本中，分配并初始化一个<code>NSThread</code>对象（不要使用<code>detachNewThreadSelector:toTarget:withObject:</code>方法）。在调用线程对象的<code>start</code>方法之前，请使用<code>setStackSize:</code>方法来指定新的堆栈大小。</td>
+</tr>
+<tr>
+<td>POSIX</td>
+<td>创建一个新的<code>pthread_attr_t</code>结构体并使用<code>pthread_attr_setstacksize</code>函数更改默认堆栈大小。创建线程时，将属性传递给<code>pthread_create</code>函数。</td>
+</tr>
+<tr>
+<td>Multiprocessing Services</td>
+<td>在创建线程时将相应的堆栈大小值传递给<code>MPCreateTask</code>函数。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="配置线程局部存储"><a href="#配置线程局部存储" class="headerlink" title="配置线程局部存储"></a>配置线程局部存储</h3><p>每个线程维护着一个可以从任何位置访问的键-值对的字典。可以使用此字典来存储希望在整个线程执行期间都存在的信息。例如，我们可以使用它通过线程的run loop的多次迭代来保存状态信息。</p>
+<p>Cocoa和POSIX以不同的方式存储线程字典，所以不能混合和匹配这两种技术。但是，只要在线程代码中坚持使用一种技术，最终结果应该是相似的。在Cocoa中，使用<code>NSThread</code>对象的<code>threadDictionary</code>方法来检索一个<code>NSMutableDictionary</code>对象，可以向其中添加线程所需的任何key。在POSIX中，使用<code>pthread_setspecific</code>和<code>pthread_getspecific</code>函数来设置和获取线程的key和value。</p>
+<h3 id="设置线程的分离状态"><a href="#设置线程的分离状态" class="headerlink" title="设置线程的分离状态"></a>设置线程的分离状态</h3><p>大多数高级线程技术默认创建分离的线程。在大多数情况下，分离线程是首选，因为系统在分离线程完成其工作后会立即释放分离线程的数据结构。分离线程也不需要与应用程序进行明确地交互，这意味着是否从线程中检索结果由我们自行决定。相比之下，系统不会回收可连接线程的资源，直到另一个线程显示地与该线程连接，且进程可能会阻塞执行连接的线程。</p>
+<p>可以考虑将可连接线程看作类似于子线程。虽然它们仍然作为独立线程运行，但可连接线程必须由另一个线程在其资源可能被系统回收之前连接。可连接线程还提供了一种方式将数据从一个正在退出的线程传递到另一个线程。在线程退出之前，可连接线程可以将数据指针或其他返回值传递给<code>pthread_exit</code>函数。然后另一个线程可以通过调用<code>pthread_join</code>函数来获取这些数据。</p>
+<blockquote>
+<p><strong>重要提示</strong>：在应用程序退出时，分离线程会被立即终止，但是可连接线程不会被立即终止。每个可连接线程必须在允许退出进程之前连接。所以，在线程正在执行不应中断的关键工作（如将数据保存到磁盘）的情况下，可连接线程可能更可取。</p>
+</blockquote>
+<p>如果想要创建可连接的线程，唯一的方法是使用POSIX线程。POSIX默认将线程创建为可连接。要将线程标记为分离或可连接，请在创建线程之前使用<code>pthread_attr_setdetachstate</code>函数修改线程属性。线程启动后，可以通过调用<code>pthread_detach</code>函数来将可连接线程更改为分离线程。</p>
+<h3 id="设置线程优先级"><a href="#设置线程优先级" class="headerlink" title="设置线程优先级"></a>设置线程优先级</h3><p>创建的任何新线程都具有与其关联的默认优先级。内核的调度算法在确定要运行哪些线程时会考虑线程优先级，优先级较高的线程比较低优先级的线程更可能运行。较高的优先级并不能保证线程的具体执行时间，只是与较低优先级的线程相比，调度程序更有可能选择它。</p>
+<blockquote>
+<p><strong>重要提示</strong>：将线程的优先级保留为默认值通常是一个好主意。增加一些线程的优先级也增加了在较低优先级的线程中出现饥饿状况的可能性。如果应用程序包含必须彼此交互的高优先级和低优先级线程，则较低优先级线程的饥饿可能会阻塞其他线程并导致性能瓶颈。</p>
+</blockquote>
+<p>如果确实想修改线程优先级，Cocoa和POSIX都可以这样做。对于Cocoa线程，可以使用<code>NSThread</code>的<code>setThreadPriority:</code>类方法来设置当前正在运行的线程的优先级。对于POSIX线程，可以使用<code>pthread_setschedparam</code>函数。</p>
+<h2 id="编写线程的入口例程"><a href="#编写线程的入口例程" class="headerlink" title="编写线程的入口例程"></a>编写线程的入口例程</h2><p>大多数情况下，OS X中的线程入口点例程的结构与其他平台上的相同。初始化数据结构，做一些工作或者可选地配置一个run loop，并在线程代码完成时清理。根据我们的设计，在编写入门例程时可能需要执行一些额外的步骤。</p>
+<h3 id="创建自动释放池"><a href="#创建自动释放池" class="headerlink" title="创建自动释放池"></a>创建自动释放池</h3><p>链接了Objective-C框架的应用程序通常必须在其每个线程中至少创建一个自动释放池。如果应用程序使用管理模型 – 应用程序处理保留和释放对象的地方 – 自动释放池将捕获该线程中自动释放的所有对象。</p>
+<p>如果应用程序使用垃圾回收而不是管理内存模型，则不需要创建自动释放池。自动释放池的存在并不会对垃圾回收应用程序造成危害，大多数情况下都会被忽略。在允许代码模块必须同时支持垃圾回收和管理内存模型的情况下，自动释放池必须存在以便支持管理内存模型代码，并且如果应用程序在启用垃圾回收的情况下运行，则会被忽略。</p>
+<p>如果应用程序使用管理内存模型，则创建自动释放池是在线程入口例程中首先执行的操作。同样，销毁这个自动释放池应该是在线程中做的最后一件事。该池确保自动释放的对象被捕获，在线程本身退出之前它不会释放它们。以下代码显示了使用自动释放池的基本线程入口例程的结构。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (void)myThreadMainRoutine</div><div class="line">&#123;</div><div class="line">    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; // Top-level pool</div><div class="line"></div><div class="line">    // Do thread work here.</div><div class="line"></div><div class="line">    [pool release];  // Release the objects in the pool.</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>由于顶层自动释放池在线程退出之前不会释放其对象，因此长期线程应创建更多的自动释放池来更频繁地释放对象。例如，使用run loop的线程可能会在每次运行循环时创建和释放自动释放池。更频繁地释放对象可防止应用程序的内存占用过大，从而导致性能问题。与任何与性能相关的行为一样，应该测量代码的实际性能，并适当调整自动释放池的使用。</strong></p>
+<p>有关内存管理和自动释放池的更多信息，请参看<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html#//apple_ref/doc/uid/10000011i" target="_blank" rel="external">Advanced Memory Management Programming Guide</a>。</p>
+<h3 id="设置异常处理程序"><a href="#设置异常处理程序" class="headerlink" title="设置异常处理程序"></a>设置异常处理程序</h3><p>如果应用程序捕获并处理异常，则应准备好线程代码以便捕获可能发生的任何异常。尽管在发生异常的地方处理异常是最好的，但如果未能在线程中捕获抛出的异常，则会导致应用程序退出。在线程入口例程中安装最终的<strong>try/catch</strong>可以让我们捕获任何未知的异常并提供适当的响应。</p>
+<p>在Xcode中构建项目时，可以使用C++或Objective-C异常处理样式。有关设置如何在Objective-C中引发和捕获异常的信息，请参看<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Exceptions/Exceptions.html#//apple_ref/doc/uid/10000012i" target="_blank" rel="external">Exception Programming Topics</a>。</p>
+<h3 id="设置Run-Loop"><a href="#设置Run-Loop" class="headerlink" title="设置Run Loop"></a>设置Run Loop</h3><p>当编写想要在单独的线程上运行的代码时，我们有两种选择。第一种选择是将线程的代码编写为一个很少或者根本不中断的长期任务，并在该任务完成时退出线程。第二种选择是把线程放到一个循环中，当有请求到达时，动态处理请求。第一种选择不需要为代码进行特殊配置，只需要开启执行想要执行的工作。但是，第二种选择涉及到设置线程的run loop。</p>
+<p>OS X和iOS为在每个线程中实现run loop提供了内置支持。应用程序框架自动启动应用程序主线程的run loop。如果为创建的任何辅助线程配置了run loop，则需要手动启动该run loop。</p>
+<h2 id="终止线程"><a href="#终止线程" class="headerlink" title="终止线程"></a>终止线程</h2><p>建议退出线程的方式是让其正常退出入口点例程，虽然Cocoa，POSIX和Multiprocessing Services提供了直接杀死线程的例程，但是强烈建议不要使用这样的例程。杀死一个线程阻止了该线程清理自身的行为。由该线程分配的内存可能会泄漏，并且线程当前正在使用的任何其他资源可能无法被正确清理，之后可能会造成潜在问题。</p>
+<p>如果预计需要在操作过程中终止线程，则应该从一开始就设计线程来响应取消或者退出消息。对于长时间运行的操作，这可能意味着要定期停止工作并检查是否收到了这样的消息。如果收到消息要求线程退出，线程将有机会执行任何需要的清理和正常退出。否则，它可能会重新开始工作并处理下一个数据块。</p>
+<p>响应取消消息的一种方式是使用run loop输入源来接收此类消息。以下示例显示了这个代码在线程的主入口例程中的外观结构。（该示例仅显示主循环部分，不包括设置自动释放池或配置实际工作的步骤。）该示例在run loop中安装了一个自定义输入源，该输入源可以从另一个线程向该线程发送消息。在执行完总的工作量的一部分后，线程会简要地运行run loop来查看有没有消息到达输入源。如果没有，run loop会立即退出，并循环继续下一个工作。由于处理程序不能直接访问<code>exitNow</code>局部变量，所以退出条件通过线程字典中的键值对传递。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">- (void)threadMainRoutine</div><div class="line">&#123;</div><div class="line">    BOOL moreWorkToDo = YES;</div><div class="line">    BOOL exitNow = NO;</div><div class="line">    NSRunLoop* runLoop = [NSRunLoop currentRunLoop];</div><div class="line"></div><div class="line">    // Add the exitNow BOOL to the thread dictionary.</div><div class="line">    NSMutableDictionary* threadDict = [[NSThread currentThread] threadDictionary];</div><div class="line"></div><div class="line">    [threadDict setValue:[NSNumber numberWithBool:exitNow] forKey:@&quot;ThreadShouldExitNow&quot;];</div><div class="line"></div><div class="line">    // Install an input source.</div><div class="line">    [self myInstallCustomInputSource];</div><div class="line"></div><div class="line">    while (moreWorkToDo &amp;&amp; !exitNow)</div><div class="line">    &#123;</div><div class="line">        // Do one chunk of a larger body of work here.</div><div class="line">        // Change the value of the moreWorkToDo Boolean when done.</div><div class="line"></div><div class="line">        // Run the run loop but timeout immediately if the input source isn&apos;t waiting to fire.</div><div class="line">        [runLoop runUntilDate:[NSDate date]];</div><div class="line"></div><div class="line">        // Check to see if an input source handler changed the exitNow value.</div><div class="line">        exitNow = [[threadDict valueForKey:@&quot;ThreadShouldExitNow&quot;] boolValue];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/25/线程编程/" rel="next" title="线程编程">
+                <i class="fa fa-chevron-left"></i> 线程编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/23/Run Loop/" rel="prev" title="Run Loop">
+                Run Loop <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.JPG"
+               alt="ShiJian" />
+          <p class="site-author-name" itemprop="name">ShiJian</p>
+           
+              <p class="site-description motion-element" itemprop="description">光阴给我们经验,读书给我们知识.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangshijian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/shijianzzzz" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程开销"><span class="nav-number">1.</span> <span class="nav-text">线程开销</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建线程"><span class="nav-number">2.</span> <span class="nav-text">创建线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用NSThread"><span class="nav-number">2.1.</span> <span class="nav-text">使用NSThread</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-POSIX-线程"><span class="nav-number">2.2.</span> <span class="nav-text">使用 POSIX 线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用NSObject来生成一个线程"><span class="nav-number">2.3.</span> <span class="nav-text">使用NSObject来生成一个线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Cocoa应用程序中使用POSIX线程"><span class="nav-number">2.4.</span> <span class="nav-text">在Cocoa应用程序中使用POSIX线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#保护Cocoa框架"><span class="nav-number">2.4.1.</span> <span class="nav-text">保护Cocoa框架</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#混合使用POSIX和Cocoa锁"><span class="nav-number">2.4.2.</span> <span class="nav-text">混合使用POSIX和Cocoa锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置线程属性"><span class="nav-number">3.</span> <span class="nav-text">配置线程属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置线程的堆栈大小"><span class="nav-number">3.1.</span> <span class="nav-text">配置线程的堆栈大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置线程局部存储"><span class="nav-number">3.2.</span> <span class="nav-text">配置线程局部存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置线程的分离状态"><span class="nav-number">3.3.</span> <span class="nav-text">设置线程的分离状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置线程优先级"><span class="nav-number">3.4.</span> <span class="nav-text">设置线程优先级</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写线程的入口例程"><span class="nav-number">4.</span> <span class="nav-text">编写线程的入口例程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自动释放池"><span class="nav-number">4.1.</span> <span class="nav-text">创建自动释放池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置异常处理程序"><span class="nav-number">4.2.</span> <span class="nav-text">设置异常处理程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置Run-Loop"><span class="nav-number">4.3.</span> <span class="nav-text">设置Run Loop</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#终止线程"><span class="nav-number">5.</span> <span class="nav-text">终止线程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiJian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://野性的呼唤.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/04/07/线程管理/';
+          this.page.identifier = '2018/04/07/线程管理/';
+          this.page.title = '线程管理';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://野性的呼唤.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,916 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="对于从多个执行线程安全访问资源，应用程序中多个线程的存在会导致潜在的问题。修改相同资源的两个线程可能会以出乎意料的方式相互干扰。例如，一个线程可能会覆盖另一个线程的更改或者将应用程序置于未知和可能无效的状态。如果幸运的话，损坏的资源可能会导致明显的性能问题或者崩溃，这些问题相对容易追踪和修复。然而，也可能会导致过了很久之后才会出现的微妙问题，或者可能需要对底层代码进行重大修改的错误。 当涉及到线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程同步">
+<meta property="og:url" content="http://yoursite.com/2018/05/01/线程同步/index.html">
+<meta property="og:site_name" content="野性的呼唤">
+<meta property="og:description" content="对于从多个执行线程安全访问资源，应用程序中多个线程的存在会导致潜在的问题。修改相同资源的两个线程可能会以出乎意料的方式相互干扰。例如，一个线程可能会覆盖另一个线程的更改或者将应用程序置于未知和可能无效的状态。如果幸运的话，损坏的资源可能会导致明显的性能问题或者崩溃，这些问题相对容易追踪和修复。然而，也可能会导致过了很久之后才会出现的微妙问题，或者可能需要对底层代码进行重大修改的错误。 当涉及到线程">
+<meta property="og:updated_time" content="2018-08-08T07:38:43.889Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程同步">
+<meta name="twitter:description" content="对于从多个执行线程安全访问资源，应用程序中多个线程的存在会导致潜在的问题。修改相同资源的两个线程可能会以出乎意料的方式相互干扰。例如，一个线程可能会覆盖另一个线程的更改或者将应用程序置于未知和可能无效的状态。如果幸运的话，损坏的资源可能会导致明显的性能问题或者崩溃，这些问题相对容易追踪和修复。然而，也可能会导致过了很久之后才会出现的微妙问题，或者可能需要对底层代码进行重大修改的错误。 当涉及到线程">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/01/线程同步/"/>
+
+
+
+
+
+  <title>线程同步 | 野性的呼唤</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">野性的呼唤</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/01/线程同步/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="野性的呼唤">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">线程同步</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-01T15:02:28+08:00">
+                2018-05-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/01/线程同步/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/01/线程同步/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>对于从多个执行线程安全访问资源，应用程序中多个线程的存在会导致潜在的问题。修改相同资源的两个线程可能会以出乎意料的方式相互干扰。例如，一个线程可能会覆盖另一个线程的更改或者将应用程序置于未知和可能无效的状态。如果幸运的话，损坏的资源可能会导致明显的性能问题或者崩溃，这些问题相对容易追踪和修复。然而，也可能会导致过了很久之后才会出现的微妙问题，或者可能需要对底层代码进行重大修改的错误。</p>
+<p>当涉及到线程安全时，一个优良的设计是最好的保护。避免共享资源和尽量减少线程之间的交互，使得这些线程不太可能相互干扰。然而，完全无干扰的设计并不总是可行的。在线程必须交互的情况下，需要使用同步工具来确保线程在交互时，它们能够安全地执行。</p>
+<a id="more"></a>
+<p>OS X和iOS提供了许多同步工具供我们使用，包括提供互斥访问的工具以及在应用程序中为事件正确排序的工具。以下各节将介绍这些工具以及如何在代码中使用它们来影响对程序资源的安全访问。</p>
+<h2 id="同步工具"><a href="#同步工具" class="headerlink" title="同步工具"></a>同步工具</h2><p>为防止不同的线程出乎意料地更改数据，可以设计应用程序以避免同步问题，也可以使用同步工具。虽然完全避免同步问题是更可取的，但并非总是可行。以下各节介绍可供使用的同步工具的基本类别。</p>
+<h3 id="原子操作"><a href="#原子操作" class="headerlink" title="原子操作"></a>原子操作</h3><p>原子操作是一种简单的同步形式，适用于简单的数据类型。原子操作的优点是它们不会阻塞竞争线程。对于简单的操作，例如递增一个计数器变量，相对于加锁，这样做可能会带来更好的性能。</p>
+<p>OS X和iOS包含大量的操作来对32位和64位值执行基本的数学和逻辑运算。这些操作中包括<code>compare-and-swap</code>、<code>test-and-set</code>和<code>test-and-clear</code>操作的原子版本。</p>
+<h3 id="内存屏障和Volatile变量"><a href="#内存屏障和Volatile变量" class="headerlink" title="内存屏障和Volatile变量"></a>内存屏障和Volatile变量</h3><p>为了实现最佳性能，编译器通常会对汇编级指令重新排序来尽可能充分地维持处理器的指令流水线。作为这种优化的一部分，当编译器认为对访问主内存的指令重新排序不会产生错误的数据时，它可能会这样做。不幸的是，编译器并不总是能够检测到所有依赖于内存的操作。如果看似单独的变量实际上相互影响，编译器优化可能会以错误的顺序更新这些变量，从而产生潜在的错误结果。</p>
+<p><a href="https://en.wikipedia.org/wiki/Memory_barrier" target="_blank" rel="external">内存屏障</a>是一种非阻塞同步工具，用于确保内存操作以正确的顺序执行。内存屏障就像栅栏一样，强制处理器完成位于栅栏前面的任何加载和存储操作，然后才允许其执行位于栅栏后面的加载和存储操作。内存屏障通常用于确保一个线程（但对另一个线程可见）的内存操作始终按照预期的顺序进行。在缺少内存屏障的情况下，可能会让其他线程看到看似不可能的结果。要使用内存屏障，只需要在代码中的适当位置调用<code>OSMemoryBarrier</code>函数即可。</p>
+<p><a href="https://zh.wikipedia.org/wiki/Volatile%E5%8F%98%E9%87%8F" target="_blank" rel="external">Volatile变量</a>将另一种类型的内存约束应用于变量。编译器通常通过将变量的值加载到寄存器中来优化代码。对于局部变量，这通常不是问题。但是如果变量在另一个线程是可见的，这样的优化可能会阻止其他线程注意到该变量的任何更改。将<code>volatile</code>关键字应用于变量会强制编译器在每次使用变量时从内存加载该变量。如果变量的值可以随时被编译器可能无法检测到的外部源更改，则可以将该变量声明为<code>volatile</code>。</p>
+<p>由于内存屏障和volatile变量都会减少编译器可以执行的优化次数，所以应该谨慎使用它们，并且仅在需要确保正确性时才使用它们。</p>
+<h3 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h3><p>锁是最常用的同步工具之一。可以使用锁来保护代码的关键部分，这段关键代码一次只允许一个线程访问。例如，关键部分可能会操作特定的数据结构或者使用一次最多支持一个客户端的资源。通过在该部分放置一个锁，可以拒绝其他线程执行可能影响代码正确性的更改。</p>
+<p>下表列出了一些我们常用的锁。OS X和iOS为这些锁类型的大多数提供了实现，但不是全部。对于不受支持的锁类型，描述列解释了为什么这些锁没有直接在平台上实现的原因。</p>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mutex</td>
+<td>互斥锁充当资源周围的保护屏障。互斥锁是一种信号量，一次只允许一个线程访问。如果一个互斥锁正在被使用，而另一个线程试图获取它，则该线程将阻塞，直到互斥锁被其原始持有者释放。如果多个线程竞争相同的互斥锁，则一次只允许一个线程访问它。</td>
+</tr>
+<tr>
+<td>Recursive lock</td>
+<td>递归锁是互斥锁的一种变体。递归锁允许单个线程在释放它之前多次获取锁。其他线程会一直处于阻塞状态，直到锁的拥有者释放该锁的次数与获取它的次数相同时。递归锁主要在递归迭代期间使用，但是也可能在多个方法需要分别获取锁的情况下使用。</td>
+</tr>
+<tr>
+<td>Read-write lock</td>
+<td>读写锁也被称为共享互斥锁。这种类型的锁通常被用于较大规模的操作，如果受保护的数据结构被频繁读取并且仅偶尔被修改，则使用读写锁能够显著提高性能。在正常操作期间，当一个线程想要写入结构时，它会阻塞，直到所有正在读取结构的线程释放锁，在此时写入线程获取锁并可以更新结构。当写入线程正在使用锁时，新的读取线程将阻塞，直到写入线程完成操作并释放锁。系统仅支持使用POSIX线程的读写锁。</td>
+</tr>
+<tr>
+<td>Distributed lock</td>
+<td>分布式锁提供进程级别的互斥访问。与真正的互斥锁不同，分布式锁不会阻塞线程或者阻止进程运行。它只是在锁忙碌时报告，并让进程决定如何继续进行。</td>
+</tr>
+<tr>
+<td>Spin lock</td>
+<td>自旋锁反复轮询其锁条件，直到该条件成立。自旋锁最常用于预期等待锁的时间较短的多处理系统。在这些情况下，轮询通常比阻塞线程更有效，后者涉及上下文切换和线程数据结构的更新。由于自旋锁的轮询性质，系统不提供自旋锁的任何实现，但是可以在特定情况下轻松实现它们。有关在内核中实现自旋锁的信息，请参看<a href="https://developer.apple.com/library/content/documentation/Darwin/Conceptual/KernelProgramming/About/About.html#//apple_ref/doc/uid/TP30000905" target="_blank" rel="external">Kernel Programming Guide</a>。</td>
+</tr>
+<tr>
+<td>Double-checked lock</td>
+<td>双重检查锁是一种通过在加锁之前检验锁标准来降低加锁的开销的尝试。由于双重检查锁可能是不安全的，系统不提供对它们的明确支持，因此不鼓励使用它们。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注意</strong>：大多数类型的锁和内存屏障用来确保在进入临界区之前，任何之前的加载和存储指令已被完成。</p>
+</blockquote>
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><p>条件是另一种类型的信号量，它允许线程在特定条件为真时互相发送信号。条件通常用于指示资源的可用性或者确保任务按照特定顺序执行。当线程验证一个条件时，它会阻塞，除非该条件已成立。它会一直阻塞，直到其他线程明确更改条件并向条件发出信号。条件和互斥锁之间的区别在于多个线程可以同时访问条件。条件更像是看门人，其依靠一些特定的标准来允许不同的线程通过门。</p>
+<p>可以使用条件来管理待定事件池。当事件队列中有事件时，事件队列将使用条件变量来发送信号给正在等待的线程。如果有事件到达，队列会相应地发送信号给条件。如果线程已经处于等待状态，它会被唤醒，然后它会从队列中取出事件并处理该事件。如果两个事件大致同时进入队列，则队列将两次发送信号给条件以唤醒两个线程。</p>
+<p>系统为使用几种不同技术的条件提供了支持。但是，正确的条件的实现需要仔细的编写代码，在代码中使用条件之前，请参看<a href="turn">使用条件</a>。</p>
+<h3 id="执行选择器例程"><a href="#执行选择器例程" class="headerlink" title="执行选择器例程"></a>执行选择器例程</h3><p>Cocoa应用程序有一种方便的将消息以同步方式传递给单个线程的方式。<code>NSObject</code>类声明了在应用程序的活跃线程上执行选择器的方法，这些方法允许线程异步传递消息，并保证它们被目标线程同步执行。例如，可以使用执行选择器消息来将分布式计算的结果传递到应用程序的主线程或指定的协调器线程。执行选择器的每个请求都会在目标线程的run loop中排队，然后按照请求被接收的顺序来处理它们。</p>
+<h2 id="开销与性能"><a href="#开销与性能" class="headerlink" title="开销与性能"></a>开销与性能</h2><p>同步有助于确保代码的正确性，但这样做会牺牲性能。同步工具的使用会带来延迟，即使在无争议的情况下也是如此。锁和原子操作通常涉及内存屏障和内核级同步的使用来确保代码得到适当的保护。并且如果存在锁争用，线程可能会阻塞并经受更大的延迟。</p>
+<p>下表列出了在无争议的情况下与互斥锁和原子操作有关的一些近似成本。这些测量值代表了几千个样本的平均时间。与线程创建时间一样，互斥锁获取时间（即使在无争议的情况下）也会因为处理器负载、 计算机速度以及可用系统和程序内存的数量而有很大的差异。</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Approximate cost</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mutex acquisition time</td>
+<td>大约0.2微秒</td>
+<td>这是在无争议的情况下的锁获取时间。如果锁由另一个线程保存，则获取时间可能会更长。这些数据是通过分析在基于intel的使用2 GHz Core Duo处理器和运行OS X v10.5 的RAM为1 GB的iMac上锁获取期间生成的平均值和中位值确定的。</td>
+</tr>
+<tr>
+<td>Atomic compare-and-swap</td>
+<td>大约0.05微秒</td>
+<td>这是在无争议的情况下的<code>compare-and-swap</code>时间。这些数据是通过分析在基于intel的使用2 GHz Core Duo处理器和运行OS X v10.5 的RAM为1 GB的iMac上锁获取期间生成的平均值和中位值确定的。</td>
+</tr>
+</tbody>
+</table>
+<p>在设计并发任务时，正确性始终是最重要的因素，但也要考虑性能因素。如果在多线程下正确执行的代码与在单个线程上运行的相同代码相比，运行速度要更慢，那么并发执行就没有任何益处。</p>
+<p>如果正在改进现有的单线程应用程序，则应该始终对关键任务的性能进行一系列基础测量。在添加额外的线程后，应该对这些相同的任务进行新的测量，并将多线程案例的性能与单线程案例进行比较。如果在调整代码之后，线程并不能提高性能，则可能需要重新考虑我们的特定实现或者线程的使用。</p>
+<h2 id="线程安全和信号"><a href="#线程安全和信号" class="headerlink" title="线程安全和信号"></a>线程安全和信号</h2><p>当涉及到线程应用程序时，没有什么比处理信号更能引起恐惧和困惑。信号是一种低级的BSD机制，可用于向进程传递信息或者以某种方式操作进程。一些程序使用信号来检测某些事件，例如子进程的死亡。系统使用信号来终止失控的进程并传达其他类型的信息。</p>
+<p>信号的问题不是它们做了什么，而是当应用程序具有多个线程时它们的行为。在单线程应用程序中，所有信号处理程序都在主线程上运行。在多线程应用程序中，与特定硬件错误（例如非法指令）无关的信号将被传递到当前正在运行的任何线程上。如果多个线程同时运行，则信号会被传递到系统碰巧挑选的任何一个线程。</p>
+<p>在应用程序中实现信号处理程序的首要规则是避免假设哪个线程正在处理信号。如果某个特定的线程想要处理给定的信号，则需要在信号到达时通过某种方式通知该线程。不能仅仅假设在某个线程安装信号处理程序后信号就会被传递到该线程。</p>
+<h2 id="线程安全设计提示"><a href="#线程安全设计提示" class="headerlink" title="线程安全设计提示"></a>线程安全设计提示</h2><p>同步工具是使代码线程安全的有效方法，但它们不是万能的。使用太多的锁和其他类型的同步原函数实际上会降低应用程序的线程性能，找到安全和性能之间的正确平衡是一门需要经验的艺术。以下部分提供的提示可以帮助我们为应用程序选择合适的同步级别。</p>
+<h3 id="避免完全同步"><a href="#避免完全同步" class="headerlink" title="避免完全同步"></a>避免完全同步</h3><p>对于任何新的项目，甚至是现有的项目，设计代码和数据结构来避免同步的需求是最好的解决方案。虽然锁和其他同步工具非常有用，但它们的确会影响任何应用程序的性能。如果整体设计造成特定资源的频繁争用，则线程可能会等待更长时间。</p>
+<p>实现并发的最好方式是减少并发任务之间的交互和相互依赖。如果每个任务都操作自己的专用数据结构，则不需要使用锁保护该数据。即使在两个任务共享一个通用数据集的情况下，也可以通过注意数据集分区的方式或者为每个任务提供自己的副本来保护数据。当然，复制数据集也会带来成本，因此必须在做出决定之前将这些成本与同步成本进行权衡。</p>
+<h3 id="了解同步的限制"><a href="#了解同步的限制" class="headerlink" title="了解同步的限制"></a>了解同步的限制</h3><p>同步工具只有在应用程序中的所有线程都使用它们时才有效。如果创建一个互斥锁来限制对特定资源的访问，则所有线程都必须尝试在操作资源之前获取相同的互斥锁。如果不这样做，会破坏互斥锁提供的保护，这是一个程序员错误。</p>
+<h3 id="注意代码正确性的威胁"><a href="#注意代码正确性的威胁" class="headerlink" title="注意代码正确性的威胁"></a>注意代码正确性的威胁</h3><p>在使用锁和内存屏障时，应该始终仔细考虑它们在代码中的位置。即使看起来放置的很好的锁也能让我们陷入虚假的安全感。以下一系列示例试图通过指出看起来无害的代码缺陷来说明这个问题。基本前提是我们有一个包含一组不可变对象的可变数组，假设我们我们想调用数组中第一个对象的方法，则可能使用下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">NSLock* arrayLock = GetArrayLock();</div><div class="line">NSMutableArray* myArray = GetSharedArray();</div><div class="line">id anObject;</div><div class="line"></div><div class="line">[arrayLock lock];</div><div class="line">anObject = [myArray objectAtIndex:0];</div><div class="line">[arrayLock unlock];</div><div class="line"></div><div class="line">[anObject doSomething];</div></pre></td></tr></table></figure></p>
+<p>因为数组是可变的，所以数组周围的锁可以防止其他线程修改数组，直到获得所需的对象。由于我们检索的对象本身是不可变的，因此在调用doSomething方法时不需要加锁。</p>
+<p>不过，上面的例子存在问题。如果我们释放锁，并且另一个线程在执行doSomething方法之前删除数组中的所有对象，会发生什么？在没有垃圾回收的应用程序中，代码所持有的对象可能会被释放，从而导致anObject指向无效的内存地址。要解决这个问题，我们可能决定只是重新安排现有代码，并在调用doSomething方法后才释放锁，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">NSLock* arrayLock = GetArrayLock();</div><div class="line">NSMutableArray* myArray = GetSharedArray();</div><div class="line">id anObject;</div><div class="line"></div><div class="line">[arrayLock lock];</div><div class="line">anObject = [myArray objectAtIndex:0];</div><div class="line">[anObject doSomething];</div><div class="line">[arrayLock unlock];</div></pre></td></tr></table></figure></p>
+<p>通过移动锁内的doSomething调用，我们的代码可以确保在调用方法时对象仍然有效。不幸的是，如果doSomething方法需要很长时间才能执行，这可能会导致我们的代码长时间处于锁定状态，这可能会导致性能瓶颈。</p>
+<p>代码的问题并不在于关键区域定义不明确，而是实际问题没有得到理解。真正的问题是只能由存在的其他线程触发的内存管理问题。因为它可以被另一个线程释放，所以更好的解决方案是在释放锁之前保留anObject。这个解决方案解决了被释放对象的实际问题，并且不会带来潜在的性能损失。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">NSLock* arrayLock = GetArrayLock();</div><div class="line">NSMutableArray* myArray = GetSharedArray();</div><div class="line">id anObject;</div><div class="line"></div><div class="line">[arrayLock lock];</div><div class="line">anObject = [myArray objectAtIndex:0];</div><div class="line">[anObject retain];</div><div class="line">[arrayLock unlock];</div><div class="line"></div><div class="line">[anObject doSomething];</div><div class="line">[anObject release];</div></pre></td></tr></table></figure></p>
+<p>虽然上面的例子非常简单，但它们确实说明了一个非常重要的问题。当谈到正确性时，必须考虑这些不那么显而易见的问题。内存管理和设计的其他方面也可能会受到多线程的影响，所以必须事先考虑这些问题。另外，我们应该总是假设编译器会在安全方面做出最糟糕的事情。这种意识和警惕性可以帮助我们避免潜在的问题，并确保我们的代码正确运行。</p>
+<h3 id="注意死锁和活锁"><a href="#注意死锁和活锁" class="headerlink" title="注意死锁和活锁"></a>注意死锁和活锁</h3><p>任何一个线程试图同时使用多个锁，就有可能发生死锁。当两个不同的线程持有另一个线程需要的锁并尝试获取另一个线程持有的锁时，会发生死锁。结果是每个线程永久阻塞，因为它永远无法获取其他锁。</p>
+<p>活锁类似于死锁，并且发生在两个线程竞争同一组资源时。在活锁情况下，一个线程在试图获取第二个锁时放弃它的第一个锁。一旦它获得第二个锁，它就会返回并尝试再次获取第一个锁。由于该线程花费所有时间释放一个锁并试图获得另一个锁而不是做任何真正的工作，它就被锁定了。</p>
+<p>避免死锁和活锁情况的最好方式是一次只取一个锁。如果一次必须获得一个以上的锁，则应该确保其他线程不会尝试做类似的事情。</p>
+<h3 id="正确使用Volatile变量"><a href="#正确使用Volatile变量" class="headerlink" title="正确使用Volatile变量"></a>正确使用Volatile变量</h3><p>如果已经在使用互斥锁来保护一段代码，则不要自动假设需要使用<code>volatile</code>关键字来保护该段代码中的重要变量。互斥锁包含一个内存屏障来确保加载和存储操作的正确顺序。使用<code>volatile</code>关键字修饰临界区域内的变量会强制每次访问时从内存加载该变量的值。两种同步技术的组合在特定情况下可能是必要的，但是也会导致显著的性能损失。如果只使用互斥锁就能过保护变量了，则不再使用<code>volatile</code>关键字。</p>
+<p>不要尝试通过使用volatile变量来避免互斥锁的使用也是非常重要的。通常情况下，相对于volatile变量，互斥锁和其他同步机制是保护数据结构完整性的一种更好的方式。<code>volatile</code>关键字只是确保变量从内存中加载，它不能确保代码正确访问该变量。</p>
+<h2 id="使用原子操作"><a href="#使用原子操作" class="headerlink" title="使用原子操作"></a>使用原子操作</h2><p>非阻塞同步是执行某些类型的操作并避免锁的开销的一种方式。虽然锁是同步两个线程的有效方式，但即使在无竞争的情况下，获取锁也是一项相对昂贵的操作。相比之下，许多原子操作只需要一小部分时间来完成，并且可以像锁一样有效。</p>
+<p>原子操作允许我们对32位或者64位值执行简单的数学和逻辑运算。这些操作依赖于特殊的硬件指令（以及可选的内存屏障）来确保在受影响的内存被再次访问之前完成给定的操作。在多线程的情况下，应该始终使用包含内存屏障的原子操作来确保内存在多个线程之间正确同步。</p>
+<p>下表列出了可用的原子数学和逻辑运算以及相应的函数名称。这些函数都在/usr/include/libkern/OSAtomic.h头文件中声明，还可以在其中找到完整的语法。这些函数的64位版本仅在64位进程中可用。</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Add</td>
+<td>OSAtomicAdd32<br>OSAtomicAdd32Barrier<br>OSAtomicAdd64<br>OSAtomicAdd64Barrier</td>
+<td>将两个整数值相加并将结果存储在指定变量中。</td>
+</tr>
+<tr>
+<td>Increment</td>
+<td>OSAtomicIncrement32<br>OSAtomicIncrement32Barrier<br>OSAtomicIncrement64<br>OSAtomicIncrement64Barrier</td>
+<td>将指定的整数值递增1。</td>
+</tr>
+<tr>
+<td>Decrement</td>
+<td>OSAtomicDecrement32<br>OSAtomicDecrement32Barrier<br>OSAtomicDecrement64<br>OSAtomicDecrement64Barrier</td>
+<td>将指定的整数值递减1。</td>
+</tr>
+<tr>
+<td>Logical OR</td>
+<td>OSAtomicOr32<br>OSAtomicOr32Barrier</td>
+<td>在指定的32位值和32位掩码之间执行逻辑或。</td>
+</tr>
+<tr>
+<td>Logical AND</td>
+<td>OSAtomicAnd32<br>OSAtomicAnd32Barrier</td>
+<td>在指定的32位值和32位掩码之间执行逻辑于。</td>
+</tr>
+<tr>
+<td>Logical XOR</td>
+<td>OSAtomicXor32<br>OSAtomicXor32Barrier</td>
+<td>在指定的32位值和32位掩码之间执行逻辑异或。</td>
+</tr>
+<tr>
+<td>Compare and swap</td>
+<td>OSAtomicCompareAndSwap32<br>OSAtomicCompareAndSwap32Barrier<br>OSAtomicCompareAndSwap64<br>OSAtomicCompareAndSwap64Barrier<br>OSAtomicCompareAndSwapPtr<br>OSAtomicCompareAndSwapPtrBarrier<br>OSAtomicCompareAndSwapInt<br>OSAtomicCompareAndSwapIntBarrier<br>OSAtomicCompareAndSwapLong<br>OSAtomicCompareAndSwapLongBarrier</td>
+<td>将变量与指定的旧值进行比较。如果两个值相等，则该函数将指定的新值赋给变量；否则，它什么都不做。比较和赋值是作为一个原子操作完成的，并且该函数返回一个布尔值来指示交换实际是否发生。</td>
+</tr>
+<tr>
+<td>Test and set</td>
+<td>OSAtomicTestAndSet<br>OSAtomicTestAndSetBarrier</td>
+<td>测试指定变量中的一个位（bit），将该位设置为1，并将旧位的值作为布尔值返回。根据字节（（char*）地址 + （n &gt;&gt; 3））的公式（0x80 &gt;&gt; （n&amp;7））对位进行测试，其中n是位编号，地址是指向变量的指针。该公式有效地将变量分解为8位大小的块，并将每个块中的位反向排序。例如，要测试一个32位整数的最低位（位0），实际上应该指定位编号为7；类似地，为了测试最高位（位32），应该指定位编号为24。</td>
+</tr>
+<tr>
+<td>Test and clear</td>
+<td>OSAtomicTestAndClear<br>OSAtomicTestAndClearBarrier</td>
+<td>测试指定变量中的一个位（bit），将该位设置为0，并将旧位的值作为布尔值返回。根据字节（（char*）地址 + （n &gt;&gt; 3））的公式（0x80 &gt;&gt; （n&amp;7））对位进行测试，其中n是位编号，地址是指向变量的指针。该公式有效地将变量分解为8位大小的块，并将每个块中的位反向排序。例如，要测试一个32位整数的最低位（位0），实际上应该指定位编号为7；类似地，为了测试最高位（位32），应该指定位编号为24。</td>
+</tr>
+</tbody>
+</table>
+<p>大多数原子函数的行为相对简单直接，但是上表中显示的原子<code>test-and-set</code>和<code>compare-and-swap</code>操作的行为稍微复杂一点。前三个<code>OSAtomicTestAndSet</code>函数调用演示了如何在整数值上使用位操作公式，其结果可能与我们所期望的不同。最后两个调用显示了<code>OSAtomicCompareAndSwap32</code>函数的行为。在所有情况下，当没有其他线程正在操作这些值时，这些函数在无竞争的情况下被调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">int32_t  theValue = 0;</div><div class="line">OSAtomicTestAndSet(0, &amp;theValue);</div><div class="line">// theValue is now 128.</div><div class="line"></div><div class="line">theValue = 0;</div><div class="line">OSAtomicTestAndSet(7, &amp;theValue);</div><div class="line">// theValue is now 1.</div><div class="line"></div><div class="line">theValue = 0;</div><div class="line">OSAtomicTestAndSet(15, &amp;theValue)</div><div class="line">// theValue is now 256.</div><div class="line"></div><div class="line">OSAtomicCompareAndSwap32(256, 512, &amp;theValue);</div><div class="line">// theValue is now 512.</div><div class="line"></div><div class="line">OSAtomicCompareAndSwap32(256, 1024, &amp;theValue);</div><div class="line">// theValue is still 512.</div></pre></td></tr></table></figure></p>
+<h2 id="使用锁"><a href="#使用锁" class="headerlink" title="使用锁"></a>使用锁</h2><p>锁是线程编程的基本同步工具。锁可让我们轻松保护大量代码，以确保代码的正确性。OS X和iOS为所有应用程序类型提供了基本的互斥锁，Foundation框架为特殊情况定义了一些另外的互斥锁的变体。以下部分展示如何使用其中几种锁类型。</p>
+<h3 id="使用POSIX互斥锁"><a href="#使用POSIX互斥锁" class="headerlink" title="使用POSIX互斥锁"></a>使用POSIX互斥锁</h3><p>POSIX互斥锁非常易于在任何应用程序中使用。要创建互斥锁，可以声明并初始化一个<code>pthread_mutex_t</code>结构。要锁定和解锁互斥锁，可以使用<code>pthread_mutex_lock</code>和<code>pthread_mutex_unlock</code>函数。当不需要再使用锁时，只需要调用<code>pthread_mutex_destroy</code>函数释放锁数据结构即可。如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">pthread_mutex_t mutex;</div><div class="line">void MyInitFunction()</div><div class="line">&#123;</div><div class="line">    pthread_mutex_init(&amp;mutex, NULL);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void MyLockingFunction()</div><div class="line">&#123;</div><div class="line">    pthread_mutex_lock(&amp;mutex);</div><div class="line">    // Do work.</div><div class="line">    pthread_mutex_unlock(&amp;mutex);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong>注意</strong>：上面的代码只是一个用来显示POSIX线程互斥锁函数的基本用法的简单例子，在实际使用时应该检查这些函数返回的错误码并适当地处理它们。</p>
+</blockquote>
+<h3 id="使用NSLock类"><a href="#使用NSLock类" class="headerlink" title="使用NSLock类"></a>使用NSLock类</h3><p><code>NSLock</code>对象为Cocoa应用程序实现了一个基本的互斥锁。所有锁的接口（包括<code>NSLock</code>）实际上都由<code>NSLocking</code>协议定义，该协议定义了<code>lock</code>和<code>unlock</code>方法。可以像使用互斥锁一样使用这些方法来获取和释放锁。</p>
+<p>除了标准的锁定行为，<code>NSLock</code>类还添加了<code>tryLock</code>和<code>lockBeforeDate:</code>方法。<code>tryLock</code>方法试图获取锁时，如果锁不可用，它不会阻塞当前线程。相反，该方法只是返回<code>NO</code>。<code>lockBeforeDate:</code>方法试图获取锁时，如果在指定时间限制内未获取到锁，则会取消阻塞线程（并返回<code>NO</code>）。</p>
+<p>以下示例显示了如何使用<code>NSLock</code>对象来协调可视化显示的更新，需要显示的数据由多个线程计算。如果线程无法立即获取锁，则只需要继续计算，直到它可以获取锁并更新显示。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">BOOL moreToDo = YES;</div><div class="line">NSLock *theLock = [[NSLock alloc] init];</div><div class="line">...</div><div class="line">while (moreToDo) </div><div class="line">&#123;</div><div class="line">    /* Do another increment of calculation */</div><div class="line">    /* until there’s no more to do. */</div><div class="line">    if ([theLock tryLock]) </div><div class="line">    &#123;</div><div class="line">        /* Update display used by all threads. */</div><div class="line">        [theLock unlock];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="使用-synchronized指令"><a href="#使用-synchronized指令" class="headerlink" title="使用@synchronized指令"></a>使用@synchronized指令</h3><p><code>@synchronized</code>指令是在Objective-C代码中快速创建互斥锁的一种便捷方式。<code>@synchronized</code>指令执行任何其他互斥锁都会执行的操作，它能防止不同线程同时获取同一个锁。在这种情况下，不必直接创建互斥锁或者锁对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">- (void)myMethod:(id)anObj</div><div class="line">&#123;</div><div class="line">    @synchronized(anObj)</div><div class="line">    &#123;</div><div class="line">        // Everything between the braces is protected by the @synchronized directive.</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>传递给<code>@synchronized</code>指令的对象是用于区别受保护块的唯一标识符。如果在两个不同的线程执行<code>myMethod:</code>方法并在每个线程上为anObj参数传递不同的对象，则每个线程都会加锁并继续处理而不被另一个线程阻塞。但是，如果同样情况下传递的是相同的对象，其中一个线程将首先获取锁，另一个线程会被阻塞，直到第一个线程退出临界区。</p>
+<p>作为预防措施，<code>@synchronized</code>块隐式地将一个异常处理程序添加到受保护的代码中。如果抛出异常，该处理程序会自动释放互斥锁。这意味着为了使用<code>@synchronized</code>指令，还必须在代码中启用Objective-C异常处理。如果不想要由隐式异常处理程序引起的额外开销，则应该考虑使用锁类。</p>
+<h3 id="使用其他Cocoa锁"><a href="#使用其他Cocoa锁" class="headerlink" title="使用其他Cocoa锁"></a>使用其他Cocoa锁</h3><h4 id="使用NSRecursiveLock对象"><a href="#使用NSRecursiveLock对象" class="headerlink" title="使用NSRecursiveLock对象"></a>使用NSRecursiveLock对象</h4><p><code>NSRecursiveLock</code>类定义了一个锁，它可以被同一个线程多次获取而不会导致线程死锁。递归锁会记录锁被成功获取的次数，每次成功获取锁后之必须通过相应的解锁锁来保持平衡。只有当所有的锁定和解锁调用平衡时，锁才会被释放，以便其他线程可以获取它。</p>
+<p>这种类型的锁常用于递归函数中，以防止递归阻塞线程。也可以类似地在非递归的情况下使用它来调用需要锁定的函数。这是一个简单递归函数的例子，其通过递归来获取锁。如果不是使用<code>NSRecursiveLock</code>对象为此函数加锁，则当再次调用该函数时，该线程将死锁。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">NSRecursiveLock *theLock = [[NSRecursiveLock alloc] init];</div><div class="line"></div><div class="line">void MyRecursiveFunction(int value)</div><div class="line">&#123;</div><div class="line">    [theLock lock];</div><div class="line">    if (value != 0)</div><div class="line">    &#123;</div><div class="line">        --value;</div><div class="line">        MyRecursiveFunction(value);</div><div class="line">    &#125;</div><div class="line">    [theLock unlock];</div><div class="line">&#125;</div><div class="line"></div><div class="line">MyRecursiveFunction(5);</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong>注意</strong>：因为在所有的锁定和解锁调用保持平衡之前递归锁不会被释放，所以应该仔细衡量使用性能锁来应对潜在性能影响的决定。长时间保持锁定会导致其他线程阻塞直到递归完成。如果可以重写代码以消除递归或消除使用递归锁的需要，则可能会获得更好的性能。</p>
+</blockquote>
+<h4 id="使用NSConditionLock对象"><a href="#使用NSConditionLock对象" class="headerlink" title="使用NSConditionLock对象"></a>使用NSConditionLock对象</h4><p><code>NSConditionLock</code>对象定义了一个可以使用特定值来锁定和解锁的互斥锁。<strong>不应该将这种类型的锁与条件混淆。</strong> 其行为与条件有些类似，但它们的实现有很大差异。</p>
+<p>通常情况下，当线程需要按照特定顺序执行任务时（例如，当一个线程生产另一个线程消费的数据时），可以使用<code>NSConditionLock</code>对象。当生产者正在执行时，消费者使用特定于应用程序的条件来获取锁。（条件本身只是我们定义的整数值。）当生产者完成时，它解锁锁并将锁条件设置为适当的整数值以唤醒消费者线程，然后消费者线程继续处理数据。</p>
+<p><code>NSConditionLock</code>对象响应的锁定和解锁方法可以被任意组合使用。例如，可以将锁定消息与<code>unlockWithCondition:</code>配对使用，或者将<code>lockWhenCondition:</code>消息与解锁配对使用。当然，后一种组合解锁了锁，但可能不会释放等待特定条件值的任何线程。</p>
+<p>一些示例显示了如何使用条件锁来处理生产者-消费者问题。想象一下，应用程序包含一个数据队列。生产者线程将数据添加到队列中，消费者线程从队列中提取数据。生产者不需要等待特定条件，但它必须等待锁可用，以便它可以安全地将数据添加到队列中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">id condLock = [[NSConditionLock alloc] initWithCondition:NO_DATA];</div><div class="line"></div><div class="line">while(true)</div><div class="line">&#123;</div><div class="line">    [condLock lock];</div><div class="line">    /* Add data to the queue. */</div><div class="line">    [condLock unlockWithCondition:HAS_DATA];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>因为锁的初始条件设置为<code>NO_DATA</code>，所以生产者线程在最初获取锁时应该没有问题。它将数据填充到队列中并将条件设置为<code>HAS_DATA</code>。在随后的迭代过程中，生产者线程可以在新数据到达时添加该数据而不管队列是空的还是仍然有一些数据。生产者线程会阻塞的唯一时刻是消费者线程正在从队列中提取数据。</p>
+<p>因为消费者线程必须有数据处理，所以它使用特定的条件在队列上等待。当生产者将数据添加到队列中时，消费者线程被唤醒并获取锁。然后它可以从队列中提取数据并更新队列状态。以下示例显示了消费者线程的处理循环的基本结构。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">while (true)</div><div class="line">&#123;</div><div class="line">    [condLock lockWhenCondition:HAS_DATA];</div><div class="line">    /* Remove data from the queue. */</div><div class="line">    [condLock unlockWithCondition:(isEmpty ? NO_DATA : HAS_DATA)];</div><div class="line"></div><div class="line">    // Process the data locally.</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="使用NSDistributedLock对象"><a href="#使用NSDistributedLock对象" class="headerlink" title="使用NSDistributedLock对象"></a>使用NSDistributedLock对象</h4><p><code>NSDistributedLock</code>类可以被多个主机上的多个应用程序使用，以限制对某些共享资源（如文件）的访问。锁本身实际上是一个使用文件系统项目（例如文件或目录）实现的互斥锁。要使<code>NSDistributedLock</code>对象可用，锁必须可供所有使用它的应用程序执行写入操作。这通常意味着要将其放置于所有运行该应用程序的计算机都可访问的文件系统中。</p>
+<p>与其他类型的锁不同，<code>NSDistributedLock</code>不遵循<code>NSLocking</code>协议，因此没有<code>lock</code>方法。<code>lock</code>方法会阻塞线程的执行并要求系统以预定速率轮询锁。<code>NSDistributedLock</code>提供了一个<code>tryLock</code>方法，并且由使用者自己决定是否轮询。</p>
+<p>由于它是使用文件系统实现的，因此只有当<code>NSDistributedLock</code>对象的持有者明确释放它时，其才会被释放。<strong>如果应用程序在持有分布式锁时崩溃，其他客户端将无法访问受保护资源。在这种情况下，可以使用<code>breakLock</code>方法来打破现有的锁，以便能够获取该锁。但是，通常应该避免打破锁，除非进程已经死亡并且无法释放锁。</strong></p>
+<p>与其他类型的锁一样，当<code>NSDistributedLock</code>对象使用完毕时，通过调用其<code>unlock</code>方法来释放它。</p>
+<h2 id="使用条件"><a href="#使用条件" class="headerlink" title="使用条件"></a>使用条件</h2><p>条件是一种特殊类型的锁，可以使用它来同步操作的执行顺序。等待条件的线程将一直处于阻塞状态，直到另一个线程显式地发送信号给该条件。</p>
+<p>由于涉及到实现操作系统的微妙之处，即使我们的代码没有发送信号到条件锁，条件锁也被允许返回虚假的成功。为了避免由这些虚假信号引起的问题，应该始终将谓词和条件锁结合起来使用。谓词是确定线程继续执行是否安全的更具体的方法。条件使线程保持休眠状态，直到谓词可以由信号线程设置。</p>
+<h3 id="使用NSCondition类"><a href="#使用NSCondition类" class="headerlink" title="使用NSCondition类"></a>使用NSCondition类</h3><p><code>NSCondition</code>类提供与POSIX条件相同的语义，但将所需的锁和条件数据结构封装在单个对象中。以下代码显示了在<code>NSCondition</code>对象上等待的事件序列。<code>cocoaCondition</code>变量包含了一个<code>NSCondition</code>对象，<code>timeToDoWork</code>变量是一个整数，从另一个线程发送信号给条件之前，其会递增。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[cocoaCondition lock];</div><div class="line">while (timeToDoWork &lt;= 0)</div><div class="line">    [cocoaCondition wait];</div><div class="line"></div><div class="line">timeToDoWork--;</div><div class="line"></div><div class="line">// Do real work here.</div><div class="line"></div><div class="line">[cocoaCondition unlock];</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[cocoaCondition lock];</div><div class="line">timeToDoWork++;</div><div class="line">[cocoaCondition signal];</div><div class="line">[cocoaCondition unlock];</div></pre></td></tr></table></figure>
+<h3 id="使用POSIX条件"><a href="#使用POSIX条件" class="headerlink" title="使用POSIX条件"></a>使用POSIX条件</h3><p>POSIX线程条件锁需要同时使用条件数据结构和互斥锁。虽然两个锁结果是分开的，但互斥锁在运行时与条件结构紧密相连。等待信号的线程应始终使用相同的互斥锁和条件结构。更改配对可能会导致错误。</p>
+<p>以下代码显示了条件和谓词的基本初始化和用法。初始化条件和互斥锁后，等待线程使用<code>ready_to_go</code>变量作为谓词进入while循环。只有当谓词被设置并且条件随后发出信号时，等待线程才会醒来并开始工作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">pthread_mutex_t mutex;</div><div class="line">pthread_cond_t condition;</div><div class="line">Boolean     ready_to_go = true;</div><div class="line"></div><div class="line">void MyCondInitFunction()</div><div class="line">&#123;</div><div class="line">    pthread_mutex_init(&amp;mutex);</div><div class="line">    pthread_cond_init(&amp;condition, NULL);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void MyWaitOnConditionFunction()</div><div class="line">&#123;</div><div class="line">    // Lock the mutex.</div><div class="line">    pthread_mutex_lock(&amp;mutex);</div><div class="line"></div><div class="line">    // If the predicate is already set, then the while loop is bypassed;</div><div class="line">    // otherwise, the thread sleeps until the predicate is set.</div><div class="line">    while(ready_to_go == false)</div><div class="line">    &#123;</div><div class="line">        pthread_cond_wait(&amp;condition, &amp;mutex);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Do work. (The mutex should stay locked.)</div><div class="line"></div><div class="line">    // Reset the predicate and release the mutex.</div><div class="line">    ready_to_go = false;</div><div class="line">    pthread_mutex_unlock(&amp;mutex);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>信号线程负责设置谓词并将信号发送到条件锁。以下代码中，该条件在互斥锁内部发出信号，以防止在等待条件的线程之间发生条件竞争。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">void SignalThreadUsingCondition()</div><div class="line">&#123;</div><div class="line">    // At this point, there should be work for the other thread to do.</div><div class="line">    pthread_mutex_lock(&amp;mutex);</div><div class="line">    ready_to_go = true;</div><div class="line"></div><div class="line">    // Signal the other thread to begin work.</div><div class="line">    pthread_cond_signal(&amp;condition);</div><div class="line"></div><div class="line">    pthread_mutex_unlock(&amp;mutex);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/23/Run Loop/" rel="next" title="Run Loop">
+                <i class="fa fa-chevron-left"></i> Run Loop
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.JPG"
+               alt="ShiJian" />
+          <p class="site-author-name" itemprop="name">ShiJian</p>
+           
+              <p class="site-description motion-element" itemprop="description">光阴给我们经验,读书给我们知识.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangshijian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/shijianzzzz" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#同步工具"><span class="nav-number">1.</span> <span class="nav-text">同步工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原子操作"><span class="nav-number">1.1.</span> <span class="nav-text">原子操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存屏障和Volatile变量"><span class="nav-number">1.2.</span> <span class="nav-text">内存屏障和Volatile变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锁"><span class="nav-number">1.3.</span> <span class="nav-text">锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件"><span class="nav-number">1.4.</span> <span class="nav-text">条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行选择器例程"><span class="nav-number">1.5.</span> <span class="nav-text">执行选择器例程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开销与性能"><span class="nav-number">2.</span> <span class="nav-text">开销与性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全和信号"><span class="nav-number">3.</span> <span class="nav-text">线程安全和信号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全设计提示"><span class="nav-number">4.</span> <span class="nav-text">线程安全设计提示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#避免完全同步"><span class="nav-number">4.1.</span> <span class="nav-text">避免完全同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#了解同步的限制"><span class="nav-number">4.2.</span> <span class="nav-text">了解同步的限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意代码正确性的威胁"><span class="nav-number">4.3.</span> <span class="nav-text">注意代码正确性的威胁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意死锁和活锁"><span class="nav-number">4.4.</span> <span class="nav-text">注意死锁和活锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正确使用Volatile变量"><span class="nav-number">4.5.</span> <span class="nav-text">正确使用Volatile变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用原子操作"><span class="nav-number">5.</span> <span class="nav-text">使用原子操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用锁"><span class="nav-number">6.</span> <span class="nav-text">使用锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用POSIX互斥锁"><span class="nav-number">6.1.</span> <span class="nav-text">使用POSIX互斥锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用NSLock类"><span class="nav-number">6.2.</span> <span class="nav-text">使用NSLock类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-synchronized指令"><span class="nav-number">6.3.</span> <span class="nav-text">使用@synchronized指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用其他Cocoa锁"><span class="nav-number">6.4.</span> <span class="nav-text">使用其他Cocoa锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用NSRecursiveLock对象"><span class="nav-number">6.4.1.</span> <span class="nav-text">使用NSRecursiveLock对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用NSConditionLock对象"><span class="nav-number">6.4.2.</span> <span class="nav-text">使用NSConditionLock对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用NSDistributedLock对象"><span class="nav-number">6.4.3.</span> <span class="nav-text">使用NSDistributedLock对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用条件"><span class="nav-number">7.</span> <span class="nav-text">使用条件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用NSCondition类"><span class="nav-number">7.1.</span> <span class="nav-text">使用NSCondition类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用POSIX条件"><span class="nav-number">7.2.</span> <span class="nav-text">使用POSIX条件</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiJian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://野性的呼唤.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/05/01/线程同步/';
+          this.page.identifier = '2018/05/01/线程同步/';
+          this.page.title = '线程同步';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://野性的呼唤.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,889 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="多年来，计算机的最高性能在很大程度上受限于计算机内核中单个微处理器的运算速度。然而，随着单个处理器的运算速度开始达到其实际限制，芯片制造商开始使用多核设计来使计算机有机会同时执行多个任务。虽然OS X无论何时都在利用这些内核执行与系统相关的任务，但我们自己的应用程序也可以通过线程来利用这些内核。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程编程">
+<meta property="og:url" content="http://yoursite.com/2018/03/25/线程编程/index.html">
+<meta property="og:site_name" content="野性的呼唤">
+<meta property="og:description" content="多年来，计算机的最高性能在很大程度上受限于计算机内核中单个微处理器的运算速度。然而，随着单个处理器的运算速度开始达到其实际限制，芯片制造商开始使用多核设计来使计算机有机会同时执行多个任务。虽然OS X无论何时都在利用这些内核执行与系统相关的任务，但我们自己的应用程序也可以通过线程来利用这些内核。">
+<meta property="og:updated_time" content="2018-08-08T07:37:51.638Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程编程">
+<meta name="twitter:description" content="多年来，计算机的最高性能在很大程度上受限于计算机内核中单个微处理器的运算速度。然而，随着单个处理器的运算速度开始达到其实际限制，芯片制造商开始使用多核设计来使计算机有机会同时执行多个任务。虽然OS X无论何时都在利用这些内核执行与系统相关的任务，但我们自己的应用程序也可以通过线程来利用这些内核。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/25/线程编程/"/>
+
+
+
+
+
+  <title>线程编程 | 野性的呼唤</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">野性的呼唤</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/25/线程编程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiJian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="野性的呼唤">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">线程编程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-25T14:36:37+08:00">
+                2018-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/25/线程编程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/25/线程编程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>多年来，计算机的最高性能在很大程度上受限于计算机内核中单个微处理器的运算速度。然而，随着单个处理器的运算速度开始达到其实际限制，芯片制造商开始使用多核设计来使计算机有机会同时执行多个任务。虽然OS X无论何时都在利用这些内核执行与系统相关的任务，但我们自己的应用程序也可以通过线程来利用这些内核。</p>
+<a id="more"></a>
+<h2 id="什么是线程？"><a href="#什么是线程？" class="headerlink" title="什么是线程？"></a>什么是线程？</h2><p>线程是在应用程序内部实现多个执行路径的相对轻量级的方式。在系统层面，程序并排运行，系统根据程序的需求和其他程序的需求为每个程序分配执行时间。但是在每个程序中，存在一个或多个可用于同时或以几乎同时的方式执行不同的任务的执行线程。系统本身实际上管理着这些执行线程，并调度它们到可用内核上运行。同时，还能根据需要提前中断它们以允许其他线程运行。</p>
+<p>从技术角度讲，线程是管理代码执行所需的内核级和应用级数据结构的组合。内核级数据结构协调事件到达线程的调度和在某个可用内核上的线程的抢先调度。应用级数据结构包含用于存储函数调用的调用堆栈和应用程序需要用于管理和操作线程的属性和状态的结构。</p>
+<p>在非并发的应用程序中，只有一个执行线程。该线程以应用程序的主例程开始和结束，并逐个分支到不同的方法或函数中，以实现应用程序的整体行为。相比之下，支持并发的应用程序从一个线程开始，并根据需要添加更多线程来创建额外的执行路径。每个新路径都有自己的独立于应用程序主例程中的代码运行的自定义启动例程。在应用程序中有多个线程提供了两个非常重要的潜在优势：</p>
+<ul>
+<li>多个线程可以提高应用程序的感知响应能力。</li>
+<li>多个线程可以提高应用程序在多核系统上的实时性能。</li>
+</ul>
+<p>如果应用程序只有一个线程，那么该线程必须做所有的事情。其必须响应事件，更新应用程序的窗口，并执行实现应用程序行为所需的所有计算。只有一个线程的问题是它一次只能做一件事情。如果一个计算需要很长时间才能完成，那么当我们的代码忙于计算它所需的值时，应用程序会停止响应用户事件和更新其窗口。如果这种行为持续时间足够长，用户可能会认为我们的应用程序被挂起了并试图强行退出它。但是，如果将自定义计算移至单独的线程，则应用程序的主线程可以更及时地自由响应用户交互。</p>
+<p>随着多核计算机的普及，线程提供了一种提高某些类型应用程序性能的方法。执行不同任务的线程可以在不同的处理器内核上同时执行，从而使应用程序可以在给定的时间内执行更多的工作。</p>
+<p>当然，线程并不是解决应用程序性能问题的万能药物。线程提供的益处也会带来潜在的问题。在应用程序中执行多个路径可能会增加代码的复杂度。每个线程必须与其他线程协调行动，以防止它破坏应用程序的状态信息。由于单个应用程序中的线程共享相同的内存空间，所以它们可以访问所有相同的数据结构。如果两个线程试图同时操作相同的数据结构，则其中一个线程可能会以破坏数据结构的方式覆盖另一个线程的更改。即使有适当的保护措施，我们仍然需要对编译器优化保持注意，因为编译器优化会在我们的代码中引入细微的错误。</p>
+<h2 id="线程术语"><a href="#线程术语" class="headerlink" title="线程术语"></a>线程术语</h2><p>在讨论线程及其支持技术之前，有必要定义一些基本术语。</p>
+<p>如果你熟悉UNIX系统，则可能会发现本文档中的术语“任务”的使用有所不同。在UNIX系统中，有时使用术语“任务”来指代正在运行的进程。</p>
+<p>本文档采用以下术语：</p>
+<ul>
+<li>术语“线程”用于指代单独的代码执行路径。</li>
+<li>术语“进程”用于指代正在运行的可执行文件，它可以包含多个线程。</li>
+<li>术语“任务”用于指代需要执行的抽象工作概念。</li>
+</ul>
+<h2 id="线程的替代方案"><a href="#线程的替代方案" class="headerlink" title="线程的替代方案"></a>线程的替代方案</h2><p>自己创建线程的一个问题是它们会给代码添加不确定性。线程是一种相对较底层且复杂的支持应用程序并发的方式。如果不完全了解设计的含义，则可能会遇到同步或校时问题，其严重程度可能会从细微的行为变化到应用程序崩溃以及用户数据的损坏。</p>
+<p>另一个要考虑的因素是是否需要线程或并发。线程解决了如何在同一进程中同时执行多个代码路径的具体问题。但是在有些情况下，并不能保证并发执行我们需要的工作。线程会在内存消耗和CPU时间方面为进程带来了巨大的开销。我们可能会发现这种开销对于预期的任务来说太大了，或者其他选项更容易实现。</p>
+<p>下表列出了线程的一些替代方案。</p>
+<table>
+<thead>
+<tr>
+<th>Technology</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operation objects</td>
+<td>在OS X v10.5中引入的操作对象是通常在辅助线程上执行的任务的封装器。这个封装器隐藏了执行任务的线程管理方面，让我们可以自由地专注于任务本身。通常将操作对象与一个操作队列对象结合使用，操作队列对象实际上管理一个或多个线程上的操作对象的执行。</td>
+</tr>
+<tr>
+<td>Grand Central Dispatch (GCD)</td>
+<td>在OS X v10.6中引入的Grand Central Dispatch是线程的另一种替代方案，可以让我们专注于需要执行的任务而不是线程管理。使用GCD，我们可以定义要执行的任务并将其添加到工作队列中，该工作队列可以在适当的线程上处理我们的任务计划。工作队列会考虑可用内核的数量和当前负载，以便比使用线程更有效地执行任务。</td>
+</tr>
+<tr>
+<td>Idle-time notifications</td>
+<td>对于相对较短且优先级很低的任务，空闲时间通知让我们可以在应用程序不太忙时执行任务。Cocoa使用<code>NSNotificationQueue</code>对象为空闲时间通知提供支持。要请求空闲时间通知，请使用<code>NSPostWhenIdle</code>选项向默认<code>NSNotificationQueue</code>对象发布通知。队列会延迟通知对象的传递，直到run loop变为空闲状态。</td>
+</tr>
+<tr>
+<td>Asynchronous functions</td>
+<td>系统接口包含许多为我们提供自动并发性的异步功能。这些API可以使用系统守护进程和进程或者创建自定义线程来执行任务并将结果返回给我们。在设计应用程序时，寻找提供异步行为的函数，并考虑使用它们而不是在自定义线程上使用等效的同步函数。</td>
+</tr>
+<tr>
+<td>Timers</td>
+<td>可以在应用程序的主线程上使用定时器来执行相对于使用线程而言过于微不足道的定期任务，但是需要定期维护。</td>
+</tr>
+<tr>
+<td>Separate processes</td>
+<td>尽管比线程更加重量级，但在任务仅与应用程序切向相关的情况下，创建单独的进程可能很有用。如果任务需要大量内存或必须使用root权限执行，则可以使用进程。例如，我们可以使用64位服务器进程来计算大型数据集，而我们的32位应用程序会将结果显示给用户。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注意</strong>：使用<code>fork</code>函数启动单独的进程时，必须使用与调用<code>exec</code>函数或类似函数相同的方式调用<code>fork</code>函数。依赖于Core Foundation，Cocoa或者Core Data框架（显式或隐式）的应用程序必须对<code>exec</code>函数进行后续调用，否则这些框架的行为可能会不正确。</p>
+</blockquote>
+<h2 id="线程支持"><a href="#线程支持" class="headerlink" title="线程支持"></a>线程支持</h2><p>OS X和iOS系统提供了多种技术来在我们的应用程序中创建线程，并且还为管理和同步需要在这些线程上完成的工作提供支持。以下各节介绍了在OS X和iOS中使用线程时需要注意的一些关键技术。</p>
+<h3 id="线程组件"><a href="#线程组件" class="headerlink" title="线程组件"></a>线程组件</h3><p>尽管线程的底层实现机制是Mach线程，但很少（如果有的话）在Mach层面上使用线程。相反，我们通常使用更方便的POSIX API或其衍生工具之一。Mach实现确实提供了所有线程的基本特征，包括抢先执行模型和调度线程使它们彼此独立的能力。</p>
+<p>下表列出了可以在应用程序中使用的线程技术。</p>
+<table>
+<thead>
+<tr>
+<th>Technology</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cocoa threads</td>
+<td>Cocoa使用<code>NSThread</code>类实现线程。Cocoa也在<code>NSObject</code>类中提供了方法来生成新线程并在已经运行的线程上执行代码。</td>
+</tr>
+<tr>
+<td>POSIX threads</td>
+<td>POSIX线程提供了基于C语言的接口来创建线程。如果我们不是在编写一个Cocoa应用程序，则这是创建线程的最佳选择。POSIX接口使用起来相对简单，并为配置线程提供了足够的灵活性。</td>
+</tr>
+<tr>
+<td>Multiprocessing<br>Services</td>
+<td>Multiprocessing Services（多处理服务）是传统的基于C语言的接口，其被从旧版本Mac OS系统中过渡来的应用程序所使用。这项技术仅适用于OS X，应该避免在任何新的开发中使用它。相反，应该使用<code>NSThread</code>类或者POSIX线程。</td>
+</tr>
+</tbody>
+</table>
+<p>启动线程后，线程将以三种主要状态中的一种来运行：运行中，准备就绪或者阻塞。如果一个线程当前没有运行，那么它可能处于阻塞状态并等待输入，或者它已准备好运行，但尚未安排执行。线程持续在这些状态之间来回切换，直到它最终退出并切换到终止状态。</p>
+<p>当创建一个新的线程时，必须为该线程指定一个入口函数（或者Cocoa线程的入口方法）。这个入口函数构成了我们想要在线程上运行的代码。当函数返回时，或者当我们明确终止线程时，该线程会永久停止并被系统回收。由于线程的创建在内存和时间方面相当昂贵，所有建议在入口函数中执行大量工作或者设置run loop以允许执行重复性工作。</p>
+<h3 id="Run-Loop"><a href="#Run-Loop" class="headerlink" title="Run Loop"></a>Run Loop</h3><p>run loop（运行循环）是用于管理事件异步到达线程的基础架构的一部分。run loop通过监听线程的一个或者多个事件源来工作。当事件到达时，系统会唤醒线程并调度事件到run loop，run loop再调度这些事件给我们指定的处理程序。如果没有事件存在，也没有事件准备好被处理，则run loop将线程置于休眠状态。</p>
+<p>不需要在创建任何线程时都使用run loop，但使用run loop可以为用户提供更好的体验。run loop使得创建使用最少量资源的长期存活线程成为可能。因为在没有事件传入时，run loop会将线程置于休眠状态。所以它不需要执行浪费CPU周期的轮询，并能防止处理器本身进入休眠状态来节省功耗。</p>
+<p>要配置run loop，只需要启动线程，获取对run loop对象的引用，然后安装事件处理程序并告知run loop开始运行。OS X提供的基础架构自动帮我们处理主线程run loop的配置。如果打算创建长期存活的辅助线程，则必须自行为这些线程配置run loop。</p>
+<h3 id="同步工具"><a href="#同步工具" class="headerlink" title="同步工具"></a>同步工具</h3><p>线程编程的一个风险是多线程之间的资源争夺。如果多个线程同时试图使用或修改相同的资源，则可能会出现问题。缓解问题的一种方法是完全避免共享资源，并确保每个线程都操作自己独特的资源集合。但是当保持完全独立的资源不能满足需求时，可以使用锁，条件，原子操作和其他技术来同步对资源的访问。</p>
+<p>锁为一次只能由一个线程执行的代码提供了蛮力形式的保护。最常见的锁是互斥锁。当一个线程试图获取另一个线程当前拥有的互斥锁时，该线程会被阻塞，直到另一个线程释放该互斥锁。一些系统框架为互斥锁提供了支持，尽管它们都基于相同的基础技术。另外，Cocoa提供了互斥锁的几种变体来支持不同类型的行为，例如递归。</p>
+<p>除了锁之外，系统还为条件（condition）提供支持，以确保在应用程序中对任务进行正确排序。条件充当守门人，阻塞指定的线程，知道它所代表的条件变为<code>ture</code>。当这种情况发生时，条件释放线程并运行其继续运行。POSIX层和Foundation框架都为条件提供了直接支持。（如果使用操作对象，则可以配置操作对象之间的依赖关系来对任务的执行排序，这与条件提供的行为非常相似。）</p>
+<p>虽然锁和条件在并发设计中非常常见，但原子操作是保护和同步数据访问的另一种方式。当对标量数据类型进行数学或逻辑运算时，原子操作提供了一种轻量级的替代锁的方案。原子操作使用特殊的硬件指令来确保在其他线程有机会访问变量之前完成对该变量的修改。</p>
+<h3 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h3><p>尽管一个好的设计可以最大限度地减少所需的通信次数，但是在某些时候，线程之间的通信是必要的。线程可能需要处理新的工作请求或者将工作进度报告给应用程序的主线程。在这些情况下，我们需要一种从一个线程向另一个线程获取信息的方法。幸运的是，线程共享相同进程空间的事实意味着我们有很多通信选项。</p>
+<p>线程之间的通信方式有许多种，每种方式都有自己的优点和缺点。下表列出了可以在OS X中使用的最常用的通信机制（除了消息队列和Cocoa分布式对象，其他技术在iOS中也可用。），此表中的技术按照复杂性增加的顺序列出。</p>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>直接传递消息</td>
+<td>Cocoa应用程序支持直接在其他线程上执行方法选择器的功能。这个能力意味着一个线程实质上可以在任何其他线程上执行一个方法。由于它们是在目标线程的上下文中执行的，所以以这种方式发送的消息会自动在该线程上序列化。</td>
+</tr>
+<tr>
+<td>全局变量，共享内存和对象</td>
+<td>在两个线程之间传递信息的另一种简单方法是使用全局变量，共享对象或共享内存块。虽然共享变量很快很简单，但它们比直接传递消息更脆弱。共享变量必须用锁或其他同步机制来小心保护，以确保代码的正确性。不这样做可能会导致竞争状况，数据损坏或者崩溃。</td>
+</tr>
+<tr>
+<td>条件</td>
+<td>条件是一个同步工具，可以使用它来控制线程何时执行代码的特定部分。可以将条件视为守门员，让线程只有在符合条件时才能运行。</td>
+</tr>
+<tr>
+<td>Run loop sources</td>
+<td>自定义run loop source是为了在线程上接收专用消息而设置的。因为它们是事件驱动的，所以当没有任何事件可以执行时，run loop source会将线程置于休眠状态，这可以提高线程的效率。</td>
+</tr>
+<tr>
+<td>Ports and sockets</td>
+<td>基于端口的通信是两个线程之间通信的更复杂的方式，但它是一种非常可靠的技术。更重要的是，端口和套接字可用于与外部实体（如其他进程和服务）进行通信。为了提高效率，端口是使用run loop source实现的，所以当没有数据在端口上等待时，线程会休眠。</td>
+</tr>
+<tr>
+<td>消息队列</td>
+<td>传统的多处理服务定义了用于管理传入和传出数据的先进先出（FIFO）的队列抽象概念。尽管消息队列简单方便，但并不像其他通信技术那样高效。</td>
+</tr>
+<tr>
+<td>Cocoa分布式对象</td>
+<td>分布式对象是一种Cocoa技术，提供基于端口通信的高级实现。尽管有可能使用这种技术进行线程间通信，但是由于其产生的开销很大，所以并不鼓励这样做。分布式对象更适用于与其他进程进行通信，其中进程之间的开销已经很高。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="设计技巧"><a href="#设计技巧" class="headerlink" title="设计技巧"></a>设计技巧</h2><h3 id="避免明确地创建线程"><a href="#避免明确地创建线程" class="headerlink" title="避免明确地创建线程"></a>避免明确地创建线程</h3><p>手动编写线程创建代码非常繁琐而且可能容易出错，应该尽量避免这样做。OS X和iOS其他API为并发提供隐式支持。可以考虑使用异步API，GCD或操作对象来完成工作，而不是自己创建线程。这些技术在幕后做与线程相关的工作，并保证正确执行。另外，像GCD和操作对象这样的技术可以根据当前系统负载调整当前活跃线程的数量，从而比我们自己的代码更高效地管理线程。</p>
+<h3 id="合理地保持我们的线程处于忙碌状态"><a href="#合理地保持我们的线程处于忙碌状态" class="headerlink" title="合理地保持我们的线程处于忙碌状态"></a>合理地保持我们的线程处于忙碌状态</h3><p>如果决定手动创建和管理线程，请记住线程会占用宝贵的系统资源。应该尽最大努力确保分配给线程的任何任务是长期存活的和能工作的。同时，不应该害怕终止那些大多数时间处于闲置状态的线程。线程会占用大量的内存，因此释放一个空闲线程不仅有助于减少应用程序的内存占用量，还可以释放更多物理内存供其他系统进程使用。</p>
+<blockquote>
+<p><strong>提示</strong>：在开始终止空闲线程之前，应该始终记录应用程序当前性能的一组基础测量结果。在尝试更改之后，请进行其他测量以验证这些更改是否实际上改善了性能，而不是损害了性能。</p>
+</blockquote>
+<h3 id="避免共享数据结构"><a href="#避免共享数据结构" class="headerlink" title="避免共享数据结构"></a>避免共享数据结构</h3><p>避免与线程相关的资源冲突的最简单和最容易的方法是为程序中的每个线程提供它所需的任何数据的副本。当我们最小化线程间的通信和资源竞争时，并行代码的工作效果最佳。</p>
+<p>创建多线程应用程序非常困难。即使我们非常小心并且在代码中在所有正确的时刻锁定了共享的数据结构，我们的代码仍然可能在语义上是不安全的。例如，如果希望共享数据结构按照特定顺序修改，我们的代码可能会遇到问题。将代码更改为基于交易的模型以进行补偿随后可能让具有多个线程的性能优势消失。首先消除资源争夺会让设计更加简单并且性能优异。</p>
+<h3 id="线程和我们的用户界面"><a href="#线程和我们的用户界面" class="headerlink" title="线程和我们的用户界面"></a>线程和我们的用户界面</h3><p>如果应用程序具有图形用户界面，则建议从应用程序的主线程接收与用户相关的事件并启动界面更新。这种途径有助于避免与处理用户事件和绘制窗口内容相关的同步问题。一些框架，例如Cocoa，通常需要这种行为，但即使对于那些不这样做的行为，在主线程上保持这种行为也有简化用于管理用户界面的逻辑的优点。</p>
+<p>有一些值得注意的例外是从其他线程执行图形操作是有利的。例如，可以使用辅助线程来创建和处理图像并执行其他图像相关的计算。使用辅助线程进行这些操作可以大大提高性能。如果不确定特定的图形操作，请在主线程执行此操作。</p>
+<h3 id="在退出时知道线程行为"><a href="#在退出时知道线程行为" class="headerlink" title="在退出时知道线程行为"></a>在退出时知道线程行为</h3><p>一个进程运行直到所有非分离线程退出。默认情况下，只有应用程序的主线程是非分离的，但是也可以创建其他的非分离线程。当用户退出应用程序时，通常被认为是适当的行为是立即终止所有分离线程，因为分离线程完成的工作被认为是可选的。然而，如果我们的应用程序使用后台线程将数据保存到磁盘或者执行其他关键工作，则可能需要创建非分离线程，以防止应用程序退出时丢失数据。</p>
+<p>创建非分离（也称为可连接）线程需要额外的工作。由于大多数高级线程技术在默认情况下不会创建可连接线程，所以我们可能必须使用POSIX API来创建线程。另外，我们必须添加代码到应用程序的主线程，以便主线程最终退出时将其与非分离线程连接起来。</p>
+<p>如果我们正在编写一个Cocoa应用程序，则也可以使用<code>applicationShouldTerminate:</code>代理方法来延迟应用程序的终止直到以后某个时间或者完全取消延迟。当要延迟应用程序的终止时，应用程序需要等待直到任何临界线程完成其任务，然后调用<code>replyToApplicationShouldTerminate:</code>方法。</p>
+<h3 id="处理异常"><a href="#处理异常" class="headerlink" title="处理异常"></a>处理异常</h3><p>当抛出一个异常时，异常处理机制依赖于当前的调用堆栈来执行任何必要的清理。因为每个线程都有自己的调用堆栈，所以每个线程都负责捕获它自己的异常。当拥有的进程已经终止，在主线程和辅助线程中都是无法捕获到异常的。我们不能将一个未捕获的异常抛出到不同的线程进行处理。</p>
+<p>如果需要通知另一个线程（例如主线程）当前线程中的异常情况，则应该捕获该异常并简单地向另一个线程发送消息表明发生了什么。取决于我们的模型以及我们试图执行的操作，捕获异常的线程可以继续处理（如果可能的话）、等待指令或者干脆退出。</p>
+<blockquote>
+<p><strong>注意</strong>：在Cocoa中，<code>NSException</code>对象是一个自包含的对象，一旦它被捕获，它就可以从一个线程传递到另一个线程。</p>
+</blockquote>
+<p>在某些情况下，可能会为我们自动创建异常处理程序。例如，Objective-C中的<code>@synchronized</code>指令包含一个隐式异常处理程序。</p>
+<h3 id="干净地终止我们的线程"><a href="#干净地终止我们的线程" class="headerlink" title="干净地终止我们的线程"></a>干净地终止我们的线程</h3><p>让线程自然退出的最好方式是让其到达主入口点工作的末尾。虽然有函数能够立即终止线程，但这些函数只能作为最后的手段使用。在线程到达其自然终点之前终止它会阻止线程清理自身。如果线程已经分配内存、打开文件或者获取其他类型的资源，则我们的代码可能无法回收这些资源，从而导致内存泄露或者其他潜在问题。</p>
+<h3 id="库（Library）中的线程安全"><a href="#库（Library）中的线程安全" class="headerlink" title="库（Library）中的线程安全"></a>库（Library）中的线程安全</h3><p>虽然应用程序开发者可以控制应用程序是否使用多个线程执行，但库开发人员却不行。开发库时，我们必须假定调用库的应用程序是多线程的或者可以随时切换为多线程的。因此，我们应该始终为代码的临界区使用锁。</p>
+<p>对于库开发人员来说，仅在应用程序变为多线程时才创建锁是不明智的。如果我们需要在某个时刻锁定我们的代码，请在使用库时尽早创建锁对象，最好在某个显示调用中初始化库。虽然也可以使用静态库初始化函数来创建此类锁，但只有在没有其他方式时才尝试这样做。初始化函数的执行会增加加载库所需的时间，并可能对性能产生负面影响。</p>
+<blockquote>
+<p><strong>注意</strong>：始终记住锁定和解锁库中的互斥锁的调用要保持平衡，还应该记住要锁定库数据结构，而不是依赖调用代码来提供线程安全的环境。</p>
+</blockquote>
+<p>如果我们正在开发一个Cocoa库并希望应用程序在变为多线程时能够收到通知，可以为<code>NSWillBecomeMultiThreadedNotification</code>通知注册一个观察者。但不应该依赖收到此通知，因为在我们的库代码被调用之前，可能已经发送了此通知。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/02/2017年个人总结/" rel="next" title="2017年个人总结">
+                <i class="fa fa-chevron-left"></i> 2017年个人总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/07/线程管理/" rel="prev" title="线程管理">
+                线程管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.JPG"
+               alt="ShiJian" />
+          <p class="site-author-name" itemprop="name">ShiJian</p>
+           
+              <p class="site-description motion-element" itemprop="description">光阴给我们经验,读书给我们知识.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangshijian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/shijianzzzz" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是线程？"><span class="nav-number">1.</span> <span class="nav-text">什么是线程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程术语"><span class="nav-number">2.</span> <span class="nav-text">线程术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的替代方案"><span class="nav-number">3.</span> <span class="nav-text">线程的替代方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程支持"><span class="nav-number">4.</span> <span class="nav-text">线程支持</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程组件"><span class="nav-number">4.1.</span> <span class="nav-text">线程组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-Loop"><span class="nav-number">4.2.</span> <span class="nav-text">Run Loop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同步工具"><span class="nav-number">4.3.</span> <span class="nav-text">同步工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程间通信"><span class="nav-number">4.4.</span> <span class="nav-text">线程间通信</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计技巧"><span class="nav-number">5.</span> <span class="nav-text">设计技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#避免明确地创建线程"><span class="nav-number">5.1.</span> <span class="nav-text">避免明确地创建线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合理地保持我们的线程处于忙碌状态"><span class="nav-number">5.2.</span> <span class="nav-text">合理地保持我们的线程处于忙碌状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免共享数据结构"><span class="nav-number">5.3.</span> <span class="nav-text">避免共享数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程和我们的用户界面"><span class="nav-number">5.4.</span> <span class="nav-text">线程和我们的用户界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在退出时知道线程行为"><span class="nav-number">5.5.</span> <span class="nav-text">在退出时知道线程行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理异常"><span class="nav-number">5.6.</span> <span class="nav-text">处理异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#干净地终止我们的线程"><span class="nav-number">5.7.</span> <span class="nav-text">干净地终止我们的线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#库（Library）中的线程安全"><span class="nav-number">5.8.</span> <span class="nav-text">库（Library）中的线程安全</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiJian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://野性的呼唤.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/03/25/线程编程/';
+          this.page.identifier = '2018/03/25/线程编程/';
+          this.page.title = '线程编程';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://野性的呼唤.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
